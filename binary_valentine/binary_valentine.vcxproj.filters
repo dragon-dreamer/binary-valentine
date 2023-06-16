@@ -1,0 +1,954 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\core">
+      <UniqueIdentifier>{43272711-f84e-4be8-832e-a706e5dcfa61}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\core">
+      <UniqueIdentifier>{549a615b-ebfd-42cd-bd0e-827eb4def8f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\pe">
+      <UniqueIdentifier>{c042e6a4-46d3-43c4-955a-902cca79775d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\pe\generator">
+      <UniqueIdentifier>{eece8cd3-5828-418e-b435-49f8be8a6063}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\pe\rule">
+      <UniqueIdentifier>{525c928e-2d39-44b4-9e64-fb3177e1caba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\pe">
+      <UniqueIdentifier>{e8990df2-d84d-43f2-ba9c-788fcee79c1a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\pe\rule">
+      <UniqueIdentifier>{d69b52a0-d5e0-4e26-9bd4-dafb1a29bd8e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\pe\generator">
+      <UniqueIdentifier>{a3c81b07-6296-4b91-9112-7e1479169a8b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\executable">
+      <UniqueIdentifier>{5f47442c-d758-409b-ad3d-2cd3649a6754}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\thread">
+      <UniqueIdentifier>{5636560e-df15-4077-8466-ff0fcd6f9799}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\pe\data">
+      <UniqueIdentifier>{9c016800-9c19-48cd-977e-c4f32d124db5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\string">
+      <UniqueIdentifier>{0cfaa321-f8c5-4619-98f2-53fb696fefe4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\string">
+      <UniqueIdentifier>{0990863b-b425-4e68-b701-8b962db64fcb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\resource">
+      <UniqueIdentifier>{9e5d55a0-8d7c-4930-bd87-8f564e6a822b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\output">
+      <UniqueIdentifier>{463c8bc7-81b9-481d-9bf1-9fab46bd280e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\output">
+      <UniqueIdentifier>{a48ee174-6f40-4fcd-80f1-9e6fd1d16b4b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\executable">
+      <UniqueIdentifier>{e659fed9-a0f0-44f0-9d64-70d52fbd6be0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\analysis">
+      <UniqueIdentifier>{b40dfa55-134d-4907-bd57-34cd7a3ee7ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\analysis">
+      <UniqueIdentifier>{06a2afe0-2fd3-4e2d-84fe-25ad431c6017}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\file">
+      <UniqueIdentifier>{12f772ff-2a4f-4140-bdfd-e10c594eec15}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\file">
+      <UniqueIdentifier>{e355f518-6baa-4805-877c-180dfb0ae53a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\pe\combined_rule">
+      <UniqueIdentifier>{999ec172-f683-4c7b-8a45-081cbfdc073c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\pe\combined_rule">
+      <UniqueIdentifier>{e68f227e-857f-4a28-b455-67fbc3d3fcd5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\pe\helpers">
+      <UniqueIdentifier>{ce968572-3237-4522-b0b2-c9ef51651e21}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\pe\helpers">
+      <UniqueIdentifier>{fb39fd80-46ac-4c04-aced-a163188a5d25}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\pe\shared_data">
+      <UniqueIdentifier>{21b4dbeb-ccb5-4dc1-b83e-207d7c82a44e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\pe\shared_generator">
+      <UniqueIdentifier>{9e414958-19b3-4d50-ad45-00ee957ca2e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\pe\shared_generator">
+      <UniqueIdentifier>{a06d2a48-1e4b-4ef8-8c07-04d62cb4c7e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\common">
+      <UniqueIdentifier>{1827ff91-4c82-46a8-a5c7-927fa5a6d587}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\common">
+      <UniqueIdentifier>{71b7e313-1d9e-4bc1-9b14-70ece61271fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\common\shared_data">
+      <UniqueIdentifier>{f71734a4-bc06-411c-b2a1-bab75c45600f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\common\shared_generator">
+      <UniqueIdentifier>{633c9dc8-19b9-4b49-a2a7-f26456a5067b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\common\shared_generator">
+      <UniqueIdentifier>{e4007e6a-abf8-47e8-bf05-79e431eccfae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\pe\shared_data">
+      <UniqueIdentifier>{d2171e50-0738-45b6-9f4c-de209f9f0671}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\pe\data">
+      <UniqueIdentifier>{3cfbd469-c000-4910-8745-fd14b897a6fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\output\format">
+      <UniqueIdentifier>{ab4df361-391b-408d-85a5-ffcbdd72e05f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\output\format">
+      <UniqueIdentifier>{c522984c-6848-42f4-a949-9f272efc8a14}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\json">
+      <UniqueIdentifier>{e399427a-be2f-4582-9f69-3bcdc6ce74c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\progress">
+      <UniqueIdentifier>{04e0511f-e6d2-4cdf-b7de-4360967b5975}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\progress">
+      <UniqueIdentifier>{11c323a1-8639-4c35-9ab9-86dd34fb5264}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\analysis\analysis_context.cpp">
+      <Filter>Source Files\analysis</Filter>
+    </ClCompile>
+    <ClCompile Include="src\analysis\analysis_plan.cpp">
+      <Filter>Source Files\analysis</Filter>
+    </ClCompile>
+    <ClCompile Include="src\analysis\analysis_plan_parse_helpers.cpp">
+      <Filter>Source Files\analysis</Filter>
+    </ClCompile>
+    <ClCompile Include="src\analysis\analysis_plan_runner.cpp">
+      <Filter>Source Files\analysis</Filter>
+    </ClCompile>
+    <ClCompile Include="src\analysis\command_line_analysis_plan_provider.cpp">
+      <Filter>Source Files\analysis</Filter>
+    </ClCompile>
+    <ClCompile Include="src\analysis\concurrent_analysis_executor.cpp">
+      <Filter>Source Files\analysis</Filter>
+    </ClCompile>
+    <ClCompile Include="src\analysis\immutable_context.cpp">
+      <Filter>Source Files\analysis</Filter>
+    </ClCompile>
+    <ClCompile Include="src\analysis\xml_analysis_plan_provider.cpp">
+      <Filter>Source Files\analysis</Filter>
+    </ClCompile>
+    <ClCompile Include="src\common\shared_generator\common_generators.cpp">
+      <Filter>Source Files\common\shared_generator</Filter>
+    </ClCompile>
+    <ClCompile Include="src\common\shared_generator\program_path_generator.cpp">
+      <Filter>Source Files\common\shared_generator</Filter>
+    </ClCompile>
+    <ClCompile Include="src\common\xml_loader.cpp">
+      <Filter>Source Files\common</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\async_value_provider.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\combined_dependency_helper.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\combined_value_provider.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\core_error.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\data_generator_list.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\rule_detector_container.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\rule_list.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\rule_selector.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\subject_entity_interface.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\time_tracker.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\user_error.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\value_cache.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\value_provider.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\executable\executable_extra_rule_detector.cpp">
+      <Filter>Source Files\executable</Filter>
+    </ClCompile>
+    <ClCompile Include="src\file\async_file.cpp">
+      <Filter>Source Files\file</Filter>
+    </ClCompile>
+    <ClCompile Include="src\file\async_target_enumerator.cpp">
+      <Filter>Source Files\file</Filter>
+    </ClCompile>
+    <ClCompile Include="src\file\file_entity_stream_provider.cpp">
+      <Filter>Source Files\file</Filter>
+    </ClCompile>
+    <ClCompile Include="src\output\format\output_format_executor.cpp">
+      <Filter>Source Files\output\format</Filter>
+    </ClCompile>
+    <ClCompile Include="src\output\format\output_format_interface.cpp">
+      <Filter>Source Files\output\format</Filter>
+    </ClCompile>
+    <ClCompile Include="src\output\format\sarif_output_format.cpp">
+      <Filter>Source Files\output\format</Filter>
+    </ClCompile>
+    <ClCompile Include="src\output\format\text_output_format.cpp">
+      <Filter>Source Files\output\format</Filter>
+    </ClCompile>
+    <ClCompile Include="src\output\configurable_result_report_factory.cpp">
+      <Filter>Source Files\output</Filter>
+    </ClCompile>
+    <ClCompile Include="src\output\exception_formatter.cpp">
+      <Filter>Source Files\output</Filter>
+    </ClCompile>
+    <ClCompile Include="src\output\filtering_report_output.cpp">
+      <Filter>Source Files\output</Filter>
+    </ClCompile>
+    <ClCompile Include="src\output\format_args_helper.cpp">
+      <Filter>Source Files\output</Filter>
+    </ClCompile>
+    <ClCompile Include="src\output\in_memory_report_output.cpp">
+      <Filter>Source Files\output</Filter>
+    </ClCompile>
+    <ClCompile Include="src\output\issue_tracking_output.cpp">
+      <Filter>Source Files\output</Filter>
+    </ClCompile>
+    <ClCompile Include="src\output\multiple_report_output.cpp">
+      <Filter>Source Files\output</Filter>
+    </ClCompile>
+    <ClCompile Include="src\output\terminal_report_output.cpp">
+      <Filter>Source Files\output</Filter>
+    </ClCompile>
+    <ClCompile Include="src\output\unformatted_common_output_report.cpp">
+      <Filter>Source Files\output</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pe\combined_rule\combined_version_info_rule.cpp">
+      <Filter>Source Files\pe\combined_rule</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pe\data\version_info_list.cpp">
+      <Filter>Source Files\pe\data</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pe\generator\basic_dotnet_info_generator.cpp">
+      <Filter>Source Files\pe\generator</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pe\generator\basic_pe_info_generator.cpp">
+      <Filter>Source Files\pe\generator</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pe\generator\debug_directory_generator.cpp">
+      <Filter>Source Files\pe\generator</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pe\generator\delay_import_directory_generator.cpp">
+      <Filter>Source Files\pe\generator</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pe\generator\export_directory_generator.cpp">
+      <Filter>Source Files\pe\generator</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pe\generator\icon_info_generator.cpp">
+      <Filter>Source Files\pe\generator</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pe\generator\import_based_info_generator.cpp">
+      <Filter>Source Files\pe\generator</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pe\generator\import_directory_generator.cpp">
+      <Filter>Source Files\pe\generator</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pe\generator\load_config_directory_generator.cpp">
+      <Filter>Source Files\pe\generator</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pe\generator\manifest_generator.cpp">
+      <Filter>Source Files\pe\generator</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pe\generator\pe_generators.cpp">
+      <Filter>Source Files\pe\generator</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pe\generator\resource_directory_generator.cpp">
+      <Filter>Source Files\pe\generator</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pe\generator\rich_header_generator.cpp">
+      <Filter>Source Files\pe\generator</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pe\generator\vc_feature_generator.cpp">
+      <Filter>Source Files\pe\generator</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pe\generator\version_info_generator.cpp">
+      <Filter>Source Files\pe\generator</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pe\helpers\input_async_stream_buffer.cpp">
+      <Filter>Source Files\pe\helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pe\helpers\section_helpers.cpp">
+      <Filter>Source Files\pe\helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pe\rule\ansi_import_rule.cpp">
+      <Filter>Source Files\pe\rule</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pe\rule\application_manifest_rule.cpp">
+      <Filter>Source Files\pe\rule</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pe\rule\cet_rule.cpp">
+      <Filter>Source Files\pe\rule</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pe\rule\checksum_rule.cpp">
+      <Filter>Source Files\pe\rule</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pe\rule\cross_resource_version_info_rule.cpp">
+      <Filter>Source Files\pe\rule</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pe\rule\debug_directory_format_rule.cpp">
+      <Filter>Source Files\pe\rule</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pe\rule\debug_directory_rule.cpp">
+      <Filter>Source Files\pe\rule</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pe\rule\directory_sections_rule.cpp">
+      <Filter>Source Files\pe\rule</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pe\rule\dotnet_header_format_rule.cpp">
+      <Filter>Source Files\pe\rule</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pe\rule\export_directory_format_rule.cpp">
+      <Filter>Source Files\pe\rule</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pe\rule\export_rule.cpp">
+      <Filter>Source Files\pe\rule</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pe\rule\flow_guards_rule.cpp">
+      <Filter>Source Files\pe\rule</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pe\rule\image_errors_rule.cpp">
+      <Filter>Source Files\pe\rule</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pe\rule\import_format_rule.cpp">
+      <Filter>Source Files\pe\rule</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pe\rule\load_config_directory_format_rule.cpp">
+      <Filter>Source Files\pe\rule</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pe\rule\load_config_flags_rule.cpp">
+      <Filter>Source Files\pe\rule</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pe\rule\main_icon_rule.cpp">
+      <Filter>Source Files\pe\rule</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pe\rule\manifest_assembly_version_rule.cpp">
+      <Filter>Source Files\pe\rule</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pe\rule\manifest_format_rule.cpp">
+      <Filter>Source Files\pe\rule</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pe\rule\not_recommended_import_rule.cpp">
+      <Filter>Source Files\pe\rule</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pe\rule\pe_file_format_rule.cpp">
+      <Filter>Source Files\pe\rule</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pe\rule\pe_rules.cpp">
+      <Filter>Source Files\pe\rule</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pe\rule\relocs_rule.cpp">
+      <Filter>Source Files\pe\rule</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pe\rule\resource_directory_format_rule.cpp">
+      <Filter>Source Files\pe\rule</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pe\rule\rich_data_rule.cpp">
+      <Filter>Source Files\pe\rule</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pe\rule\safeseh_rule.cpp">
+      <Filter>Source Files\pe\rule</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pe\rule\sections_rule.cpp">
+      <Filter>Source Files\pe\rule</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pe\rule\security_cookie_rule.cpp">
+      <Filter>Source Files\pe\rule</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pe\rule\simple_flags_rule.cpp">
+      <Filter>Source Files\pe\rule</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pe\rule\vc_feature_rule.cpp">
+      <Filter>Source Files\pe\rule</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pe\rule\version_info_format_rule.cpp">
+      <Filter>Source Files\pe\rule</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pe\rule\version_info_rule.cpp">
+      <Filter>Source Files\pe\rule</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pe\shared_data\api_sets.cpp">
+      <Filter>Source Files\pe\shared_data</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pe\shared_generator\api_sets_map_generator.cpp">
+      <Filter>Source Files\pe\shared_generator</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pe\shared_generator\full_winapi_map_generator.cpp">
+      <Filter>Source Files\pe\shared_generator</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pe\shared_generator\not_recommended_imports_generator.cpp">
+      <Filter>Source Files\pe\shared_generator</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pe\shared_generator\pe_shared_generators.cpp">
+      <Filter>Source Files\pe\shared_generator</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pe\pe_format_detector.cpp">
+      <Filter>Source Files\pe</Filter>
+    </ClCompile>
+    <ClCompile Include="src\progress\progress_report_interface.cpp">
+      <Filter>Source Files\progress</Filter>
+    </ClCompile>
+    <ClCompile Include="src\progress\terminal_progress_report.cpp">
+      <Filter>Source Files\progress</Filter>
+    </ClCompile>
+    <ClCompile Include="src\string\case_conv.cpp">
+      <Filter>Source Files\string</Filter>
+    </ClCompile>
+    <ClCompile Include="src\string\embedded_resource_loader.cpp">
+      <Filter>Source Files\string</Filter>
+    </ClCompile>
+    <ClCompile Include="src\string\encoding.cpp">
+      <Filter>Source Files\string</Filter>
+    </ClCompile>
+    <ClCompile Include="src\string\resource_helper.cpp">
+      <Filter>Source Files\string</Filter>
+    </ClCompile>
+    <ClCompile Include="src\string\rule_report_resource_helper.cpp">
+      <Filter>Source Files\string</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pe\generator\pe_image_generator.cpp">
+      <Filter>Source Files\pe\generator</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\binary_valentine\analysis\analysis_context.h">
+      <Filter>Header Files\analysis</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\analysis\analysis_plan.h">
+      <Filter>Header Files\analysis</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\analysis\analysis_plan_parse_helpers.h">
+      <Filter>Header Files\analysis</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\analysis\analysis_plan_provider_interface.h">
+      <Filter>Header Files\analysis</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\analysis\analysis_plan_runner.h">
+      <Filter>Header Files\analysis</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\analysis\command_line_analysis_plan_provider.h">
+      <Filter>Header Files\analysis</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\analysis\concurrent_analysis_executor.h">
+      <Filter>Header Files\analysis</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\analysis\immutable_context.h">
+      <Filter>Header Files\analysis</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\analysis\xml_analysis_plan_provider.h">
+      <Filter>Header Files\analysis</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\common\xml_loader.h">
+      <Filter>Header Files\common</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\common\shared_data\program_path.h">
+      <Filter>Header Files\common\shared_data</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\common\shared_generator\common_generators.h">
+      <Filter>Header Files\common\shared_generator</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\common\shared_generator\program_path_generator.h">
+      <Filter>Header Files\common\shared_generator</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\core\async_data_generator.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\core\async_data_generator_interface.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\core\async_value_provider.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\core\async_value_provider_interface.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\core\combined_data_generator.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\core\combined_data_generator_interface.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\core\combined_dependency_helper.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\core\combined_rule.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\core\combined_rule_interface.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\core\combined_value_helper.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\core\combined_value_provider.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\core\compile_time_string.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\core\core_error.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\core\data_generator.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\core\data_generator_helpers.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\core\data_generator_interface.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\core\data_generator_list.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\core\entity_stream_provider_interface.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\core\hash_combine.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\core\inaccessible_subject_entity.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\core\localizable_error.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\core\overloaded.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\core\reflection.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\core\rule.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\core\rule_class.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\core\rule_detector_container.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\core\rule_detector_interface.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\core\rule_interface.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\core\rule_list.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\core\rule_selector.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\core\scoped_guard.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\core\subject_entity_interface.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\core\time_tracker.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\core\transparent_hash.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\core\user_error.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\core\value.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\core\value_cache.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\core\value_helper.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\core\value_interface.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\core\value_provider.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\core\value_provider_interface.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\core\value_providers_span.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\executable\executable_extra_rule_detector.h">
+      <Filter>Header Files\executable</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\file\async_file.h">
+      <Filter>Header Files\file</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\file\async_target_enumerator.h">
+      <Filter>Header Files\file</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\file\file_entity.h">
+      <Filter>Header Files\file</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\file\file_entity_stream_provider.h">
+      <Filter>Header Files\file</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\json\json_printer.h">
+      <Filter>Header Files\json</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\output\format\output_format_executor.h">
+      <Filter>Header Files\output\format</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\output\format\output_format_interface.h">
+      <Filter>Header Files\output\format</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\output\format\sarif_output_format.h">
+      <Filter>Header Files\output\format</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\output\format\text_output_format.h">
+      <Filter>Header Files\output\format</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\output\configurable_result_report_factory.h">
+      <Filter>Header Files\output</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\output\entity_in_memory_report_interface.h">
+      <Filter>Header Files\output</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\output\exception_formatter.h">
+      <Filter>Header Files\output</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\output\filtering_report_output.h">
+      <Filter>Header Files\output</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\output\format_args_helper.h">
+      <Filter>Header Files\output</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\output\in_memory_output_creator.h">
+      <Filter>Header Files\output</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\output\in_memory_report.h">
+      <Filter>Header Files\output</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\output\in_memory_report_output.h">
+      <Filter>Header Files\output</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\output\internal_report_arg_names.h">
+      <Filter>Header Files\output</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\output\internal_report_messages.h">
+      <Filter>Header Files\output</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\output\issue_tracking_output.h">
+      <Filter>Header Files\output</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\output\multiple_report_output.h">
+      <Filter>Header Files\output</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\output\result_report_interface.h">
+      <Filter>Header Files\output</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\output\rule_report.h">
+      <Filter>Header Files\output</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\output\rule_report_helper.h">
+      <Filter>Header Files\output</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\output\terminal_output_creator.h">
+      <Filter>Header Files\output</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\output\terminal_report_output.h">
+      <Filter>Header Files\output</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\output\unformatted_common_output_report.h">
+      <Filter>Header Files\output</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\pe\combined_rule\combined_version_info_rule.h">
+      <Filter>Header Files\pe\combined_rule</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\pe\data\basic_pe_info.h">
+      <Filter>Header Files\pe\data</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\pe\data\import_based_info.h">
+      <Filter>Header Files\pe\data</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\pe\data\main_pe_icon.h">
+      <Filter>Header Files\pe\data</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\pe\data\manifest_info.h">
+      <Filter>Header Files\pe\data</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\pe\data\version_info_list.h">
+      <Filter>Header Files\pe\data</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\pe\generator\basic_dotnet_info_generator.h">
+      <Filter>Header Files\pe\generator</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\pe\generator\basic_pe_info_generator.h">
+      <Filter>Header Files\pe\generator</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\pe\generator\debug_directory_generator.h">
+      <Filter>Header Files\pe\generator</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\pe\generator\delay_import_directory_generator.h">
+      <Filter>Header Files\pe\generator</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\pe\generator\export_directory_generator.h">
+      <Filter>Header Files\pe\generator</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\pe\generator\icon_info_generator.h">
+      <Filter>Header Files\pe\generator</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\pe\generator\import_based_info_generator.h">
+      <Filter>Header Files\pe\generator</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\pe\generator\import_directory_generator.h">
+      <Filter>Header Files\pe\generator</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\pe\generator\load_config_directory_generator.h">
+      <Filter>Header Files\pe\generator</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\pe\generator\manifest_generator.h">
+      <Filter>Header Files\pe\generator</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\pe\generator\pe_generators.h">
+      <Filter>Header Files\pe\generator</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\pe\generator\pe_image_generator.h">
+      <Filter>Header Files\pe\generator</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\pe\generator\resource_directory_generator.h">
+      <Filter>Header Files\pe\generator</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\pe\generator\rich_header_generator.h">
+      <Filter>Header Files\pe\generator</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\pe\generator\vc_feature_generator.h">
+      <Filter>Header Files\pe\generator</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\pe\generator\version_info_generator.h">
+      <Filter>Header Files\pe\generator</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\pe\helpers\error_helpers.h">
+      <Filter>Header Files\pe\helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\pe\helpers\input_async_stream_buffer.h">
+      <Filter>Header Files\pe\helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\pe\helpers\section_helpers.h">
+      <Filter>Header Files\pe\helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\pe\helpers\version_helpers.h">
+      <Filter>Header Files\pe\helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\pe\rule\ansi_import_rule.h">
+      <Filter>Header Files\pe\rule</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\pe\rule\application_manifest_rule.h">
+      <Filter>Header Files\pe\rule</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\pe\rule\cet_rule.h">
+      <Filter>Header Files\pe\rule</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\pe\rule\checksum_rule.h">
+      <Filter>Header Files\pe\rule</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\pe\rule\cross_resource_version_info_rule.h">
+      <Filter>Header Files\pe\rule</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\pe\rule\debug_directory_format_rule.h">
+      <Filter>Header Files\pe\rule</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\pe\rule\debug_directory_rule.h">
+      <Filter>Header Files\pe\rule</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\pe\rule\directory_sections_rule.h">
+      <Filter>Header Files\pe\rule</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\pe\rule\dotnet_header_format_rule.h">
+      <Filter>Header Files\pe\rule</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\pe\rule\export_directory_format_rule.h">
+      <Filter>Header Files\pe\rule</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\pe\rule\export_rule.h">
+      <Filter>Header Files\pe\rule</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\pe\rule\flow_guards_rule.h">
+      <Filter>Header Files\pe\rule</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\pe\rule\image_errors_rule.h">
+      <Filter>Header Files\pe\rule</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\pe\rule\import_format_rule.h">
+      <Filter>Header Files\pe\rule</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\pe\rule\load_config_directory_format_rule.h">
+      <Filter>Header Files\pe\rule</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\pe\rule\load_config_flags_rule.h">
+      <Filter>Header Files\pe\rule</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\pe\rule\main_icon_rule.h">
+      <Filter>Header Files\pe\rule</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\pe\rule\manifest_assembly_version_rule.h">
+      <Filter>Header Files\pe\rule</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\pe\rule\manifest_format_rule.h">
+      <Filter>Header Files\pe\rule</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\pe\rule\not_recommended_import_rule.h">
+      <Filter>Header Files\pe\rule</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\pe\rule\pe_file_format_rule.h">
+      <Filter>Header Files\pe\rule</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\pe\rule\pe_rules.h">
+      <Filter>Header Files\pe\rule</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\pe\rule\relocs_rule.h">
+      <Filter>Header Files\pe\rule</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\pe\rule\resource_directory_format_rule.h">
+      <Filter>Header Files\pe\rule</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\pe\rule\rich_data_rule.h">
+      <Filter>Header Files\pe\rule</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\pe\rule\safeseh_rule.h">
+      <Filter>Header Files\pe\rule</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\pe\rule\sections_rule.h">
+      <Filter>Header Files\pe\rule</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\pe\rule\security_cookie_rule.h">
+      <Filter>Header Files\pe\rule</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\pe\rule\simple_flags_rule.h">
+      <Filter>Header Files\pe\rule</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\pe\rule\vc_feature_rule.h">
+      <Filter>Header Files\pe\rule</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\pe\rule\version_info_format_rule.h">
+      <Filter>Header Files\pe\rule</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\pe\rule\version_info_rule.h">
+      <Filter>Header Files\pe\rule</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\pe\shared_data\api_sets.h">
+      <Filter>Header Files\pe\shared_data</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\pe\shared_data\not_recommended_imports.h">
+      <Filter>Header Files\pe\shared_data</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\pe\shared_data\winapi_library_list.h">
+      <Filter>Header Files\pe\shared_data</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\pe\shared_generator\api_sets_map_generator.h">
+      <Filter>Header Files\pe\shared_generator</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\pe\shared_generator\full_winapi_map_generator.h">
+      <Filter>Header Files\pe\shared_generator</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\pe\shared_generator\not_recommended_imports_generator.h">
+      <Filter>Header Files\pe\shared_generator</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\pe\shared_generator\pe_shared_generators.h">
+      <Filter>Header Files\pe\shared_generator</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\pe\pe_format_detector.h">
+      <Filter>Header Files\pe</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\pe\pe_rule_reports.h">
+      <Filter>Header Files\pe</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\progress\progress_report_interface.h">
+      <Filter>Header Files\progress</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\progress\terminal_progress_report.h">
+      <Filter>Header Files\progress</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\resource\en.h">
+      <Filter>Header Files\resource</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\string\case_conv.h">
+      <Filter>Header Files\string</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\string\embedded_resource_loader.h">
+      <Filter>Header Files\string</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\string\embedded_resource_provider.h">
+      <Filter>Header Files\string</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\string\encoding.h">
+      <Filter>Header Files\string</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\string\resource_helper.h">
+      <Filter>Header Files\string</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\string\resource_loader_interface.h">
+      <Filter>Header Files\string</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\string\resource_provider_interface.h">
+      <Filter>Header Files\string</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\string\rule_report_resource_helper.h">
+      <Filter>Header Files\string</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\thread\concurrent_io_processing_service.h">
+      <Filter>Header Files\thread</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\thread\multi_executor_concurrent_io_processing_service.h">
+      <Filter>Header Files\thread</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\rule_class.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\version.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

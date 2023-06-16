@@ -1,0 +1,432 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{0a5423ee-1ed1-4c85-b2d8-3751c0770011}</ProjectGuid>
+    <RootNamespace>binary_valentine</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\common.props" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\common.props" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\common.props" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\common.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_WIN32_WINNT=0x0601;BOOST_DATE_TIME_NO_LIB;BOOST_REGEX_NO_LIB;BOOST_ASIO_NO_DEPRECATED;WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>$(ProjectDir)\include;$(ProjectDir)\..\external\pe_bliss2\utilities\include;$(ProjectDir)\..\external\pe_bliss2\buffers\include;$(ProjectDir)\..\external\pe_bliss2\pe_bliss2\include;$(ProjectDir)\..\external\pe_bliss2\external\pugixml;$(BoostDir);$(ProjectDir)\..\external\utfcpp\source;$(ProjectDir)\..\external\fmt-9.1.0\include</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <SubSystem>
+      </SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_WIN32_WINNT=0x0601;BOOST_DATE_TIME_NO_LIB;BOOST_REGEX_NO_LIB;BOOST_ASIO_NO_DEPRECATED;WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>$(ProjectDir)\include;$(ProjectDir)\..\external\pe_bliss2\utilities\include;$(ProjectDir)\..\external\pe_bliss2\buffers\include;$(ProjectDir)\..\external\pe_bliss2\pe_bliss2\include;$(ProjectDir)\..\external\pe_bliss2\external\pugixml;$(BoostDir);$(ProjectDir)\..\external\utfcpp\source;$(ProjectDir)\..\external\fmt-9.1.0\include</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <SubSystem>
+      </SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_WIN32_WINNT=0x0601;BOOST_DATE_TIME_NO_LIB;BOOST_REGEX_NO_LIB;BOOST_ASIO_NO_DEPRECATED;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>$(ProjectDir)\include;$(ProjectDir)\..\external\pe_bliss2\utilities\include;$(ProjectDir)\..\external\pe_bliss2\buffers\include;$(ProjectDir)\..\external\pe_bliss2\pe_bliss2\include;$(ProjectDir)\..\external\pe_bliss2\external\pugixml;$(BoostDir);$(ProjectDir)\..\external\utfcpp\source;$(ProjectDir)\..\external\fmt-9.1.0\include</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <SubSystem>
+      </SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_WIN32_WINNT=0x0601;BOOST_DATE_TIME_NO_LIB;BOOST_REGEX_NO_LIB;BOOST_ASIO_NO_DEPRECATED;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>$(ProjectDir)\include;$(ProjectDir)\..\external\pe_bliss2\utilities\include;$(ProjectDir)\..\external\pe_bliss2\buffers\include;$(ProjectDir)\..\external\pe_bliss2\pe_bliss2\include;$(ProjectDir)\..\external\pe_bliss2\external\pugixml;$(BoostDir);$(ProjectDir)\..\external\utfcpp\source;$(ProjectDir)\..\external\fmt-9.1.0\include</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <SubSystem>
+      </SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="src\analysis\analysis_context.cpp" />
+    <ClCompile Include="src\analysis\analysis_plan.cpp" />
+    <ClCompile Include="src\analysis\analysis_plan_parse_helpers.cpp" />
+    <ClCompile Include="src\analysis\analysis_plan_runner.cpp" />
+    <ClCompile Include="src\analysis\command_line_analysis_plan_provider.cpp" />
+    <ClCompile Include="src\analysis\concurrent_analysis_executor.cpp" />
+    <ClCompile Include="src\analysis\immutable_context.cpp" />
+    <ClCompile Include="src\analysis\xml_analysis_plan_provider.cpp" />
+    <ClCompile Include="src\common\shared_generator\common_generators.cpp" />
+    <ClCompile Include="src\common\shared_generator\program_path_generator.cpp" />
+    <ClCompile Include="src\common\xml_loader.cpp" />
+    <ClCompile Include="src\core\async_value_provider.cpp" />
+    <ClCompile Include="src\core\combined_dependency_helper.cpp" />
+    <ClCompile Include="src\core\combined_value_provider.cpp" />
+    <ClCompile Include="src\core\core_error.cpp" />
+    <ClCompile Include="src\core\data_generator_list.cpp" />
+    <ClCompile Include="src\core\rule_detector_container.cpp" />
+    <ClCompile Include="src\core\rule_list.cpp" />
+    <ClCompile Include="src\core\rule_selector.cpp" />
+    <ClCompile Include="src\core\subject_entity_interface.cpp" />
+    <ClCompile Include="src\core\time_tracker.cpp" />
+    <ClCompile Include="src\core\user_error.cpp" />
+    <ClCompile Include="src\core\value_cache.cpp" />
+    <ClCompile Include="src\core\value_provider.cpp" />
+    <ClCompile Include="src\executable\executable_extra_rule_detector.cpp" />
+    <ClCompile Include="src\file\async_file.cpp" />
+    <ClCompile Include="src\file\async_target_enumerator.cpp" />
+    <ClCompile Include="src\file\file_entity_stream_provider.cpp" />
+    <ClCompile Include="src\output\configurable_result_report_factory.cpp" />
+    <ClCompile Include="src\output\exception_formatter.cpp" />
+    <ClCompile Include="src\output\filtering_report_output.cpp" />
+    <ClCompile Include="src\output\format\output_format_executor.cpp" />
+    <ClCompile Include="src\output\format\output_format_interface.cpp" />
+    <ClCompile Include="src\output\format\sarif_output_format.cpp" />
+    <ClCompile Include="src\output\format\text_output_format.cpp" />
+    <ClCompile Include="src\output\format_args_helper.cpp" />
+    <ClCompile Include="src\output\in_memory_report_output.cpp" />
+    <ClCompile Include="src\output\issue_tracking_output.cpp" />
+    <ClCompile Include="src\output\multiple_report_output.cpp" />
+    <ClCompile Include="src\output\terminal_report_output.cpp" />
+    <ClCompile Include="src\output\unformatted_common_output_report.cpp" />
+    <ClCompile Include="src\pe\combined_rule\combined_version_info_rule.cpp" />
+    <ClCompile Include="src\pe\data\version_info_list.cpp" />
+    <ClCompile Include="src\pe\generator\basic_dotnet_info_generator.cpp" />
+    <ClCompile Include="src\pe\generator\basic_pe_info_generator.cpp" />
+    <ClCompile Include="src\pe\generator\debug_directory_generator.cpp" />
+    <ClCompile Include="src\pe\generator\delay_import_directory_generator.cpp" />
+    <ClCompile Include="src\pe\generator\export_directory_generator.cpp" />
+    <ClCompile Include="src\pe\generator\icon_info_generator.cpp" />
+    <ClCompile Include="src\pe\generator\import_based_info_generator.cpp" />
+    <ClCompile Include="src\pe\generator\import_directory_generator.cpp" />
+    <ClCompile Include="src\pe\generator\load_config_directory_generator.cpp" />
+    <ClCompile Include="src\pe\generator\manifest_generator.cpp" />
+    <ClCompile Include="src\pe\generator\pe_generators.cpp" />
+    <ClCompile Include="src\pe\generator\pe_image_generator.cpp" />
+    <ClCompile Include="src\pe\generator\resource_directory_generator.cpp" />
+    <ClCompile Include="src\pe\generator\rich_header_generator.cpp" />
+    <ClCompile Include="src\pe\generator\vc_feature_generator.cpp" />
+    <ClCompile Include="src\pe\generator\version_info_generator.cpp" />
+    <ClCompile Include="src\pe\helpers\input_async_stream_buffer.cpp" />
+    <ClCompile Include="src\pe\helpers\section_helpers.cpp" />
+    <ClCompile Include="src\pe\pe_format_detector.cpp" />
+    <ClCompile Include="src\pe\rule\ansi_import_rule.cpp" />
+    <ClCompile Include="src\pe\rule\application_manifest_rule.cpp" />
+    <ClCompile Include="src\pe\rule\cet_rule.cpp" />
+    <ClCompile Include="src\pe\rule\checksum_rule.cpp" />
+    <ClCompile Include="src\pe\rule\cross_resource_version_info_rule.cpp" />
+    <ClCompile Include="src\pe\rule\debug_directory_format_rule.cpp" />
+    <ClCompile Include="src\pe\rule\debug_directory_rule.cpp" />
+    <ClCompile Include="src\pe\rule\directory_sections_rule.cpp" />
+    <ClCompile Include="src\pe\rule\dotnet_header_format_rule.cpp" />
+    <ClCompile Include="src\pe\rule\export_directory_format_rule.cpp" />
+    <ClCompile Include="src\pe\rule\export_rule.cpp" />
+    <ClCompile Include="src\pe\rule\flow_guards_rule.cpp" />
+    <ClCompile Include="src\pe\rule\image_errors_rule.cpp" />
+    <ClCompile Include="src\pe\rule\import_format_rule.cpp" />
+    <ClCompile Include="src\pe\rule\load_config_directory_format_rule.cpp" />
+    <ClCompile Include="src\pe\rule\load_config_flags_rule.cpp" />
+    <ClCompile Include="src\pe\rule\main_icon_rule.cpp" />
+    <ClCompile Include="src\pe\rule\manifest_assembly_version_rule.cpp" />
+    <ClCompile Include="src\pe\rule\manifest_format_rule.cpp" />
+    <ClCompile Include="src\pe\rule\not_recommended_import_rule.cpp" />
+    <ClCompile Include="src\pe\rule\pe_file_format_rule.cpp" />
+    <ClCompile Include="src\pe\rule\pe_rules.cpp" />
+    <ClCompile Include="src\pe\rule\relocs_rule.cpp" />
+    <ClCompile Include="src\pe\rule\resource_directory_format_rule.cpp" />
+    <ClCompile Include="src\pe\rule\rich_data_rule.cpp" />
+    <ClCompile Include="src\pe\rule\safeseh_rule.cpp" />
+    <ClCompile Include="src\pe\rule\sections_rule.cpp" />
+    <ClCompile Include="src\pe\rule\security_cookie_rule.cpp" />
+    <ClCompile Include="src\pe\rule\simple_flags_rule.cpp" />
+    <ClCompile Include="src\pe\rule\vc_feature_rule.cpp" />
+    <ClCompile Include="src\pe\rule\version_info_format_rule.cpp" />
+    <ClCompile Include="src\pe\rule\version_info_rule.cpp" />
+    <ClCompile Include="src\pe\shared_data\api_sets.cpp" />
+    <ClCompile Include="src\pe\shared_generator\api_sets_map_generator.cpp" />
+    <ClCompile Include="src\pe\shared_generator\full_winapi_map_generator.cpp" />
+    <ClCompile Include="src\pe\shared_generator\not_recommended_imports_generator.cpp" />
+    <ClCompile Include="src\pe\shared_generator\pe_shared_generators.cpp" />
+    <ClCompile Include="src\progress\progress_report_interface.cpp" />
+    <ClCompile Include="src\progress\terminal_progress_report.cpp" />
+    <ClCompile Include="src\string\case_conv.cpp" />
+    <ClCompile Include="src\string\embedded_resource_loader.cpp" />
+    <ClCompile Include="src\string\encoding.cpp" />
+    <ClCompile Include="src\string\resource_helper.cpp" />
+    <ClCompile Include="src\string\rule_report_resource_helper.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\binary_valentine\analysis\analysis_context.h" />
+    <ClInclude Include="include\binary_valentine\analysis\analysis_plan.h" />
+    <ClInclude Include="include\binary_valentine\analysis\analysis_plan_parse_helpers.h" />
+    <ClInclude Include="include\binary_valentine\analysis\analysis_plan_provider_interface.h" />
+    <ClInclude Include="include\binary_valentine\analysis\analysis_plan_runner.h" />
+    <ClInclude Include="include\binary_valentine\analysis\command_line_analysis_plan_provider.h" />
+    <ClInclude Include="include\binary_valentine\analysis\concurrent_analysis_executor.h" />
+    <ClInclude Include="include\binary_valentine\analysis\immutable_context.h" />
+    <ClInclude Include="include\binary_valentine\analysis\xml_analysis_plan_provider.h" />
+    <ClInclude Include="include\binary_valentine\common\shared_data\program_path.h" />
+    <ClInclude Include="include\binary_valentine\common\shared_generator\common_generators.h" />
+    <ClInclude Include="include\binary_valentine\common\shared_generator\program_path_generator.h" />
+    <ClInclude Include="include\binary_valentine\common\xml_loader.h" />
+    <ClInclude Include="include\binary_valentine\core\async_data_generator.h" />
+    <ClInclude Include="include\binary_valentine\core\async_data_generator_interface.h" />
+    <ClInclude Include="include\binary_valentine\core\async_value_provider.h" />
+    <ClInclude Include="include\binary_valentine\core\async_value_provider_interface.h" />
+    <ClInclude Include="include\binary_valentine\core\combined_data_generator.h" />
+    <ClInclude Include="include\binary_valentine\core\combined_data_generator_interface.h" />
+    <ClInclude Include="include\binary_valentine\core\combined_dependency_helper.h" />
+    <ClInclude Include="include\binary_valentine\core\combined_rule.h" />
+    <ClInclude Include="include\binary_valentine\core\combined_rule_interface.h" />
+    <ClInclude Include="include\binary_valentine\core\combined_value_helper.h" />
+    <ClInclude Include="include\binary_valentine\core\combined_value_provider.h" />
+    <ClInclude Include="include\binary_valentine\core\compile_time_string.h" />
+    <ClInclude Include="include\binary_valentine\core\core_error.h" />
+    <ClInclude Include="include\binary_valentine\core\data_generator.h" />
+    <ClInclude Include="include\binary_valentine\core\data_generator_helpers.h" />
+    <ClInclude Include="include\binary_valentine\core\data_generator_interface.h" />
+    <ClInclude Include="include\binary_valentine\core\data_generator_list.h" />
+    <ClInclude Include="include\binary_valentine\core\entity_stream_provider_interface.h" />
+    <ClInclude Include="include\binary_valentine\core\hash_combine.h" />
+    <ClInclude Include="include\binary_valentine\core\inaccessible_subject_entity.h" />
+    <ClInclude Include="include\binary_valentine\core\localizable_error.h" />
+    <ClInclude Include="include\binary_valentine\core\overloaded.h" />
+    <ClInclude Include="include\binary_valentine\core\reflection.h" />
+    <ClInclude Include="include\binary_valentine\core\rule.h" />
+    <ClInclude Include="include\binary_valentine\core\rule_class.h" />
+    <ClInclude Include="include\binary_valentine\core\rule_detector_container.h" />
+    <ClInclude Include="include\binary_valentine\core\rule_detector_interface.h" />
+    <ClInclude Include="include\binary_valentine\core\rule_interface.h" />
+    <ClInclude Include="include\binary_valentine\core\rule_list.h" />
+    <ClInclude Include="include\binary_valentine\core\rule_selector.h" />
+    <ClInclude Include="include\binary_valentine\core\scoped_guard.h" />
+    <ClInclude Include="include\binary_valentine\core\subject_entity_interface.h" />
+    <ClInclude Include="include\binary_valentine\core\time_tracker.h" />
+    <ClInclude Include="include\binary_valentine\core\transparent_hash.h" />
+    <ClInclude Include="include\binary_valentine\core\user_error.h" />
+    <ClInclude Include="include\binary_valentine\core\value.h" />
+    <ClInclude Include="include\binary_valentine\core\value_cache.h" />
+    <ClInclude Include="include\binary_valentine\core\value_helper.h" />
+    <ClInclude Include="include\binary_valentine\core\value_interface.h" />
+    <ClInclude Include="include\binary_valentine\core\value_provider.h" />
+    <ClInclude Include="include\binary_valentine\core\value_providers_span.h" />
+    <ClInclude Include="include\binary_valentine\core\value_provider_interface.h" />
+    <ClInclude Include="include\binary_valentine\executable\executable_extra_rule_detector.h" />
+    <ClInclude Include="include\binary_valentine\file\async_file.h" />
+    <ClInclude Include="include\binary_valentine\file\async_target_enumerator.h" />
+    <ClInclude Include="include\binary_valentine\file\file_entity.h" />
+    <ClInclude Include="include\binary_valentine\file\file_entity_stream_provider.h" />
+    <ClInclude Include="include\binary_valentine\json\json_printer.h" />
+    <ClInclude Include="include\binary_valentine\output\configurable_result_report_factory.h" />
+    <ClInclude Include="include\binary_valentine\output\entity_in_memory_report_interface.h" />
+    <ClInclude Include="include\binary_valentine\output\exception_formatter.h" />
+    <ClInclude Include="include\binary_valentine\output\filtering_report_output.h" />
+    <ClInclude Include="include\binary_valentine\output\format\output_format_executor.h" />
+    <ClInclude Include="include\binary_valentine\output\format\output_format_interface.h" />
+    <ClInclude Include="include\binary_valentine\output\format\sarif_output_format.h" />
+    <ClInclude Include="include\binary_valentine\output\format\text_output_format.h" />
+    <ClInclude Include="include\binary_valentine\output\format_args_helper.h" />
+    <ClInclude Include="include\binary_valentine\output\internal_report_arg_names.h" />
+    <ClInclude Include="include\binary_valentine\output\internal_report_messages.h" />
+    <ClInclude Include="include\binary_valentine\output\in_memory_output_creator.h" />
+    <ClInclude Include="include\binary_valentine\output\in_memory_report.h" />
+    <ClInclude Include="include\binary_valentine\output\in_memory_report_output.h" />
+    <ClInclude Include="include\binary_valentine\output\issue_tracking_output.h" />
+    <ClInclude Include="include\binary_valentine\output\multiple_report_output.h" />
+    <ClInclude Include="include\binary_valentine\output\result_report_interface.h" />
+    <ClInclude Include="include\binary_valentine\output\rule_report.h" />
+    <ClInclude Include="include\binary_valentine\output\rule_report_helper.h" />
+    <ClInclude Include="include\binary_valentine\output\terminal_output_creator.h" />
+    <ClInclude Include="include\binary_valentine\output\terminal_report_output.h" />
+    <ClInclude Include="include\binary_valentine\output\unformatted_common_output_report.h" />
+    <ClInclude Include="include\binary_valentine\pe\combined_rule\combined_version_info_rule.h" />
+    <ClInclude Include="include\binary_valentine\pe\data\basic_pe_info.h" />
+    <ClInclude Include="include\binary_valentine\pe\data\import_based_info.h" />
+    <ClInclude Include="include\binary_valentine\pe\data\main_pe_icon.h" />
+    <ClInclude Include="include\binary_valentine\pe\data\manifest_info.h" />
+    <ClInclude Include="include\binary_valentine\pe\data\version_info_list.h" />
+    <ClInclude Include="include\binary_valentine\pe\generator\basic_dotnet_info_generator.h" />
+    <ClInclude Include="include\binary_valentine\pe\generator\basic_pe_info_generator.h" />
+    <ClInclude Include="include\binary_valentine\pe\generator\debug_directory_generator.h" />
+    <ClInclude Include="include\binary_valentine\pe\generator\delay_import_directory_generator.h" />
+    <ClInclude Include="include\binary_valentine\pe\generator\export_directory_generator.h" />
+    <ClInclude Include="include\binary_valentine\pe\generator\icon_info_generator.h" />
+    <ClInclude Include="include\binary_valentine\pe\generator\import_based_info_generator.h" />
+    <ClInclude Include="include\binary_valentine\pe\generator\import_directory_generator.h" />
+    <ClInclude Include="include\binary_valentine\pe\generator\load_config_directory_generator.h" />
+    <ClInclude Include="include\binary_valentine\pe\generator\manifest_generator.h" />
+    <ClInclude Include="include\binary_valentine\pe\generator\pe_generators.h" />
+    <ClInclude Include="include\binary_valentine\pe\generator\pe_image_generator.h" />
+    <ClInclude Include="include\binary_valentine\pe\generator\resource_directory_generator.h" />
+    <ClInclude Include="include\binary_valentine\pe\generator\rich_header_generator.h" />
+    <ClInclude Include="include\binary_valentine\pe\generator\vc_feature_generator.h" />
+    <ClInclude Include="include\binary_valentine\pe\generator\version_info_generator.h" />
+    <ClInclude Include="include\binary_valentine\pe\helpers\error_helpers.h" />
+    <ClInclude Include="include\binary_valentine\pe\helpers\input_async_stream_buffer.h" />
+    <ClInclude Include="include\binary_valentine\pe\helpers\section_helpers.h" />
+    <ClInclude Include="include\binary_valentine\pe\helpers\version_helpers.h" />
+    <ClInclude Include="include\binary_valentine\pe\pe_format_detector.h" />
+    <ClInclude Include="include\binary_valentine\pe\pe_rule_reports.h" />
+    <ClInclude Include="include\binary_valentine\pe\rule\ansi_import_rule.h" />
+    <ClInclude Include="include\binary_valentine\pe\rule\application_manifest_rule.h" />
+    <ClInclude Include="include\binary_valentine\pe\rule\cet_rule.h" />
+    <ClInclude Include="include\binary_valentine\pe\rule\checksum_rule.h" />
+    <ClInclude Include="include\binary_valentine\pe\rule\cross_resource_version_info_rule.h" />
+    <ClInclude Include="include\binary_valentine\pe\rule\debug_directory_format_rule.h" />
+    <ClInclude Include="include\binary_valentine\pe\rule\debug_directory_rule.h" />
+    <ClInclude Include="include\binary_valentine\pe\rule\directory_sections_rule.h" />
+    <ClInclude Include="include\binary_valentine\pe\rule\dotnet_header_format_rule.h" />
+    <ClInclude Include="include\binary_valentine\pe\rule\export_directory_format_rule.h" />
+    <ClInclude Include="include\binary_valentine\pe\rule\export_rule.h" />
+    <ClInclude Include="include\binary_valentine\pe\rule\flow_guards_rule.h" />
+    <ClInclude Include="include\binary_valentine\pe\rule\image_errors_rule.h" />
+    <ClInclude Include="include\binary_valentine\pe\rule\import_format_rule.h" />
+    <ClInclude Include="include\binary_valentine\pe\rule\load_config_directory_format_rule.h" />
+    <ClInclude Include="include\binary_valentine\pe\rule\load_config_flags_rule.h" />
+    <ClInclude Include="include\binary_valentine\pe\rule\main_icon_rule.h" />
+    <ClInclude Include="include\binary_valentine\pe\rule\manifest_assembly_version_rule.h" />
+    <ClInclude Include="include\binary_valentine\pe\rule\manifest_format_rule.h" />
+    <ClInclude Include="include\binary_valentine\pe\rule\not_recommended_import_rule.h" />
+    <ClInclude Include="include\binary_valentine\pe\rule\pe_file_format_rule.h" />
+    <ClInclude Include="include\binary_valentine\pe\rule\pe_rules.h" />
+    <ClInclude Include="include\binary_valentine\pe\rule\relocs_rule.h" />
+    <ClInclude Include="include\binary_valentine\pe\rule\resource_directory_format_rule.h" />
+    <ClInclude Include="include\binary_valentine\pe\rule\rich_data_rule.h" />
+    <ClInclude Include="include\binary_valentine\pe\rule\safeseh_rule.h" />
+    <ClInclude Include="include\binary_valentine\pe\rule\sections_rule.h" />
+    <ClInclude Include="include\binary_valentine\pe\rule\security_cookie_rule.h" />
+    <ClInclude Include="include\binary_valentine\pe\rule\simple_flags_rule.h" />
+    <ClInclude Include="include\binary_valentine\pe\rule\vc_feature_rule.h" />
+    <ClInclude Include="include\binary_valentine\pe\rule\version_info_format_rule.h" />
+    <ClInclude Include="include\binary_valentine\pe\rule\version_info_rule.h" />
+    <ClInclude Include="include\binary_valentine\pe\shared_data\api_sets.h" />
+    <ClInclude Include="include\binary_valentine\pe\shared_data\not_recommended_imports.h" />
+    <ClInclude Include="include\binary_valentine\pe\shared_data\winapi_library_list.h" />
+    <ClInclude Include="include\binary_valentine\pe\shared_generator\api_sets_map_generator.h" />
+    <ClInclude Include="include\binary_valentine\pe\shared_generator\full_winapi_map_generator.h" />
+    <ClInclude Include="include\binary_valentine\pe\shared_generator\not_recommended_imports_generator.h" />
+    <ClInclude Include="include\binary_valentine\pe\shared_generator\pe_shared_generators.h" />
+    <ClInclude Include="include\binary_valentine\progress\progress_report_interface.h" />
+    <ClInclude Include="include\binary_valentine\progress\terminal_progress_report.h" />
+    <ClInclude Include="include\binary_valentine\resource\en.h" />
+    <ClInclude Include="include\binary_valentine\rule_class.h" />
+    <ClInclude Include="include\binary_valentine\string\case_conv.h" />
+    <ClInclude Include="include\binary_valentine\string\embedded_resource_loader.h" />
+    <ClInclude Include="include\binary_valentine\string\embedded_resource_provider.h" />
+    <ClInclude Include="include\binary_valentine\string\encoding.h" />
+    <ClInclude Include="include\binary_valentine\string\resource_helper.h" />
+    <ClInclude Include="include\binary_valentine\string\resource_loader_interface.h" />
+    <ClInclude Include="include\binary_valentine\string\resource_provider_interface.h" />
+    <ClInclude Include="include\binary_valentine\string\rule_report_resource_helper.h" />
+    <ClInclude Include="include\binary_valentine\thread\concurrent_io_processing_service.h" />
+    <ClInclude Include="include\binary_valentine\thread\multi_executor_concurrent_io_processing_service.h" />
+    <ClInclude Include="include\binary_valentine\version.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\external\pe_bliss2\pe_bliss2\pe_bliss2.vcxproj">
+      <Project>{10f2febb-c268-4a1f-bb1b-3b2a4d856cad}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

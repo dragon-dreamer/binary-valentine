@@ -43,7 +43,6 @@ public:
 
 	template<typename Reporter>
 	void run(Reporter& reporter,
-		const pe_bliss::image::image& image,
 		const pe_bliss::load_config::load_config_directory_details* load_config) const
 	{
 		if (!load_config)

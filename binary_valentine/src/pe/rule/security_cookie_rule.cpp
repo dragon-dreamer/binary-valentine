@@ -32,8 +32,7 @@ public:
 		pe_report::no_security_cookie_for_some_objects,
 		pe_report::security_cookie_value_not_default>();
 
-	bool is_applicable(const pe_bliss::image::image& image,
-		const basic_pe_info& info) const
+	bool is_applicable(const basic_pe_info& info) const
 	{
 		return info.has_executable_code && !info.is_boot && !info.is_xbox
 			&& !info.is_il_only;

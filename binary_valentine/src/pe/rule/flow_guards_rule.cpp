@@ -285,7 +285,6 @@ public:
 
 	template<typename Reporter>
 	static void check_rf_guard(Reporter& reporter,
-		const pe_bliss::image::image& image,
 		const pe_bliss::load_config::load_config_directory_details* load_config)
 	{
 		if (!load_config)
@@ -367,7 +366,7 @@ public:
 		const pe_bliss::delay_import::delay_import_directory_details* delay_import) const
 	{
 		check_cf_guard(reporter, image, load_config, delay_import);
-		check_rf_guard(reporter, image, load_config);
+		check_rf_guard(reporter, load_config);
 		check_xf_guard(reporter, image, load_config);
 		check_retpoline(reporter, load_config, info);
 	}

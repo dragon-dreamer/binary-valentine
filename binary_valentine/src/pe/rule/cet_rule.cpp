@@ -38,7 +38,7 @@ public:
 	void run(Reporter& reporter,
 		const pe_bliss::debug::debug_directory_list_details* debug_dir) const
 	{
-		if (!has_cet(reporter, find_ex_dll_characteristics_debug_dir(debug_dir)))
+		if (!has_cet(find_ex_dll_characteristics_debug_dir(debug_dir)))
 			reporter.template log<pe_report::cet_not_enabled>();
 	}
 
@@ -62,9 +62,7 @@ private:
 		return nullptr;
 	}
 
-	template<typename Reporter>
-	static bool has_cet(Reporter& reporter,
-		const pe_bliss::debug::debug_directory_details* dll_characteristics_dir)
+	static bool has_cet(const pe_bliss::debug::debug_directory_details* dll_characteristics_dir)
 	{
 		if (!dll_characteristics_dir)
 			return false;

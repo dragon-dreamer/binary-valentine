@@ -88,10 +88,10 @@ void exception_formatter::format(std::exception_ptr exception,
 			auto& vector = value.emplace<multiple_value_arg_type>();
 			vector.reserve(1u + e.get_args().size());
 			vector.emplace_back(arg::string_id, e.get_error_string_id());
-			for (const auto& [name, value] : e.get_args())
+			for (const auto& [name, nested_value] : e.get_args())
 			{
 				vector.emplace_back(name,
-					string::replace_invalid_characters_copy(value));
+					string::replace_invalid_characters_copy(nested_value));
 			}
 		}
 	}

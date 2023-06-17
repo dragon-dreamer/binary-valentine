@@ -170,10 +170,10 @@ void format_args_helper::format_as_string(const arg_type& arg,
 				auto& vector = value.emplace<multiple_value_arg_type>();
 				vector.reserve(1u + arg.args.size());
 				vector.emplace_back(arg::string_id, arg.string_id);
-				for (const auto& [name, value] : arg.args)
+				for (const auto& [name, nested_value] : arg.args)
 				{
 					vector.emplace_back(name,
-						string::replace_invalid_characters_copy(value));
+						string::replace_invalid_characters_copy(nested_value));
 				}
 			}
 		}

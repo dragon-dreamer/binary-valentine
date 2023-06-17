@@ -163,7 +163,8 @@ private:
 			}
 			else
 			{
-				if (++found_sizes[header.get_height()][header.get_bit_count()] == 2u)
+				if (++found_sizes[
+					static_cast<std::uint16_t>(header.get_height())][header.get_bit_count()] == 2u)
 				{
 					reporter.template log<pe_report::main_icon_duplicate_size>(
 						output::named_arg("icon", icon_name_id_to_string(icon)),

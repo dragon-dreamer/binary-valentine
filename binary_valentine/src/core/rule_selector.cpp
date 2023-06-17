@@ -64,9 +64,9 @@ bool arg_matches(const output::arg_type& arg,
 	{
 		const auto& vec = std::get<
 			output::multiple_value_arg_type>(value);
-		for (const auto& [name, str] : vec)
+		for (const auto& [name, nested_str] : vec)
 		{
-			if (std::regex_search(str, regex))
+			if (std::regex_search(nested_str, regex))
 				return true;
 		}
 	}

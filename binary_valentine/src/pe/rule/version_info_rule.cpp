@@ -79,8 +79,7 @@ public:
 
 	template<typename Reporter>
 	void run(Reporter& reporter, const version_info_list* version_info,
-		const basic_pe_info& info,
-		const std::shared_ptr<const core::subject_entity_interface>& entity) const
+		const basic_pe_info& info) const
 	{
 		if (!version_info)
 		{

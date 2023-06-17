@@ -32,7 +32,6 @@ public:
 
 	template<typename Reporter>
 	void run(Reporter& reporter, const pe_bliss::exports::export_directory_details& dir,
-		const std::shared_ptr<const core::subject_entity_interface>& entity,
 		const pe_bliss::image::image& image,
 		const basic_pe_info& info) const
 	{

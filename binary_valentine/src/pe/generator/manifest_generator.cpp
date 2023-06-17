@@ -1,6 +1,7 @@
 #include "binary_valentine/pe/generator/manifest_generator.h"
 
 #include <array>
+#include <cassert>
 #include <memory>
 #include <exception>
 #include <filesystem>
@@ -111,8 +112,9 @@ private:
 		std::span<const std::filesystem::path> manifest_paths,
 		manifest_info& data)
 	{
+		assert(!manifest_paths.empty());
 		auto buf = std::make_shared<buffers::input_container_buffer>();
-		file::async_file_read_result read_result;
+		file::async_file_read_result read_result{};
 		for (const auto& file_name : manifest_paths)
 		{
 			try

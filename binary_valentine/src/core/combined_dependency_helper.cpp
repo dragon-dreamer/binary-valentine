@@ -41,8 +41,7 @@ void combined_dependency_helper::get_individual_dependencies(
 		auto deps = gen_ptr->get_individual_dependencies();
 		individual_deps.insert(deps.begin(), deps.end());
 
-		auto combined_deps = gen_ptr->get_combined_dependencies();
-		for (auto dep : combined_deps)
+		for (auto dep : gen_ptr->get_combined_dependencies())
 		{
 			if (combined_visited.insert(dep).second)
 				combined_to_visit.push(dep);

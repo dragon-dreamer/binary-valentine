@@ -122,7 +122,7 @@ protected:
 	void enable_signal_cancellation()
 	{
 		io_signal_set_.emplace(io_pool_, SIGINT, SIGTERM).async_wait(
-			[this](const boost::system::error_code& error, int signal_number) {
+			[this](const boost::system::error_code& error, int /* signal_number */) {
 			if (!error)
 			{
 				stop();

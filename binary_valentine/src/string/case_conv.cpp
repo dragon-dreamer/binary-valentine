@@ -16,7 +16,7 @@ std::string to_lower_ascii(std::string_view src)
 void to_lower_ascii_inplace(std::string& src)
 {
 	std::transform(src.begin(), src.end(), src.begin(), [](char ch) {
-		return std::tolower(static_cast<unsigned char>(ch));
+		return static_cast<char>(std::tolower(static_cast<unsigned char>(ch)));
 	});
 }
 

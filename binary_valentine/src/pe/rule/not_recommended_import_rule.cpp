@@ -70,7 +70,7 @@ private:
 	{
 		std::visit([&reporter, is_delayload, is_xbox, this](const auto& libraries) {
 			for (const auto& library : libraries)
-				check_library(reporter, library, is_xbox, is_delayload);
+				this->check_library(reporter, library, is_xbox, is_delayload);
 		}, dir.get_list());
 	}
 

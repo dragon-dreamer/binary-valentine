@@ -40,7 +40,7 @@ const value_interface* combined_value_provider::get(value_tag tag)
 
 		try
 		{
-			gen_ptr->generate(individual_providers_, *this);
+			gen_ptr->generate_data(individual_providers_, *this);
 			result = cache_.get(tag);
 		}
 		catch (...)

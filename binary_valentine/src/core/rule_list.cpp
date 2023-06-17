@@ -52,7 +52,7 @@ boost::asio::awaitable<void> run_rule(const rule_interface& rule,
 
 	deps = co_await get_dependencies(rule.get_run_dependencies(), provider);
 	if (deps)
-		rule.run(entity_report, *deps);
+		rule.run_rule(entity_report, *deps);
 
 	co_return;
 }
@@ -93,7 +93,7 @@ void enabled_rule_list_base<combined_rule_interface>::run(
 	{
 		try
 		{
-			rule_ref.get().run(individual_values, combined_values);
+			rule_ref.get().run_rule(individual_values, combined_values);
 		}
 		catch (const std::exception&)
 		{

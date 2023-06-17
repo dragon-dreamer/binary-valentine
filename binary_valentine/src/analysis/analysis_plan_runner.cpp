@@ -40,8 +40,8 @@ struct analysis_plan_runner::impl
 
 	analysis_plan plan;
 	output::issue_tracking_status issue_tracking_status;
-	std::shared_ptr<output::issue_tracking_output> issue_tracking_output;
 	const string::resource_provider_interface& resources;
+	std::shared_ptr<output::issue_tracking_output> issue_tracking_output;
 	std::optional<output::configurable_result_report_factory> report_factory;
 	const immutable_context& global_context;
 	std::optional<bv::analysis::concurrent_analysis_executor> executor;

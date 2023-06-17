@@ -24,7 +24,7 @@ public:
 	}
 
 private:
-	virtual void run(output::entity_report_interface& report,
+	virtual void run_rule(output::entity_report_interface& report,
 		std::span<const value_interface* const> dependencies) const final
 	{
 		using run_type = func_types_skip_first_arg<&Derived::template run<

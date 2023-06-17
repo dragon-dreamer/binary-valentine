@@ -26,7 +26,7 @@ public:
 		return name_;
 	}
 
-	virtual void generate(
+	virtual void generate_data(
 		individual_values_span_type individual_values,
 		value_provider_interface& combined_values) const = 0;
 

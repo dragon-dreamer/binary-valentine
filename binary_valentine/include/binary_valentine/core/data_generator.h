@@ -24,7 +24,7 @@ public:
 	}
 
 private:
-	virtual void generate(value_provider_interface& provider) const final
+	virtual void generate_data(value_provider_interface& provider) const final
 	{
 		using generate_type = func_types<&Derived::generate>;
 

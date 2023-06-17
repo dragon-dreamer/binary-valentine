@@ -24,7 +24,7 @@ public:
 	}
 
 private:
-	virtual boost::asio::awaitable<void> generate(
+	virtual boost::asio::awaitable<void> generate_data(
 		async_value_provider_interface& provider) const final
 	{
 		using generate_type = func_types<&Derived::generate>;

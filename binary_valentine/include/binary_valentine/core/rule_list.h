@@ -139,10 +139,10 @@ private:
 		std::unique_ptr<const rule_interface_type>&& rule);
 
 	template<typename Rule>
-	auto make_rule_with_dependencies(value_provider_interface& shared_values)
+	static auto make_rule_with_dependencies(value_provider_interface& shared_values)
 	{
 		return value_helper<typename Rule::constructor_dependencies_type>
-			::call_with_values(shared_values, [this](auto&&... values)
+			::call_with_values(shared_values, [](auto&&... values)
 		{
 			return std::make_unique<Rule>(std::forward<decltype(values)>(values)...);
 		});

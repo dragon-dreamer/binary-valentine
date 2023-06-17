@@ -37,7 +37,7 @@ public:
 	[[nodiscard]]
 	virtual bool is_rule_applicable(
 		std::span<const value_interface* const> dependencies) const = 0;
-	virtual void run(output::entity_report_interface& report,
+	virtual void run_rule(output::entity_report_interface& report,
 		std::span<const value_interface* const> dependencies) const = 0;
 
 	[[nodiscard]]

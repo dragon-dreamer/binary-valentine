@@ -23,7 +23,7 @@ public:
 		return name_;
 	}
 
-	virtual void generate(value_provider_interface& values) const = 0;
+	virtual void generate_data(value_provider_interface& values) const = 0;
 
 private:
 	std::string_view name_;

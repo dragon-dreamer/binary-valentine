@@ -27,7 +27,7 @@ public:
 	[[nodiscard]]
 	virtual std::string_view get_name() const noexcept = 0;
 	[[nodiscard]]
-	virtual const std::uint64_t get_size() const = 0;
+	virtual std::uint64_t get_size() const = 0;
 	[[nodiscard]]
 	virtual std::filesystem::file_time_type get_last_write_time() const = 0;
 

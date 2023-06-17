@@ -28,7 +28,7 @@ public:
 		return name_;
 	}
 
-	virtual void run(
+	virtual void run_rule(
 		individual_values_span_type individual_values,
 		value_provider_interface& combined_values) const = 0;
 

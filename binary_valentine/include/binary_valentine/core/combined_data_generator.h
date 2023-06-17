@@ -20,7 +20,7 @@ public:
 	using dependencies_type = combined_dependencies<>;
 
 private:
-	virtual void generate(
+	virtual void generate_data(
 		individual_values_span_type individual_values,
 		value_provider_interface& combined_values) const final
 	{

@@ -39,7 +39,7 @@ const value_interface* value_provider::get(value_tag tag)
 
 		try
 		{
-			gen_ptr->generate(*this);
+			gen_ptr->generate_data(*this);
 			result = cache_.get(tag);
 		}
 		catch (...)

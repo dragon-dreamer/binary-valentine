@@ -60,7 +60,7 @@ private:
 	{
 		std::visit([&reporter, is_delayload, this](const auto& libraries) {
 			for (const auto& library : libraries)
-				check_library(reporter, library, is_delayload);
+				this->check_library(reporter, library, is_delayload);
 		}, dir.get_list());
 	}
 

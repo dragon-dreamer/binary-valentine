@@ -142,7 +142,7 @@ public:
 	}
 
 	[[nodiscard]]
-	const result_report_file_type get_type() const noexcept
+	result_report_file_type get_type() const noexcept
 	{
 		return type_;
 	}

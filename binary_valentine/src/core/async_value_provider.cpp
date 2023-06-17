@@ -20,7 +20,7 @@ boost::asio::awaitable<const value_interface*> async_value_provider::get_async(
 	{
 		try
 		{
-			co_await gen_ptr->generate(*this);
+			co_await gen_ptr->generate_data(*this);
 			result = sync_provider_.get_cache().get(tag);
 		}
 		catch (...)

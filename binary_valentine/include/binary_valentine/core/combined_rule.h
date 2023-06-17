@@ -46,13 +46,13 @@ public:
 	}
 
 private:
-	virtual void run(
+	virtual void run_rule(
 		individual_values_span_type individual_values,
 		value_provider_interface& combined_values) const final
 	{
 		combined_value_helper<typename Derived::dependencies_type>
 			::template call_with_values<Derived>(individual_values, combined_values,
-				[this, &individual_values](auto&&... values)
+				[this](auto&&... values)
 		{
 			return static_cast<const Derived&>(*this)
 				.run(std::forward<decltype(values)>(values)...);

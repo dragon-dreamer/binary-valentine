@@ -44,9 +44,9 @@ public:
 
 private:
 	template<typename Directory>
-	void check_imports(const Directory& dir, import_based_info& info) const
+	static void check_imports(const Directory& dir, import_based_info& info)
 	{
-		std::visit([&info, this](const auto& libraries) {
+		std::visit([&info](const auto& libraries) {
 			for (const auto& library : libraries)
 			{
 				if (info.is_dotnet_native
@@ -62,7 +62,7 @@ private:
 	}
 
 	template<typename Library>
-	void check_library(const Library& library, import_based_info& info) const
+	static void check_library(const Library& library, import_based_info& info)
 	{
 		const auto& library_name = library.get_library_name().value();
 		if (!info.is_dotnet_native)

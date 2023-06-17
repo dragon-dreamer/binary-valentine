@@ -25,7 +25,7 @@ public:
 		return name_;
 	}
 
-	virtual boost::asio::awaitable<void> generate(
+	virtual boost::asio::awaitable<void> generate_data(
 		async_value_provider_interface& values) const = 0;
 
 private:

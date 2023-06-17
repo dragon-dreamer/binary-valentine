@@ -46,7 +46,7 @@ public:
 	}
 
 	[[nodiscard]]
-	virtual const std::uint64_t get_size() const override
+	virtual std::uint64_t get_size() const override
 	{
 		return 0u;
 	}

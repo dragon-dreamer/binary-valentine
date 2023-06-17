@@ -42,7 +42,7 @@ void print_exception(bv::output::terminal_report_output& terminal)
 }
 } //namespace
 
-#ifdef BOOST_OS_WINDOWS
+#if BOOST_OS_WINDOWS
 int wmain(int argc, wchar_t* argv[]) try
 #else //BOOST_OS_WINDOWS
 int main(int argc, char* argv[]) try

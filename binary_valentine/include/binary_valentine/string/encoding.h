@@ -1,5 +1,6 @@
 #pragma once
 
+#include <string>
 #include <string_view>
 #include <type_traits>
 
@@ -56,6 +57,12 @@ struct utf8_to<std::string> final
 	static constexpr const std::string& convert(const std::string& str)
 	{
 		return str;
+	}
+	
+	[[nodiscard]]
+	static std::string convert(std::string_view str)
+	{
+		return std::string(str);
 	}
 };
 

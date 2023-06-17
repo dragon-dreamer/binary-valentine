@@ -11,6 +11,8 @@
 #include <variant>
 #include <vector>
 
+#include <boost/predef/os/windows.h>
+
 #include "binary_valentine/output/internal_report_arg_names.h"
 #include "binary_valentine/output/rule_report.h"
 
@@ -28,12 +30,30 @@ class exception_formatter;
 template<typename Arg>
 struct named_arg
 {
+	named_arg(const char* name, std::remove_cvref_t<Arg>&& val)
+		requires(!std::is_reference_v<Arg>)
+		: name(name)
+		, arg(std::move(val))
+	{
+	}
+
+	named_arg(const char* name, const std::remove_cvref_t<Arg>& val)
+		requires(std::is_lvalue_reference_v<Arg>)
+		: name(name)
+		, arg(std::move(val))
+	{
+	}
+
 	const char* const name;
-	const Arg& arg;
+	Arg arg;
 };
 
 template<typename Str, typename Arg>
-named_arg(Str, Arg) -> named_arg<std::remove_cvref_t<Arg>>;
+named_arg(Str, Arg&&) -> named_arg<std::remove_cvref_t<Arg>>;
+template<typename Str, typename Arg>
+named_arg(Str, Arg&) -> named_arg<const std::remove_cvref_t<Arg>&>;
+template<typename Str, typename Arg>
+named_arg(Str, const Arg&) -> named_arg<const std::remove_cvref_t<Arg>&>;
 
 struct current_exception_arg
 {
@@ -87,11 +107,13 @@ using arg_type = std::variant<
 	std::string_view,
 	std::u16string_view,
 	std::u32string_view,
-	std::wstring_view,
 	std::string,
 	std::u16string,
 	std::u32string,
+#if BOOST_OS_WINDOWS
+	std::wstring_view,
 	std::wstring,
+#endif //BOOST_OS_WINDOWS
 	std::exception_ptr,
 	impl::localizable_string_id,
 	impl::owning_localizable_string_id
@@ -105,10 +127,10 @@ public:
 	template<typename... NamedArgs>
 	void log(report_level level,
 		std::string_view message_id,
-		const NamedArgs&... named_args)
+		NamedArgs&&... named_args)
 	{
 		std::array<arg_type, sizeof...(NamedArgs)> args{
-			named_args.arg... };
+			std::forward<NamedArgs>(named_args).arg... };
 		std::array<const char*, sizeof...(NamedArgs)> arg_names{
 			named_args.name... };
 		log_impl(level, message_id, args, arg_names);
@@ -149,10 +171,10 @@ class [[nodiscard]] entity_report_interface : public common_report_interface
 public:
 	template<typename... NamedArgs>
 	void rule_log(const rule_report_base& info,
-		const NamedArgs&... named_args)
+		NamedArgs&&... named_args)
 	{
 		std::array<arg_type, sizeof...(NamedArgs)> args{
-			named_args.arg... };
+			std::forward<NamedArgs>(named_args).arg... };
 		std::array<const char*, sizeof...(NamedArgs)> arg_names{
 			named_args.name... };
 		rule_log_impl(info, args, arg_names);

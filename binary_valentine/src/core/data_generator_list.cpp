@@ -33,8 +33,8 @@ const typename data_generator_list_base<GeneratorInterface>::generator_interface
 	return gen_it == tag_to_generator_.end() ? nullptr : gen_it->second;
 }
 
-template data_generator_list_base<async_data_generator_interface>;
-template data_generator_list_base<data_generator_interface>;
-template data_generator_list_base<combined_data_generator_interface>;
+template class data_generator_list_base<async_data_generator_interface>;
+template class data_generator_list_base<data_generator_interface>;
+template class data_generator_list_base<combined_data_generator_interface>;
 
 } //namespace bv::core

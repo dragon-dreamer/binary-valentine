@@ -168,7 +168,7 @@ enabled_rule_list_base<RuleInterface> rule_list_base<RuleInterface>
 	return rules;
 }
 
-template rule_list_base<rule_interface>;
-template rule_list_base<combined_rule_interface>;
+template class rule_list_base<rule_interface>;
+template class rule_list_base<combined_rule_interface>;
 
 } //namespace bv::core

@@ -31,7 +31,6 @@ public:
 	static void log_with_language(Reporter& reporter,
 		pe_bliss::resources::resource_id_type lang, Args&&... args)
 	{
-		using namespace std::literals::string_view_literals;
 		const auto lcid_info = pe_bliss::resources::get_lcid_info(lang);
 		if (lcid_info)
 		{
@@ -39,15 +38,15 @@ public:
 				output::named_arg("resource_lang", lang),
 				output::named_arg("resource_lang_tag", lcid_info->language_tag),
 				output::named_arg("resource_lang_location",
-					lcid_info->location.empty() ? "-" : lcid_info->location),
+					lcid_info->location.empty() ? empty_ : lcid_info->location),
 				std::forward<Args>(args)...);
 		}
 		else
 		{
 			reporter.template log<Report>(
 				output::named_arg("resource_lang", lang),
-				output::named_arg("resource_lang_tag", "-"sv),
-				output::named_arg("resource_lang_location", "-"sv),
+				output::named_arg("resource_lang_tag", empty_),
+				output::named_arg("resource_lang_location", empty_),
 				std::forward<Args>(args)...);
 		}
 	}
@@ -63,14 +62,14 @@ public:
 		reporter.template log<Report>(
 			output::named_arg("resource_lang1", lang1),
 			output::named_arg("resource_lang1_tag",
-				lcid_info1 ? lcid_info1->language_tag : "-"),
+				lcid_info1 ? lcid_info1->language_tag : empty_),
 			output::named_arg("resource_lang1_location",
-				lcid_info1 && !lcid_info1->location.empty() ? lcid_info1->location : "-"),
+				lcid_info1 && !lcid_info1->location.empty() ? lcid_info1->location : empty_),
 			output::named_arg("resource_lang2", lang2),
 			output::named_arg("resource_lang2_tag",
-				lcid_info2 ? lcid_info2->language_tag : "-"),
+				lcid_info2 ? lcid_info2->language_tag : empty_),
 			output::named_arg("resource_lang2_location",
-				lcid_info2 && !lcid_info2->location.empty() ? lcid_info2->location : "-"),
+				lcid_info2 && !lcid_info2->location.empty() ? lcid_info2->location : empty_),
 			std::forward<Args>(args)...);
 	}
 
@@ -139,6 +138,9 @@ public:
 				? nullptr : &original_filename_it->second,
 		};
 	}
+
+private:
+	static constexpr std::string_view empty_{ "-" };
 };
 
 } //namespace bv::pe

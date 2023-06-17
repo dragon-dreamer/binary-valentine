@@ -72,7 +72,8 @@ private:
 				version_helpers::log_with_language<
 					pe_report::version_info_invalid_block_format>(reporter, lang,
 						output::named_arg("message", err.first.code.message()),
-						output::named_arg("key", block.get_key() ? block.get_key()->value() : u""));
+						output::named_arg("key", block.get_key()
+							? std::u16string_view(block.get_key()->value()) : std::u16string_view{}));
 			}
 		}
 

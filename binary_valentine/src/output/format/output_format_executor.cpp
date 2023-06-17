@@ -23,7 +23,7 @@ public:
 	}
 
 	[[nodiscard]]
-	virtual const saved_common_reports_type& get_common_reports() const noexcept
+	virtual const saved_common_reports_type& get_common_reports() const noexcept override
 	{
 		return common_;
 	}

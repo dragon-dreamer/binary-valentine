@@ -144,6 +144,7 @@ private:
 			}
 		}
 
+		static constexpr std::u16string_view empty{ u"-" };
 		for (const auto& [string_id, string_to_count] : similar_strings)
 		{
 			const auto* most_popular_string = get_most_popular_item(string_to_count);
@@ -163,8 +164,8 @@ private:
 						pe_report::version_info_strings_cross_image_mismatch>(
 							output::named_arg("string_id", string_id),
 							output::named_arg("most_popular_string",
-								*most_popular_string ? **most_popular_string : u"-"),
-							output::named_arg("string", string ? *string : u"-"));
+								*most_popular_string ? **most_popular_string : empty),
+							output::named_arg("string", string ? *string : empty));
 				}
 			}
 		}

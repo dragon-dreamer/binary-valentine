@@ -46,7 +46,13 @@ public:
 	{
 		std::tuple<const underlying_type<T>*...> values;
 		if (!fetch_values(provider, values, std::index_sequence_for<T...>{}))
-			return std::invoke_result_t<Func, const T&...>{};
+		{
+			using return_type = std::invoke_result_t<Func, const T&...>;
+			if constexpr (std::is_same_v<return_type, void>)
+				return;
+			else
+				return return_type{};
+		}
 
 		return call_impl(std::forward<Func>(func), values,
 			std::index_sequence_for<T...>{});

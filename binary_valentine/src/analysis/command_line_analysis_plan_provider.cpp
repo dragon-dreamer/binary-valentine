@@ -12,6 +12,7 @@
 #include <utility>
 #include <vector>
 
+#include <boost/predef/os/windows.h>
 #include <boost/program_options.hpp>
 
 #include "binary_valentine/analysis/analysis_plan.h"
@@ -256,10 +257,12 @@ private:
 		return string::utf8_to<std::filesystem::path::string_type>::convert(str);
 	}
 
+#if BOOST_OS_WINDOWS
 	static std::filesystem::path to_path(std::wstring_view str)
 	{
 		return to_path(string::to_utf8(str));
 	}
+#endif //BOOST_OS_WINDOWS
 
 	template<typename T>
 	static auto po_value()
@@ -358,7 +361,7 @@ private:
 
 struct command_line_analysis_plan_provider::impl
 {
-#ifdef BOOST_OS_WINDOWS
+#if BOOST_OS_WINDOWS
 	std::variant<options_helper<char>, options_helper<wchar_t>> opts;
 #else //BOOST_OS_WINDOWS
 	std::variant<options_helper<char>> opts;
@@ -379,7 +382,7 @@ command_line_analysis_plan_provider::command_line_analysis_plan_provider(
 {
 }
 
-#ifdef BOOST_OS_WINDOWS
+#if BOOST_OS_WINDOWS
 command_line_analysis_plan_provider::command_line_analysis_plan_provider(
 	int argc, const wchar_t* const* argv,
 	const core::rule_list& rules,

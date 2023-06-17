@@ -48,7 +48,7 @@ public:
 	}
 
 	[[nodiscard]]
-	virtual const std::uint64_t get_size() const
+	virtual const std::uint64_t get_size() const override
 	{
 		return entry_.file_size();
 	}

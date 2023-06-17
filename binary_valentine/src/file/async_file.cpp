@@ -1,6 +1,10 @@
 #include "binary_valentine/file/async_file.h"
 
-#include <Windows.h>
+#include <boost/predef/os/windows.h>
+
+#if BOOST_OS_WINDOWS
+#	include <Windows.h>
+#endif //BOOST_OS_WINDOWS
 
 #include <boost/asio/error.hpp>
 #include <boost/asio/read.hpp>
@@ -20,7 +24,7 @@ void open_read_impl(
     [[maybe_unused]] bool random_access,
     File& file)
 {
-#ifdef BOOST_ASIO_WINDOWS
+#if BOOST_OS_WINDOWS
     const DWORD access = GENERIC_READ;
     const DWORD share = FILE_SHARE_READ | FILE_SHARE_WRITE;
     const DWORD disposition = OPEN_EXISTING;
@@ -41,9 +45,9 @@ void open_read_impl(
     }
 
     file.assign(handle);
-#else //BOOST_ASIO_WINDOWS
+#else //BOOST_OS_WINDOWS
     file.open(path.native().c_str(), boost::asio::file_base::read_only);
-#endif //BOOST_ASIO_WINDOWS
+#endif //BOOST_OS_WINDOWS
 }
 } //namespace
 

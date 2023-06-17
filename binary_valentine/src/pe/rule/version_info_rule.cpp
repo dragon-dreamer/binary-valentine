@@ -153,7 +153,7 @@ public:
 							output::named_arg("string_file_info_lang", string_file_info_lcid),
 							output::named_arg("string_file_info_lang_tag", string_lcid_info->language_tag),
 							output::named_arg("string_file_info_lang_location",
-								string_lcid_info->location.empty() ? "-" : string_lcid_info->location));
+								string_lcid_info->location.empty() ? empty_ : string_lcid_info->location));
 				}
 				else
 				{
@@ -161,8 +161,8 @@ public:
 						pe_report::version_info_string_file_info_lcid_resource_lang_mismatch>(
 							reporter, lang,
 							output::named_arg("string_file_info_lang", string_file_info_lcid),
-							output::named_arg("string_file_info_lang_tag", "-"sv),
-							output::named_arg("string_file_info_lang_location", "-"sv));
+							output::named_arg("string_file_info_lang_tag", empty_),
+							output::named_arg("string_file_info_lang_location", empty_));
 				}
 			}
 		}
@@ -194,7 +194,7 @@ public:
 							output::named_arg("translations_lang_tag", translation_lcid_info->language_tag),
 							output::named_arg("translations_lang_location",
 								translation_lcid_info->location.empty()
-								? "-" : translation_lcid_info->location));
+								? empty_ : translation_lcid_info->location));
 				}
 				else
 				{
@@ -202,8 +202,8 @@ public:
 						pe_report::version_info_translation_lcid_resource_lang_mismatch>(
 							reporter, lang,
 							output::named_arg("translations_lang", translation_lcid),
-							output::named_arg("translations_lang_tag", "-"sv),
-							output::named_arg("translations_lang_location", "-"sv));
+							output::named_arg("translations_lang_tag", empty_),
+							output::named_arg("translations_lang_location", empty_));
 				}
 			}
 		}
@@ -245,11 +245,11 @@ public:
 
 		reporter.template log<Report>(
 			output::named_arg("string_lcid", translation.lcid),
-			output::named_arg("string_lcid_tag", lcid_info ? lcid_info->language_tag : "-"),
+			output::named_arg("string_lcid_tag", lcid_info ? lcid_info->language_tag : empty_),
 			output::named_arg("string_lcid_location",
-				lcid_info && !lcid_info->location.empty() ? lcid_info->location : "-"),
+				lcid_info && !lcid_info->location.empty() ? lcid_info->location : empty_),
 			output::named_arg("string_cpid", translation.cpid),
-			output::named_arg("string_cpid_name", cpid_name ? *cpid_name : "-"),
+			output::named_arg("string_cpid_name", cpid_name ? *cpid_name : empty_),
 			std::forward<Args>(args)...);
 	}
 
@@ -613,6 +613,7 @@ public:
 private:
 	static const inline std::regex version_regex_{ "(\\d+).(\\d+)(?:.(\\d+)(?:.(\\d+))?)?(.*?)",
 		std::regex_constants::ECMAScript | std::regex_constants::optimize };
+	static constexpr std::string_view empty_{ "-" };
 };
 
 void version_info_rule_factory::add_rule(core::rule_list& rules,

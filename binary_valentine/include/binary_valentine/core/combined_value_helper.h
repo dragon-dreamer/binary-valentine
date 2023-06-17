@@ -146,7 +146,12 @@ private:
 			std::forward<Func>(func)(get_value<T, Indexes>(values)...));
 
 		if (!*success)
-			return return_type{};
+		{
+			if constexpr (std::is_same_v<return_type, void>)
+				return;
+			else
+				return return_type{};
+		}
 
 		return std::forward<Func>(func)(get_value<T, Indexes>(values)...);
 	}

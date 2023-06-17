@@ -6,6 +6,8 @@ project(binary_valentine
 	VERSION 0.1.0.0
 	LANGUAGES CXX)
 
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+
 if (MSVC)
 	option(BINARY_VALENTINE_STATIC_MSVC_RUNTIME "Link all binaries with MSVC runtime statically" OFF)
 	if (BINARY_VALENTINE_STATIC_MSVC_RUNTIME)

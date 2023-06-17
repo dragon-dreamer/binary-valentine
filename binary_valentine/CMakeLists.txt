@@ -4,12 +4,16 @@ project(binary_valentine_lib
 	VERSION 0.1.0.0
 	LANGUAGES CXX)
 
+if (UNIX AND NOT APPLE)
+	find_package(uring REQUIRED)
+endif()
+
 find_package(Boost 1.78 REQUIRED
 	COMPONENTS filesystem locale system program_options)
 
 include(../external/pe_bliss2/cmake/library_options.cmake)
 
-add_library(binary_valentine_lib ${UTILITIES_BUILD_TYPE})
+add_library(binary_valentine_lib ${BINARY_VALENTINE_LIB_BUILD_TYPE})
 
 include(../external/pe_bliss2/cmake/output_options.cmake)
 set_output_dirs(binary_valentine_lib)
@@ -30,6 +34,11 @@ target_link_libraries(binary_valentine_lib
 		Boost::system
 		Boost::program_options
 )
+
+if (UNIX AND NOT APPLE)
+	target_compile_definitions(binary_valentine_lib PUBLIC BOOST_ASIO_HAS_IO_URING)
+	target_link_libraries(binary_valentine_lib PRIVATE uring)
+endif()
 
 target_compile_features(binary_valentine_lib PRIVATE cxx_std_20)
 

@@ -52,26 +52,6 @@ public:
 			version_info.cend());
 	}
 
-	static auto get_file_and_product_version(
-		const pe_bliss::resources::translation_string_map_type& strings)
-	{
-		std::pair<const std::u16string*,
-			const std::u16string*> file_product_version_strings;
-
-		if (strings.empty())
-			return file_product_version_strings;
-
-		const auto& first_string_map = strings.begin()->second;
-		auto it = first_string_map.find(pe_bliss::resources::keys::file_version_key);
-		if (it != first_string_map.end())
-			file_product_version_strings.first = &it->second;
-		it = first_string_map.find(pe_bliss::resources::keys::product_version_key);
-		if (it != first_string_map.end())
-			file_product_version_strings.second = &it->second;
-
-		return file_product_version_strings;
-	}
-
 	template<typename Reporter, typename Value>
 	static void check_values_mismatch(Reporter& reporter,
 		std::string_view field_name,
@@ -161,9 +141,6 @@ public:
 			first_keys = version_helpers::get_sorted_string_keys(first_strings_item);
 			first_persistent_strings = version_helpers::get_persistent_strings(first_strings_item);
 		}
-
-		auto [first_file_version, first_product_version]
-			= get_file_and_product_version(first_strings);
 
 		for (auto it = std::next(first); it != last; ++it)
 		{

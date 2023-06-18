@@ -190,7 +190,7 @@ private:
 		}
 
 		if (manifest.get_heap_type()->get_heap_type()
-			!= pe_bliss::resources::heap_type_value::unknown)
+			== pe_bliss::resources::heap_type_value::unknown)
 		{
 			reporter.template log<pe_report::manifest_unknown_heap_type>(
 				output::named_arg("type", manifest.get_heap_type()->get_heap_type_raw()));

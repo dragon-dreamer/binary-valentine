@@ -1,4 +1,6 @@
-# Binary Valentine
+<img align="right" width="200" src="./.github/logo-light.svg">
+
+# Binary valentine
 Binary Valentine is the open-source and free to use executable files static analyzer. It is able to detect a range of various issues, which are usually not detected by other means (such as static code analysis).
 
 Website: [binary-valentine.com](https://binary-valentine.com).

@@ -1,13 +1,15 @@
 # Binary Valentine
 Binary Valentine is the open-source and free to use executable files static analyzer. It is able to detect a range of various issues, which are usually not detected by other means (such as static code analysis).
 
+Website: [binary-valentine.com](https://binary-valentine.com).
+
 ## Main features
 * Finds bugs, misconfigurations, format and security issues related to the executable format and not the code it contains. Suggests hardening and optimization techniques.
 * Supports flexible project configuration (file path, rule filters), which can be supplied as a separate file or in the command line.
 * Supports several output formats (terminal output, plain text, SARIF).
 * Supports both single executable rules and combined (cross-executable) rules.
 * Can be built into the SSDLC (Secure Software Development Lifecycle).
-* Multithreaded and fast. With the fast SSD drive, scans the whole Windows 10 `System32` folder in 10 seconds.
+* Multithreaded and fast. With the fast SSD drive, scans the whole Windows 10 `System32` folder in 10-20 seconds.
 
 ## What Binary Valentine currently supports
 

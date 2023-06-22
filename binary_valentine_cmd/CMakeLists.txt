@@ -35,5 +35,6 @@ if(MSVC)
 			win32/manifest.manifest
 			win32/binary_valentine_cmd.rc
 			win32/resource.h
+			win32/appicon.ico
 	)
 endif()

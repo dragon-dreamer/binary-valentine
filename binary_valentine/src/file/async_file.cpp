@@ -40,7 +40,6 @@ void open_read_impl(
         DWORD last_error = ::GetLastError();
         boost::system::error_code ec;
         ec.assign(last_error, boost::asio::error::get_system_category());
-        BOOST_ASIO_ERROR_LOCATION(ec);
         boost::asio::detail::throw_error(ec, "async_file::open_read");
     }
 

@@ -46,6 +46,11 @@ if (WIN32)
 	target_compile_definitions(binary_valentine_lib PUBLIC _WIN32_WINNT=0x0601)
 endif()
 
+target_compile_definitions(binary_valentine_lib
+	PUBLIC
+		BOOST_ASIO_DISABLE_BOOST_SOURCE_LOCATION
+		BOOST_ASIO_DISABLE_ERROR_LOCATION)
+
 target_sources(binary_valentine_lib
 	PUBLIC
 		include/binary_valentine/rule_class.h

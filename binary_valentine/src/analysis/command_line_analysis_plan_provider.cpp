@@ -480,7 +480,8 @@ void command_line_analysis_plan_provider::print_header(std::ostream& stream)
 		<< version::tool_version[1] << '.'
 		<< version::tool_version[2] << '.'
 		<< version::tool_version[3] << '\n';
-	stream << version::tool_description << '\n' << '\n';
+	stream << version::tool_description << " (" << version::tool_website
+		<< ")\n\n";
 }
 
 analysis_plan command_line_analysis_plan_provider::get() const

@@ -65,9 +65,21 @@ struct rule_properties_type
 	json::array_field<std::string_view, 1u> tags{ "tags" };
 };
 
+struct rule_uri_formatter final
+{
+	template<typename Str>
+	void operator()(const json::impl::output_options&,
+		const Str& str, std::ostream& out) const
+	{
+		out << '"' << version::tool_website << version::rule_info_uri << str << '"';
+	}
+};
+
 struct rule_type
 {
 	json::string_field id{ "id" };
+	json::custom_field<std::string_view, std::string_view,
+		rule_uri_formatter> help_uri { "helpUri" };
 	json::field<multiformat_message_string_type> short_description{ "shortDescription" };
 	json::field<message_strings_type> message_strings{ "messageStrings" };
 	json::field<reporting_configuration_type> default_configuration{ "defaultConfiguration" };
@@ -106,6 +118,8 @@ struct driver_type
 		"semanticVersion", version::tool_version };
 	json::field<multiformat_message_string_type> short_description{
 		"shortDescription" };
+	json::string_field download_uri{ "downloadUri", version::tool_website };
+	json::string_field information_uri{ "informationUri", version::tool_website };
 	json::list_field<rule_type> rules { "rules" };
 };
 
@@ -350,6 +364,7 @@ struct sarif_output_format::impl
 		
 		string::rule_report_resource_helper helper(report, resources);
 		rule.id = report.get_string_uid();
+		rule.help_uri = report.get_string_uid();
 		rule.short_description->text = helper.get_report_uid_name();
 		rule.message_strings->message->text = helper.get_report_description();
 		rule.properties->tags->front() = get_category_name(

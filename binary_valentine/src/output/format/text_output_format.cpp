@@ -23,7 +23,8 @@ void text_output_format::start(const analysis_state& state)
 		<< version::tool_version[0] << '.'
 		<< version::tool_version[1] << '.'
 		<< version::tool_version[2] << '.'
-		<< version::tool_version[3] << '\n'
+		<< version::tool_version[3] << " ("
+		<< version::tool_website << ")\n"
 		<< std::format("{:%Y-%m-%dT%T}Z", state.start)
 		<< " - " << std::format("{:%Y-%m-%dT%T}Z", state.end) << '\n' << '\n';
 }

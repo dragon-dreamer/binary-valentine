@@ -74,6 +74,18 @@
     <Import Project="..\common.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <GenerateManifest>true</GenerateManifest>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <GenerateManifest>true</GenerateManifest>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <GenerateManifest>true</GenerateManifest>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <GenerateManifest>true</GenerateManifest>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level4</WarningLevel>
@@ -89,6 +101,11 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(BoostDir)\stage\lib</AdditionalLibraryDirectories>
     </Link>
+    <Manifest>
+      <InputResourceManifests>
+      </InputResourceManifests>
+      <AdditionalManifestFiles>win32/manifest.manifest</AdditionalManifestFiles>
+    </Manifest>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -109,6 +126,11 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(BoostDir)\stage\lib</AdditionalLibraryDirectories>
     </Link>
+    <Manifest>
+      <InputResourceManifests>
+      </InputResourceManifests>
+      <AdditionalManifestFiles>win32/manifest.manifest</AdditionalManifestFiles>
+    </Manifest>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -127,6 +149,11 @@
       <AdditionalDependencies>$(CoreLibraryDependencies);%(AdditionalDependencies);C:\Users\Rainbow\Documents\Visual Studio 2022\Projects\pe_bliss2\x64\Debug\pe_bliss2.lib;C:\Users\Rainbow\Documents\Visual Studio 2022\Projects\pe_bliss2\x64\Debug\buffers.lib;C:\Users\Rainbow\Documents\Visual Studio 2022\Projects\pe_bliss2\x64\Debug\utilities.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(BoostDir)\stage\lib</AdditionalLibraryDirectories>
     </Link>
+    <Manifest>
+      <InputResourceManifests>
+      </InputResourceManifests>
+      <AdditionalManifestFiles>win32/manifest.manifest</AdditionalManifestFiles>
+    </Manifest>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -148,6 +175,11 @@
       <AdditionalDependencies>$(CoreLibraryDependencies);%(AdditionalDependencies);C:\Users\Rainbow\Documents\Visual Studio 2022\Projects\pe_bliss2\x64\Release\pe_bliss2.lib;C:\Users\Rainbow\Documents\Visual Studio 2022\Projects\pe_bliss2\x64\Release\buffers.lib;C:\Users\Rainbow\Documents\Visual Studio 2022\Projects\pe_bliss2\x64\Release\utilities.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(BoostDir)\stage\lib</AdditionalLibraryDirectories>
     </Link>
+    <Manifest>
+      <InputResourceManifests>
+      </InputResourceManifests>
+      <AdditionalManifestFiles>win32/manifest.manifest</AdditionalManifestFiles>
+    </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ProjectReference Include="..\binary_valentine\binary_valentine.vcxproj">
@@ -159,6 +191,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="win32\binary_valentine_cmd.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Manifest Include="win32\manifest.manifest" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="win32\resource.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

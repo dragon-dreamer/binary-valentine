@@ -30,4 +30,10 @@ add_dependencies(binary_valentine_cmd binary_valentine_data)
 
 if(MSVC)
 	target_compile_options(binary_valentine_cmd PRIVATE "/MP")
+	target_sources(binary_valentine_cmd
+		PRIVATE
+			win32/manifest.manifest
+			win32/binary_valentine_cmd.rc
+			win32/resource.h
+	)
 endif()

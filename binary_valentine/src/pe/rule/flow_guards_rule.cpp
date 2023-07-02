@@ -171,7 +171,8 @@ public:
 		if ((section->get_characteristics()
 			& (mem_execute | mem_read | mem_write | mem_shared)) != mem_read)
 		{
-			reporter.template log<Report>();
+			reporter.template log<Report>(
+				output::named_arg("section", section->get_name()));
 		}
 	}
 

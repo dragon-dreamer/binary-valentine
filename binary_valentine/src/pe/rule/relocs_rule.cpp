@@ -69,8 +69,10 @@ public:
 				return;
 			}
 
-			if (!section_it->is_discardable())
-				reporter.template log<pe_report::relocs_section_not_discardable>();
+			if (!section_it->is_discardable()) {
+				reporter.template log<pe_report::relocs_section_not_discardable>(
+					output::named_arg("section_name", section_it->get_name()));
+			}
 		}
 		catch (const std::system_error&)
 		{

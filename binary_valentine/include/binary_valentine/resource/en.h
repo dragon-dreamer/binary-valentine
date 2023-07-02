@@ -180,7 +180,7 @@ constexpr auto strings = std::to_array<std::pair<std::string_view, std::string_v
 		"makes the executable more vulnerable to exploits. ASLR security mitigation "
 		"is not available for executables without dynamic base." },
 	{ "PE008", "Relocations section is not discardable" },
-	{ "PE008_description", "Relocations executable section is not marked discardable. "
+	{ "PE008_description", "Relocations executable section ('{section_name}') is not marked discardable. "
 		"This will lead to increased memory consumption, as the loader will not be able to free "
 		"the memory used by the relocation directory after it has been processed."},
 
@@ -208,10 +208,10 @@ constexpr auto strings = std::to_array<std::pair<std::string_view, std::string_v
 		"access memory of a high privileged one." },
 	{ "PE117", "Writable .rdata section" },
 	{ "PE117_description", "The executable contains the '.rdata' section which is marked writable. "
-		"This section is typically dedicated to read-only data and thus should be read-only." },
+		"This section is typically dedicated to read-only data and thus should be placed to read-only memory." },
 	{ "PE118", "Executable .rdata section" },
 	{ "PE118_description", "The executable contains the '.rdata' section which is marked executable. "
-		"This section is typically dedicated to read-only data and thus should be read-only." },
+		"This section is typically dedicated to read-only data and thus should be placed to read-only memory." },
 
 	{ "pe_security_cookie_rule", "PE security cookie rule" },
 	{ "PE013", "Security cookie is absent" },
@@ -257,7 +257,7 @@ constexpr auto strings = std::to_array<std::pair<std::string_view, std::string_v
 	    "This effectively enables the attacker to do any modifications to the disk image of the executable without being detected." },
 	{ "PE022", "ASLR compatibility mode is active" },
 	{ "PE022_description", "ASLR (address space layout randomization) compatibility mode is active, "
-		"as the executable image base is set to the value less than 0xFFFFFFFF. "
+		"as the executable image base is set to the value less than 0xFFFFFFFF (current image base: '{image_base:#x}'). "
 		"This limits ASLR in mitigating memory corruption vulnerabilities."},
 	{ "PE017", "Executable is not signed" },
 	{ "PE017_description", "Executable is not signed. "
@@ -308,16 +308,16 @@ constexpr auto strings = std::to_array<std::pair<std::string_view, std::string_v
 	{ "unable_to_check_delay_load_iat", "Unable to check delay load IAT for the executable." },
 	{ "PE123", "EH Guard continuation table not readonly" },
 	{ "PE123_description", "Exception handling control flow guard continuation table is not "
-		"placed in a read-only section. Section must not be writable, executable, or shared." },
+		"placed in a read-only section ('{section}'). Section must not be writable, executable, or shared." },
 	{ "PE124", "CF Guard function table not readonly" },
 	{ "PE124_description", "Control Flow guard function table is not "
-		"placed in a read-only section. Section must not be writable, executable, or shared." },
+		"placed in a read-only section ('{section}'). Section must not be writable, executable, or shared." },
 	{ "PE125", "CF Guard address taken IAT entry table not readonly" },
 	{ "PE125_description", "Control Flow guard address taken IAT entry table is not "
-		"placed in a read-only section. Section must not be writable, executable, or shared." },
+		"placed in a read-only section ('{section}'). Section must not be writable, executable, or shared." },
 	{ "PE126", "CF Guard long jump target table not readonly" },
 	{ "PE126_description", "Control Flow guard long jump target table is not "
-		"placed in a read-only section. Section must not be writable, executable, or shared." },
+		"placed in a read-only section ('{section}'). Section must not be writable, executable, or shared." },
 	{ "PE127", "Retpoline guard is not enabled" },
 	{ "PE127_description", "Retpoline guard is not enabled for the kernel mode driver. "
 		"It may make sense to enable the retpoline mitigation for some kernel mode drivers." },
@@ -438,7 +438,7 @@ constexpr auto strings = std::to_array<std::pair<std::string_view, std::string_v
 		"Affected StringFileInfo language: {string_lcid}, tag: '{string_lcid_tag}', location: '{string_lcid_location}', "
 		"character set: '{string_cpid}', character set name: '{string_cpid_name}'. "
 		"StringFileInfo version string value: '{version_string}'." },
-	{ "PE068", "Version info string mismatch across StringFileInfo blocks" },
+	{ "PE068", "Version info string presence mismatch across StringFileInfo blocks" },
 	{ "PE068_description", "Version information resource contains several StringFileInfo blocks. "
 		"'{key}' string is present in some of them, but not the others. This is likely a configuration error. "
 		"Affected resource language: {resource_lang}, tag: '{resource_lang_tag}', location: '{resource_lang_location}'." },
@@ -561,7 +561,8 @@ constexpr auto strings = std::to_array<std::pair<std::string_view, std::string_v
 		"Icon resource name or id: '{icon}'." },
 	{ "PE079", "Application icon format error" },
 	{ "PE079_description", "Application executable icon format is not valid. "
-		"Application icon analysis was skipped. Error details: {exception}." },
+		"Application icon analysis was skipped. Error details: {exception}. "
+		"Icon resource name or id: '{icon}'." },
 
 	{ "pe_cet_rule", "PE CET Shadow stack rule" },
 	{ "PE080", "CET stack protection is not enabled" },
@@ -679,14 +680,14 @@ constexpr auto strings = std::to_array<std::pair<std::string_view, std::string_v
 	{ "PE113", "Executable IAT directory" },
 	{ "PE113_description", "The executable has an IAT (import address table) "
 		"directory which is placed to the executable section. "
-		"This directory should be placed to read-only memory." },
+		"This directory should be placed to read-only or read-write memory." },
 	{ "PE114", "Writable entry point" },
 	{ "PE114_description", "The executable has an entry point which is placed to the writable section. "
 		"Entry point should be located in readable and executable memory." },
 
 	{ "pe_checksum_rule", "PE checksum rule" },
 	{ "PE115", "Absent checksum" },
-	{ "PE115_description", "The executable does not have checksum. "
+	{ "PE115_description", "The executable does not have a checksum. "
 		"Checksum should be calculated for drivers and signed images." },
 	{ "PE116", "Incorrect checksum" },
 	{ "PE116_description", "The executable checksum does not match its expected checksum value. "
@@ -711,11 +712,11 @@ constexpr auto strings = std::to_array<std::pair<std::string_view, std::string_v
 
 	{ "pe_manifest_rule", "PE Manifest rule" },
 	{ "PE128", "Manifest does not exist" },
-	{ "PE128_description", "The executable lacks the manifest file or manifest resource. "
+	{ "PE128_description", "The executable lacks the manifest file or the manifest resource. "
 		"Several system mitigations and optimizations are disabled." },
-	{ "PE129", "Manifest exists, but the image is marked non-isolated" },
+	{ "PE129", "Manifest exists, but the executable is marked non-isolated" },
 	{ "PE129_description", "The executable has the manifest file or manifest resource. "
-		"However, the executable header specifies the non-isolated flag, which means, "
+		"However, the executable header specifies the non-isolated flag, which means "
 		"that the manifest will not be loaded and used by the system. "
 		"This is likely a configuration error. "
 		"Several system mitigations and optimizations are disabled." },
@@ -725,62 +726,62 @@ constexpr auto strings = std::to_array<std::pair<std::string_view, std::string_v
 		"This may lead to issues when running on different Windows versions. "
 		"On Windows Vista and later, the embedded manifest always precedes the external one." },
 	{ "PE131", "UAC virtualization is enabled" },
-	{ "PE131_description", "The image does not specify UAC virtualization options in the manifest. "
-		"The system will virtualize accesses to some file system "
+	{ "PE131_description", "The executable does not specify UAC virtualization options in the manifest. "
+		"The system will virtualize access to some file system "
 		"directories and registry paths, which may be unintended. "
 		"UAC virtualization should be disabled for newer applications." },
-	{ "PE132", "The latest Windows version is not supported" },
-	{ "PE132_description", "The image does not specify the support of the latest "
+	{ "PE132", "Latest Windows version is not supported" },
+	{ "PE132_description", "The executable does not specify the support of the latest "
 		"Windows versions (Windows 10 and 11, Windows Server 2016, 2019 and 2022) in the manifest. "
 		"Windows may apply OS-specific shims and mitigations based on this, "
 		"which may be unintended. "
 		"Newer applications should declare support for all operating systems." },
 	{ "PE133", "Manifest has gaps in supported OS list" },
-	{ "PE133_description", "The image has the operating systems support section "
+	{ "PE133_description", "The executable has the operating systems support section "
 		"in its manifest. However, some operating system versions are omitted. "
 		"Newer applications should list support for all operating systems "
 		"without gaps." },
 	{ "PE134", "Segment Heap is not used" },
-	{ "PE134_description", "The image does not specify the heap type in the manifest. "
+	{ "PE134_description", "The executable does not specify the heap type in the manifest. "
 		"For newer applications, it is recommended to use Segment Heap, "
 		"which is a modern heap implementation that will generally reduce overall memory usage." },
-	{ "PE135", "Image is not long path aware" },
-	{ "PE135_description", "The image does not specify long path awareness in the manifest. "
+	{ "PE135", "Executable is not long path aware" },
+	{ "PE135_description", "The executable does not specify long path awareness in the manifest. "
 		"Newer applications should be marked as long path aware." },
 	{ "PE136", "Unknown heap type is used" },
-	{ "PE136_description", "The image specifies the unknown heap type in the manifest ('{type}'). " },
+	{ "PE136_description", "The executable specifies the unknown heap type in the manifest ('{type}'). " },
 	{ "PE137", "Supported OS list is absent" },
-	{ "PE137_description", "The image does not specify the supported operating systems list "
-		"in the manifest. Windows may apply OS - specific shims and mitigations based on this, "
+	{ "PE137_description", "The executable does not specify the supported operating systems list "
+		"in the manifest. Windows may apply OS-specific shims and mitigations based on this, "
 		"which may be unintended. "
 		"Newer applications should declare support for all operating systems." },
 	{ "PE138", "Printer driver isolation is not specified" },
-	{ "PE138_description", "The image does not specify the printer driver isolation option "
+	{ "PE138_description", "The executable does not specify the printer driver isolation option "
 		"in the manifest. Printer driver isolation improves application reliability by enabling "
 		"printer drivers to run in processes that are separate from the process "
 		"in which the print spooler runs. That is, the application will not crash "
 		"if the printer driver has an error." },
 	{ "PE139", "Auto-elevate option is specified" },
-	{ "PE139_description", "The image specifies the auto-elevate option "
+	{ "PE139_description", "The executable specifies the auto-elevate option "
 		"in the manifest. This option is intended for the internal use." },
-	{ "PE142", "Image is not DPI aware" },
-	{ "PE142_description", "The image does not specify DPI awareness in the manifest. "
+	{ "PE142", "Executable is not DPI aware" },
+	{ "PE142_description", "The executable does not specify DPI awareness in the manifest. "
 		"Newer Window-based applications should be PerMonitorV2 DPI aware." },
-	{ "PE143", "Image is not DPI aware, but scales GDI" },
-	{ "PE143_description", "The image does not specify DPI awareness in the manifest. "
-		"At the same time, image requests GDI Window elements scaling from the operating system. "
+	{ "PE143", "Executable is not DPI aware, but scales GDI" },
+	{ "PE143_description", "The executable does not specify DPI awareness in the manifest. "
+		"At the same time, executable requests GDI Window elements scaling from the operating system. "
 		"Newer Window-based applications should be PerMonitorV2 DPI aware." },
-	{ "PE144", "Image is not PerMonitorV2 DPI aware" },
-	{ "PE144_description", "The image specifies DPI awareness in the manifest. "
-		"At the same time, image is not PerMonitorV2 DPI aware. "
-		"Newer Window-based applications should be PerMonitorV2 DPI aware." },
-	{ "PE160", "Image with UI access is not signed" },
-	{ "PE160_description", "The image specifies uiAccess='true' in the manifest. "
-		"At the same time, image is not signed. "
+	{ "PE144", "Executable is not PerMonitorV2 DPI aware" },
+	{ "PE144_description", "The executable specifies DPI awareness in the manifest. "
+		"At the same time, the executable is not PerMonitorV2 DPI aware. "
+		"Newer Windows-based applications should be PerMonitorV2 DPI aware." },
+	{ "PE160", "Executable with UI access is not signed" },
+	{ "PE160_description", "The executable specifies uiAccess='true' in the manifest. "
+		"At the same time, executable is not signed. "
 		"'uiAccess' property will be ignored by the operating system." },
 
 	{ "pe_image_errors_rule", "PE Image errors rule" },
-	{ "PE140", "Image was not loaded" },
+	{ "PE140", "Unable to load image" },
 	{ "PE140_description", "The image was not loaded due to the format error. "
 		"Lower-level error details: '{exception}'."},
 	{ "PE141", "Image loaded with warnings" },
@@ -807,7 +808,7 @@ constexpr auto strings = std::to_array<std::pair<std::string_view, std::string_v
 	{ "pe_load_config_flags_rule", "PE load configuration flags rule" },
 	{ "PE147", "Process heap is always executable" },
 	{ "PE147_description", "Image load configuration directory has "
-		"the HEAP_CREATE_ENABLE_EXECUTE heap flag set for the image. "
+		"the HEAP_CREATE_ENABLE_EXECUTE heap flag set for the executable. "
 		"Process default heap will be always executable even if DEP (data execution prevention) is enabled. "
 		"This will allow self-modifying code (including exploits) to be executed easily "
 		"without the need to manipulate heap memory attributes." },
@@ -815,7 +816,7 @@ constexpr auto strings = std::to_array<std::pair<std::string_view, std::string_v
 	{ "PE148_description", "Image load configuration directory has "
 		"non-zero values for the global flags set or clear fields. "
 		"Global flags are system-specific and are intended for low-level debugging purposes. "
-		"They should not be overridden on production images."},
+		"They should not be overridden on production executables." },
 
 	{ "pe_dotnet_header_format_rule", "PE .NET header format rule" },
 	{ "PE151", ".NET header format error" },
@@ -867,13 +868,13 @@ constexpr auto strings = std::to_array<std::pair<std::string_view, std::string_v
 	{ "pe_vc_feature_rule", "PE VC Feature debug directory rule" },
 	{ "PE161", "/sdl switch is not always used" },
 	{ "PE161_description", "The executable was built using a modern VC++ compiler, "
-		"but not all object files were build with the '/sdl' compiler switch enabled. "
+		"but not all object files were built with the '/sdl' compiler switch enabled. "
 		"Consider enabling that switch for all source files and libraries to enable "
 		"additional compiler Security Development Lifecycle checks. "
 		"Count of objects with '/sdl' disabled: {count}." },
 	{ "PE162", "Pre-C++11 object files are used" },
 	{ "PE162_description", "The executable was built using a modern VC++ compiler, "
-		"but some object files were build using an older toolset with the C++ version "
+		"but some object files were built using an older toolset with the C++ version "
 		"earlier than C++11. Consider migrating all code to the new compiler to improve "
 		"its efficiency and safety. "
 		"Pre-C++11 object count: {count}." },

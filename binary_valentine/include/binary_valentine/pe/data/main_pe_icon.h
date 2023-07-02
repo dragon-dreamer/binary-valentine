@@ -13,7 +13,7 @@ namespace bv::pe
 
 struct main_pe_icon
 {
-	using icon_name_id_type = std::variant<std::uint32_t, std::u16string>;
+	using icon_name_id_type = std::variant<std::monostate, std::uint32_t, std::u16string>;
 
 	std::optional<pe_bliss::resources::icon_group> icon;
 	std::exception_ptr error;

@@ -53,7 +53,8 @@ public:
 			if (main_icon.error)
 			{
 				reporter.template log<pe_report::main_icon_format_error>(
-					output::named_arg(output::arg::exception, main_icon.error));
+					output::named_arg(output::arg::exception, main_icon.error),
+					output::named_arg("icon", icon_name_id_to_string(main_icon)));
 			}
 			else
 			{
@@ -82,12 +83,14 @@ private:
 			if (id)
 				return std::to_string(*id);
 
-			return string::to_utf8(std::get<std::u16string>(icon.icon_id_name));
+			const auto* name = std::get_if<std::u16string>(&icon.icon_id_name);
+			if (name)
+				return string::to_utf8(*name);
 		}
 		catch (const std::exception&)
 		{
-			return "-";
 		}
+		return "-";
 	}
 
 	template<typename Reporter>

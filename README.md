@@ -1,9 +1,10 @@
-<img align="right" width="200" src="./.github/logo-light.svg">
+<img align="right" width="160" src="./.github/logo-light.svg">
 
 # Binary valentine
-Binary Valentine is the open-source and free to use executable files static analyzer. It is able to detect a range of various issues, which are usually not detected by other means (such as static code analysis).
+An open-source and free to use executable files static analyzer. Detects a range of various issues, which are usually out of reach of other tools (such as static code analysis).
 
-Website: [binary-valentine.com](https://binary-valentine.com).
+Website: https://binary-valentine.com
+Documentation: https://binary-valentine.com/docs
 
 ## Main features
 * Finds bugs, misconfigurations, format and security issues related to the executable format and not the code it contains. Suggests hardening and optimization techniques.
@@ -39,3 +40,72 @@ Binary Valentine can be built for a range of platforms with a set of C++20 compi
 * Linux, Clang 16 (CMake build)
 
 Windows 10/11 and modern Linux (kernel version 5.1 or newer with `io_uring` enabled) are supported as of today.
+
+## Usage
+For detailed command line documentation, see the website: https://binary-valentine.com/docs/usage/command-line
+
+```plaintext
+General options:
+  -h [ --help ]                        Print options description
+  -c [ --config ] arg                  Path to external XML configuration file.
+                                       Can not be used with any other options.
+  -r [ --root-path ] arg               Root path. This path will be used as a
+                                       root for all relative paths specified.
+                                       If absent, current directory will be
+                                       used as a root path.
+  --threads arg                        Analysis thread count. If absent,
+                                       hardware core number will be used.
+  --max-loaded-targets-size arg (=1G)  Max loaded targets size. If specified,
+                                       the analyzer will preload as many
+                                       targets to analyze as possible until
+                                       their size in memory is less than the
+                                       value specified.Should have a numeric
+                                       value together with the suffix (B -
+                                       bytes, K - kilobytes, M - megabytes, G -
+                                       gigabytes), e.g. 2G for 2 gigabytes.
+                                       Can not be used together with
+                                       --max-concurrent-tasks.
+                                       Default is 1G.
+  --max-concurrent-tasks arg           Max concurrent analysis tasks. If
+                                       specified, the analyzer will preload at
+                                       most max-concurrent-tasks targets for
+                                       analysis.
+                                       Can not be used together with
+                                       --max-loaded-targets-size.
+Combined analysis options:
+  --do-combined-analysis arg (=1)      Do combined analysis of all specified
+                                       targets. Default is true.
+Targets options:
+  -t [ --target ] arg                  Target file or directory to analyze.
+                                       Required.
+  --recursive arg (=1)                 Scan and analyze the target directory
+                                       recursively. Default is true.
+  --include-regex arg                  Analyze only targets with full paths
+                                       which match the provided ECMAScript
+                                       regex.
+  --exclude-regex arg                  Analyze only targets with full paths
+                                       which do not match the provided
+                                       ECMAScript regex.
+Report options:
+  --exclude-reports arg                Exclude reports with the IDs listed. Can
+                                       not be used together with
+                                       --include-reports.
+  --include-reports arg                Include only reports with the IDs
+                                       listed. Can not be used together with
+                                       --exclude-reports.
+  --list-reports                       List all supported reports with brief
+                                       descriptions.
+  --exclude-levels arg                 Exclude report levels (info, warning,
+                                       error, critical).
+  --exclude-categories arg             Exclude report categories (system,
+                                       optimization, security, configuration,
+                                       format).
+  --with-progress                      Report verbose analysis progress
+Output options:
+  --silent                             Do not output analysis results to
+                                       terminal.
+  -S [ --sarif ] arg                   Path to save the output report in SARIF
+                                       format.
+  -T [ --text ] arg                    Path to save the output report in
+                                       plaintext.
+```

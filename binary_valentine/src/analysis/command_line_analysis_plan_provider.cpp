@@ -58,7 +58,7 @@ public:
 	{
 		po::variables_map vm;
 		po::positional_options_description pos_opts;
-		pos_opts.add("target", 1);
+		pos_opts.add("target", -1);
 		po::store(po::basic_command_line_parser<Char>(argc_, argv_).
 			options(opts_).positional(pos_opts).run(), vm);
 
@@ -191,22 +191,40 @@ private:
 		if (target_path_it == vm.end())
 			throw core::user_error(core::user_errc::absent_target_path);
 
-		plan_target& target = plan.emplace_target(to_path(
-			target_path_it->second.as<std::basic_string<Char>>()));
+		const auto& target_paths = target_path_it->second.as<
+			std::vector<std::basic_string<Char>>>();
 
-		target.set_recursive(vm["recursive"].as<bool>());
-
+		const bool is_recursive = vm["recursive"].as<bool>();
+		target_filter filter;
 		if (auto regex_it = vm.find("include-regex"); regex_it != vm.end())
 		{
 			analysis_plan_parse_helpers::parse_target_filter_regex(string::to_utf8(regex_it
-				->second.as<std::basic_string<Char>>()), true, target.get_target_filter());
+				->second.as<std::basic_string<Char>>()), true, filter);
 		}
 
 		if (auto regex_it = vm.find("exclude-regex"); regex_it != vm.end())
 		{
 			analysis_plan_parse_helpers::parse_target_filter_regex(string::to_utf8(regex_it
-				->second.as<std::basic_string<Char>>()), false, target.get_target_filter());
+				->second.as<std::basic_string<Char>>()), false, filter);
 		}
+
+		plan.reserve_targets(target_paths.size());
+		for (const auto& path : target_paths
+			| std::views::take(target_paths.size() - 1u))
+		{
+			add_target(plan, is_recursive, path, filter);
+		}
+
+		add_target(plan, is_recursive, target_paths.back(), std::move(filter));
+	}
+
+	template<typename Path, typename Filter>
+	static void add_target(analysis_plan& plan, bool is_recursive,
+		const Path& path, Filter&& filter)
+	{
+		plan_target& target = plan.emplace_target(to_path(path));
+		target.set_recursive(is_recursive);
+		target.get_target_filter() = std::forward<Filter>(filter);
 	}
 	
 	static void parse_preload_limits(const po::variables_map& vm, analysis_plan& plan)
@@ -312,8 +330,8 @@ private:
 
 		po::options_description target_opts("Targets options");
 		target_opts.add_options()
-			("target,t", po_value<std::basic_string<Char>>(),
-				"Target file or directory to analyze. Required.")
+			("target,t", po_value<std::vector<std::basic_string<Char>>>(),
+				"Target files or directories to analyze. Required.")
 			("recursive", po_value<bool>()->default_value(true),
 				"Scan and analyze the target directory recursively. Default is true.")
 			("include-regex", po_value<std::basic_string<Char>>(),

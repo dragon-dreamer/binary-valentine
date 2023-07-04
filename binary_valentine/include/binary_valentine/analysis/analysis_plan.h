@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cstddef>
 #include <cstdint>
 #include <filesystem>
 #include <memory>
@@ -167,6 +168,11 @@ public:
 	plan_target& emplace_target(Args&&... args)
 	{
 		return targets_.emplace_back(std::forward<Args>(args)...);
+	}
+
+	void reserve_targets(std::size_t count)
+	{
+		targets_.reserve(count);
 	}
 
 	template<typename... Args>

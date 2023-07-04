@@ -20,6 +20,7 @@ constexpr std::string_view target_enumeration_error = "target_enumeration_error"
 constexpr std::string_view explicit_stop_requested = "explicit_stop_requested";
 constexpr std::string_view analysis_finished_message = "analysis_finished_message";
 constexpr std::string_view analysis_interrupted_message = "analysis_interrupted_message";
+constexpr std::string_view writing_report_error = "writing_report_error";
 
 constexpr std::string_view progress_analysis_completed = "progress_analysis_completed";
 constexpr std::string_view progress_analysis_started = "progress_analysis_started";

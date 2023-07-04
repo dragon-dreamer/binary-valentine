@@ -96,7 +96,7 @@ int main(int argc, char* argv[]) try
 		std::move(*plan), context, *resources);
 	runner.start();
 	runner.join();
-	const auto state = runner.write_reports();
+	const auto state = runner.write_reports(&terminal);
 
 	terminal.log(bv::output::report_level::info,
 		state.interrupted

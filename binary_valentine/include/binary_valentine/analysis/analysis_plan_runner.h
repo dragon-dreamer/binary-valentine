@@ -5,6 +5,11 @@
 #include "binary_valentine/analysis/analysis_plan.h"
 #include "binary_valentine/output/format/output_format_interface.h"
 
+namespace bv::output
+{
+class common_report_interface;
+} //namespace bv::output
+
 namespace bv::string
 {
 class resource_provider_interface;
@@ -30,7 +35,8 @@ public:
 
 	void join();
 
-	output::format::analysis_state write_reports();
+	output::format::analysis_state write_reports(
+		output::common_report_interface* error_log);
 
 	void interrupt();
 

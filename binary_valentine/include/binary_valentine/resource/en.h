@@ -59,6 +59,7 @@ constexpr auto strings = std::to_array<std::pair<std::string_view, std::string_v
 		"Found issues: {entity_issues}. Analysis errors: {analysis_issues}." },
 	{ output::reports::analysis_interrupted_message, "Analysis was interrupted in {duration} sec. "
 		"Found issues: {entity_issues}. Analysis errors: {analysis_issues}." },
+	{ output::reports::writing_report_error, "Error writing output report '{path}': {exception}" },
 
 	{ output::reports::progress_analysis_completed, "(PROGRESS) Analysis completed"},
 	{ output::reports::progress_analysis_started, "(PROGRESS) Analysis started"},

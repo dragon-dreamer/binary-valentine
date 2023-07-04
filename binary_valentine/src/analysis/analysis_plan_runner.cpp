@@ -16,6 +16,8 @@
 #include "binary_valentine/output/format/output_format_interface.h"
 #include "binary_valentine/output/format/sarif_output_format.h"
 #include "binary_valentine/output/format/text_output_format.h"
+#include "binary_valentine/output/internal_report_messages.h"
+#include "binary_valentine/output/result_report_interface.h"
 #include "binary_valentine/output/terminal_output_creator.h"
 #include "binary_valentine/output/in_memory_output_creator.h"
 #include "binary_valentine/output/issue_tracking_output.h"
@@ -88,33 +90,49 @@ output::configurable_result_report_factory& init_result_report_factory(
 }
 
 void save_report_to_file(const result_report_file& file,
-	const output::format::analysis_state& state,
+	output::format::analysis_state& state,
 	const string::resource_provider_interface& resources,
 	const std::filesystem::path& root_path,
-	output::format::output_format_executor& saver)
+	output::format::output_format_executor& saver,
+	output::common_report_interface* error_log)
 {
-	std::shared_ptr<output::format::output_format_interface> output;
-	auto path_copy(file.get_path());
-	if (path_copy.is_relative())
-		path_copy = root_path / path_copy;
-	switch (file.get_type())
+	try
 	{
-	case result_report_file_type::text:
-		output = std::make_shared<
-			output::format::text_output_format>(resources,
-				std::move(path_copy));
-		break;
-	case result_report_file_type::sarif:
-		output = std::make_shared<
-			output::format::sarif_output_format>(resources,
-				std::move(path_copy));
-		break;
-	default:
-		assert(false);
-		return;
-	}
+		std::shared_ptr<output::format::output_format_interface> output;
+		auto path_copy(file.get_path());
+		if (path_copy.is_relative())
+			path_copy = root_path / path_copy;
+		switch (file.get_type())
+		{
+		case result_report_file_type::text:
+			output = std::make_shared<
+				output::format::text_output_format>(resources,
+					std::move(path_copy));
+			break;
+		case result_report_file_type::sarif:
+			output = std::make_shared<
+				output::format::sarif_output_format>(resources,
+					std::move(path_copy));
+			break;
+		default:
+			assert(false);
+			return;
+		}
 
-	saver.save_to(output, state);
+		saver.save_to(output, state);
+	}
+	catch (const std::exception&)
+	{
+		if (!error_log)
+			throw;
+
+		error_log->log_noexcept(output::report_level::critical,
+			output::reports::writing_report_error,
+			output::named_arg("path", file.get_path()),
+			output::current_exception_arg());
+
+		++state.analysis_issues;
+	}
 }
 } //namespace
 
@@ -147,7 +165,8 @@ void analysis_plan_runner::join()
 	impl_->executor.value().join();
 }
 
-output::format::analysis_state analysis_plan_runner::write_reports()
+output::format::analysis_state analysis_plan_runner::write_reports(
+	output::common_report_interface* error_log)
 {
 	auto state = bv::output::format::state_from_time_tracker(
 		impl_->executor->get_time_tracker());
@@ -162,9 +181,9 @@ output::format::analysis_state analysis_plan_runner::write_reports()
 		std::visit(core::overloaded{
 			[](result_report_terminal) {},
 			[](result_report_in_memory) {},
-			[&saver, &state, this](result_report_file& file) {
+				[&saver, &state, error_log, this](const result_report_file& file) {
 				save_report_to_file(file, state, impl_->resources,
-					impl_->plan.get_root_path(), saver);
+					impl_->plan.get_root_path(), saver, error_log);
 			}
 		}, output_report);
 	}

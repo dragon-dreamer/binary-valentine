@@ -4,6 +4,7 @@
 An open-source and free to use executable files static analyzer. Detects a range of various issues, which are usually out of reach of other tools (such as static code analysis).
 
 Website: https://binary-valentine.com
+
 Documentation: https://binary-valentine.com/docs
 
 ## Main features

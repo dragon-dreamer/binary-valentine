@@ -18,7 +18,9 @@ enum class progress_state
 	analysis_started,
 	analysis_completed,
 	combined_analysis_started,
-	combined_analysis_completed
+	combined_analysis_completed,
+	target_skipped_unsupported,
+	target_skipped_filtered
 };
 
 [[nodiscard]]

@@ -10,6 +10,7 @@
 #include "binary_valentine/core/async_value_provider.h"
 #include "binary_valentine/core/rule_class.h"
 #include "binary_valentine/core/rule_selector.h"
+#include "binary_valentine/file/async_target_enumerator.h"
 #include "binary_valentine/output/result_report_interface.h"
 #include "binary_valentine/progress/progress_report_interface.h"
 #include "binary_valentine/thread/multi_executor_concurrent_io_processing_service.h"
@@ -82,6 +83,7 @@ private:
 	analysis_context context_;
 	std::shared_ptr<output::common_report_interface> common_report_;
 	std::shared_ptr<progress::progress_report_interface> progress_report_;
+	file::async_target_enumerator::target_filtered_callback_type target_filtered_callback_;
 };
 
 } //namespace bv::analysis

@@ -68,6 +68,15 @@ concurrent_analysis_executor::concurrent_analysis_executor(
 		context_.get_global_context().get_exception_formatter()))
 	, progress_report_(progress_report)
 {
+	if (progress_report_)
+	{
+		target_filtered_callback_ = [progress_report = progress_report_.get()]
+			(const std::filesystem::path& path) {
+			progress_report->report_progress(std::make_shared<core::inaccessible_subject_entity>(path),
+				progress::progress_state::target_skipped_filtered);
+		};
+	}
+
 	if (plan_.enable_signal_cancellation())
 		enable_signal_cancellation();
 	start();
@@ -138,7 +147,10 @@ boost::asio::awaitable<void> concurrent_analysis_executor::load_target(
 	}
 
 	if (rule_types.empty())
+	{
+		report_progress(target_entity, progress::progress_state::target_skipped_unsupported);
 		co_return;
+	}
 
 	auto report = create_report();
 	auto value_provider = std::make_shared<bv::core::async_value_provider>(
@@ -193,7 +205,7 @@ boost::asio::awaitable<void> concurrent_analysis_executor::io_task_impl()
 		co_await file::async_target_enumerator::enumerate(plan_,
 			[this](file::target_entry&& entry) -> boost::asio::awaitable<void> {
 			co_await load_target(std::move(entry));
-		}, get_stop_token());
+		}, target_filtered_callback_, get_stop_token());
 	}
 	catch (...)
 	{

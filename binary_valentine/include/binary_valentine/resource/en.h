@@ -67,7 +67,11 @@ constexpr auto strings = std::to_array<std::pair<std::string_view, std::string_v
 	{ output::reports::progress_load_started, "(PROGRESS) Target load started"},
 	{ output::reports::progress_combined_analysis_started, "(PROGRESS) Combined analysis started"},
 	{ output::reports::progress_combined_analysis_completed, "(PROGRESS) Combined analysis completed"},
-
+	{ output::reports::progress_target_skipped_unsupported,
+		"(PROGRESS) Target analysis skipped (format not supported)"},
+	{ output::reports::progress_target_skipped_filtered,
+		"(PROGRESS) Target skipped (filtered)"},
+	
 	//user_error error codes
 	{ "user_error_unable_to_read_file", "Unable to read file" },
 	{ "user_error_invalid_regex", "Invalid ECMAScript regex: '{regex}'"},

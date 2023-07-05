@@ -23,6 +23,10 @@ std::string_view progress_state_to_string(progress_state state) noexcept
 		return output::reports::progress_combined_analysis_started;
 	case progress_state::combined_analysis_completed:
 		return output::reports::progress_combined_analysis_completed;
+	case progress_state::target_skipped_unsupported:
+		return output::reports::progress_target_skipped_unsupported;
+	case progress_state::target_skipped_filtered:
+		return output::reports::progress_target_skipped_filtered;
 	default:
 		assert(false);
 		return {};

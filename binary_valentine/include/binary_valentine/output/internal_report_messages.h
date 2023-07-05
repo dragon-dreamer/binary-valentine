@@ -28,5 +28,7 @@ constexpr std::string_view progress_loaded = "progress_loaded";
 constexpr std::string_view progress_load_started = "progress_load_started";
 constexpr std::string_view progress_combined_analysis_started = "progress_combined_analysis_started";
 constexpr std::string_view progress_combined_analysis_completed = "progress_combined_analysis_completed";
+constexpr std::string_view progress_target_skipped_unsupported = "progress_target_skipped_unsupported";
+constexpr std::string_view progress_target_skipped_filtered = "progress_target_skipped_filtered";
 
 } //namespace bv::output::reports

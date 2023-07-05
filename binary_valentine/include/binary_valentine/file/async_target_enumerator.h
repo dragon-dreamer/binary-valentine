@@ -27,6 +27,8 @@ class async_target_enumerator final
 public:
 	using callback_type = std::function<
 		boost::asio::awaitable<void>(target_entry&& entry)>;
+	using target_filtered_callback_type = std::function<void(
+		const std::filesystem::path& path)>;
 
 public:
 	async_target_enumerator() = delete;
@@ -34,6 +36,7 @@ public:
 	static boost::asio::awaitable<bool> enumerate(
 		const analysis::analysis_plan& plan,
 		const callback_type& callback,
+		const target_filtered_callback_type& target_filtered_callback,
 		std::stop_token stop_token);
 };
 

@@ -2,14 +2,8 @@
 
 #include <atomic>
 #include <cstddef>
-#include <memory>
 
 #include "binary_valentine/output/result_report_interface.h"
-
-namespace bv::core
-{
-class subject_entity_interface;
-} //namespace bv::core
 
 namespace bv::output
 {

@@ -146,7 +146,6 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>$(CoreLibraryDependencies);%(AdditionalDependencies);C:\Users\Rainbow\Documents\Visual Studio 2022\Projects\pe_bliss2\x64\Debug\pe_bliss2.lib;C:\Users\Rainbow\Documents\Visual Studio 2022\Projects\pe_bliss2\x64\Debug\buffers.lib;C:\Users\Rainbow\Documents\Visual Studio 2022\Projects\pe_bliss2\x64\Debug\utilities.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(BoostDir)\stage\lib</AdditionalLibraryDirectories>
     </Link>
     <Manifest>
@@ -172,7 +171,6 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>$(CoreLibraryDependencies);%(AdditionalDependencies);C:\Users\Rainbow\Documents\Visual Studio 2022\Projects\pe_bliss2\x64\Release\pe_bliss2.lib;C:\Users\Rainbow\Documents\Visual Studio 2022\Projects\pe_bliss2\x64\Release\buffers.lib;C:\Users\Rainbow\Documents\Visual Studio 2022\Projects\pe_bliss2\x64\Release\utilities.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(BoostDir)\stage\lib</AdditionalLibraryDirectories>
     </Link>
     <Manifest>

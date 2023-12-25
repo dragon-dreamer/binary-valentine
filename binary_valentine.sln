@@ -17,6 +17,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dependencies", "dependencie
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "data", "data\data.vcxproj", "{92110118-2873-44C2-B0D8-B78BB9C58397}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cryptlib", "external\pe_bliss2\external\cryptopp-8_8_0\cryptopp\cryptlib.vcxproj", "{C39F4B46-6E89-4074-902E-CA57073044D2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -73,6 +75,14 @@ Global
 		{92110118-2873-44C2-B0D8-B78BB9C58397}.Release|x64.Build.0 = Release|x64
 		{92110118-2873-44C2-B0D8-B78BB9C58397}.Release|x86.ActiveCfg = Release|Win32
 		{92110118-2873-44C2-B0D8-B78BB9C58397}.Release|x86.Build.0 = Release|Win32
+		{C39F4B46-6E89-4074-902E-CA57073044D2}.Debug|x64.ActiveCfg = Debug|x64
+		{C39F4B46-6E89-4074-902E-CA57073044D2}.Debug|x64.Build.0 = Debug|x64
+		{C39F4B46-6E89-4074-902E-CA57073044D2}.Debug|x86.ActiveCfg = Debug|Win32
+		{C39F4B46-6E89-4074-902E-CA57073044D2}.Debug|x86.Build.0 = Debug|Win32
+		{C39F4B46-6E89-4074-902E-CA57073044D2}.Release|x64.ActiveCfg = Release|x64
+		{C39F4B46-6E89-4074-902E-CA57073044D2}.Release|x64.Build.0 = Release|x64
+		{C39F4B46-6E89-4074-902E-CA57073044D2}.Release|x86.ActiveCfg = Release|Win32
+		{C39F4B46-6E89-4074-902E-CA57073044D2}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -81,6 +91,7 @@ Global
 		{10F2FEBB-C268-4A1F-BB1B-3B2A4D856CAD} = {93119CA9-DF81-4966-BC05-78D7D1ECD961}
 		{5A33C151-EA42-431C-975F-FF1825AF39ED} = {93119CA9-DF81-4966-BC05-78D7D1ECD961}
 		{5337CF3F-D0AF-434F-9702-CC5E8A86251B} = {93119CA9-DF81-4966-BC05-78D7D1ECD961}
+		{C39F4B46-6E89-4074-902E-CA57073044D2} = {93119CA9-DF81-4966-BC05-78D7D1ECD961}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {09F7068A-1C9B-44EA-B16C-33110E79E879}

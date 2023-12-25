@@ -9,7 +9,7 @@ project(binary_valentine
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
 if (MSVC)
-	option(BINARY_VALENTINE_STATIC_MSVC_RUNTIME "Link all binaries with MSVC runtime statically" OFF)
+	option(BINARY_VALENTINE_STATIC_MSVC_RUNTIME "Link all binaries with MSVC runtime statically" ON)
 	if (BINARY_VALENTINE_STATIC_MSVC_RUNTIME)
 		option(PE_BLISS_STATIC_MSVC_RUNTIME "" ON)
 		set(Boost_USE_STATIC_RUNTIME ON)

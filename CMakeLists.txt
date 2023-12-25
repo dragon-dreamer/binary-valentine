@@ -22,7 +22,7 @@ if (MSVC)
 endif()
 
 option(FMT_OS "" OFF)
-add_subdirectory(external/fmt-9.1.0)
+add_subdirectory(external/fmt-10.1.1)
 
 add_subdirectory(external/utfcpp)
 add_subdirectory(external/pe_bliss2)

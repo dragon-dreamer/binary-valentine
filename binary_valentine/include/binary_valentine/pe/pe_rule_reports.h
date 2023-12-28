@@ -68,12 +68,8 @@ using no_high_entropy_va = output::rule_report_info<
 	"PE057", output::report_category::security, output::report_level::warning>;
 using dep_disabled = output::rule_report_info<
 	"PE019", output::report_category::security, output::report_level::critical>;
-using signature_check_not_forced = output::rule_report_info<
-	"PE021", output::report_category::security, output::report_level::warning>;
 using aslr_compatibility_mode = output::rule_report_info<
 	"PE022", output::report_category::security, output::report_level::error>;
-using not_signed = output::rule_report_info<
-	"PE017", output::report_category::security, output::report_level::error>;
 using not_terminal_server_aware = output::rule_report_info<
 	"PE099", output::report_category::configuration, output::report_level::info>;
 
@@ -393,5 +389,53 @@ using version_info_translations_cross_image_mismatch = output::rule_report_info<
 using version_info_strings_cross_image_mismatch = output::rule_report_info<
 	"PE046", output::report_category::configuration, output::report_level::warning>;
 
-//NEXT: PE165, PE047, PE048
+//security_directory_format_rule
+using security_directory_format_error = output::rule_report_info<
+	"PE047", output::report_category::format, output::report_level::error>;
+
+//authenticode_rule
+using signature_check_not_forced = output::rule_report_info<
+	"PE021", output::report_category::security, output::report_level::warning>;
+using not_signed = output::rule_report_info<
+	"PE017", output::report_category::security, output::report_level::error>;
+using authenticode_format_error = output::rule_report_info<
+	"PE048", output::report_category::format, output::report_level::error>;
+using authenticode_cert_store_format_error = output::rule_report_info<
+	"PE166", output::report_category::format, output::report_level::warning>;
+using authenticode_incorrect_image_hash = output::rule_report_info<
+	"PE165", output::report_category::security, output::report_level::critical>;
+using authenticode_incorrect_image_page_hashes = output::rule_report_info<
+	"PE167", output::report_category::security, output::report_level::critical>;
+using authenticode_image_page_hashes_absent = output::rule_report_info<
+	"PE168", output::report_category::optimization, output::report_level::warning>;
+using authenticode_image_page_hashes_check_error = output::rule_report_info<
+	"PE169", output::report_category::format, output::report_level::critical>;
+using authenticode_incorrect_message_digest = output::rule_report_info<
+	"PE170", output::report_category::security, output::report_level::critical>;
+using authenticode_weak_image_hash_algorithm = output::rule_report_info<
+	"PE171", output::report_category::security, output::report_level::error>;
+using authenticode_unable_to_check_signature = output::rule_report_info<
+	"PE172", output::report_category::security, output::report_level::critical>;
+using authenticode_weak_rsa_key_size = output::rule_report_info<
+	"PE173", output::report_category::security, output::report_level::error>;
+using authenticode_weak_ecdsa_curve = output::rule_report_info<
+	"PE174", output::report_category::security, output::report_level::error>;
+using authenticode_incorrect_signature = output::rule_report_info<
+	"PE175", output::report_category::security, output::report_level::critical>;
+using authenticode_absent_timestamp_signature = output::rule_report_info<
+	"PE176", output::report_category::security, output::report_level::warning>;
+using authenticode_incorrect_timestamp_hash = output::rule_report_info<
+	"PE177", output::report_category::security, output::report_level::critical>;
+using authenticode_weak_timestamp_digest_algorithm = output::rule_report_info<
+	"PE178", output::report_category::security, output::report_level::error>;
+using authenticode_weak_timestamp_imprint_digest_algorithm = output::rule_report_info<
+	"PE179", output::report_category::security, output::report_level::error>;
+using authenticode_incorrect_timestamp_signature = output::rule_report_info<
+	"PE180", output::report_category::security, output::report_level::critical>;
+using authenticode_absent_signing_time = output::rule_report_info<
+	"PE181", output::report_category::security, output::report_level::critical>;
+using authenticode_check_error = output::rule_report_info<
+	"PE182", output::report_category::format, output::report_level::critical>;
+
+//NEXT: PE183
 } //namespace bv::pe_report

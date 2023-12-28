@@ -2,6 +2,7 @@
 
 #include "binary_valentine/pe/rule/ansi_import_rule.h"
 #include "binary_valentine/pe/rule/application_manifest_rule.h"
+#include "binary_valentine/pe/rule/authenticode_rule.h"
 #include "binary_valentine/pe/rule/cet_rule.h"
 #include "binary_valentine/pe/rule/checksum_rule.h"
 #include "binary_valentine/pe/rule/cross_resource_version_info_rule.h"
@@ -28,6 +29,7 @@
 #include "binary_valentine/pe/rule/safeseh_rule.h"
 #include "binary_valentine/pe/rule/simple_flags_rule.h"
 #include "binary_valentine/pe/rule/security_cookie_rule.h"
+#include "binary_valentine/pe/rule/security_directory_format_rule.h"
 #include "binary_valentine/pe/rule/vc_feature_rule.h"
 #include "binary_valentine/pe/rule/version_info_rule.h"
 #include "binary_valentine/pe/rule/version_info_format_rule.h"
@@ -71,7 +73,9 @@ void pe_rules_factory::add_pe_rules(core::rule_list& rules,
 	resource_directory_format_rule_factory::add_rule(rules, shared_values);
 	vc_feature_rule_factory::add_rule(rules, shared_values);
 	manifest_assembly_version_rule_factory::add_rule(rules, shared_values);
-
+	authenticode_rule_factory::add_rule(rules, shared_values);
+	security_directory_format_rule_factory::add_rule(rules, shared_values);
+	
 	combined_version_info_rule_factory::add_rule(combined_rules, shared_values);
 }
 

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstddef>
+#include <system_error>
 #include <vector>
 
 #include "binary_valentine/pe/pe_rule_reports.h"
@@ -17,28 +18,39 @@ public:
 	error_helpers() = delete;
 
 	template<typename Report,
-		typename Reporter, typename Value, typename ErrorMap>
+		typename Reporter, typename Value, typename ErrorMap, typename... NamedArgs>
 	static void report_errors(Reporter& reporter,
-		const Value& value, const ErrorMap& map)
+		const Value& value, const ErrorMap& map, const NamedArgs&... args)
 	{
 		if (!value.has_errors())
 			return;
 
 		for (const auto& [ctx, exception] : *value.get_errors())
+			report_error<Report>(reporter, ctx.code, map, args...);
+	}
+
+	template<typename Report, typename Reporter,
+		typename ErrorMap, typename... NamedArgs>
+	static void report_error(Reporter& reporter,
+		std::error_code ec, const ErrorMap& map, const NamedArgs&... args)
+	{
+		if (!ec)
+			return;
+
+		auto error_code_it = map.find(ec);
+		if (error_code_it != map.cend())
 		{
-			auto error_code_it = map.find(ctx.code);
-			if (error_code_it != map.cend())
-			{
-				reporter.template log_error_code<Report>(ctx.code,
-					output::localizable_arg("description",
-						error_code_it->second));
-			}
-			else
-			{
-				reporter.template log_error_code<Report>(ctx.code,
-					output::localizable_arg("description",
-						output::reports::description_not_available));
-			}
+			reporter.template log_error_code<Report>(ec,
+				output::localizable_arg("description",
+					error_code_it->second),
+				args...);
+		}
+		else
+		{
+			reporter.template log_error_code<Report>(ec,
+				output::localizable_arg("description",
+					output::reports::description_not_available),
+				args...);
 		}
 	}
 

@@ -81,7 +81,7 @@
       <PreprocessorDefinitions>BOOST_ASIO_DISABLE_ERROR_LOCATION;BOOST_ASIO_DISABLE_BOOST_SOURCE_LOCATION;_WIN32_WINNT=0x0601;BOOST_DATE_TIME_NO_LIB;BOOST_REGEX_NO_LIB;BOOST_ASIO_NO_DEPRECATED;WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)\include;$(ProjectDir)\..\external\pe_bliss2\utilities\include;$(ProjectDir)\..\external\pe_bliss2\buffers\include;$(ProjectDir)\..\external\pe_bliss2\pe_bliss2\include;$(ProjectDir)\..\external\pe_bliss2\external\pugixml;$(BoostDir);$(ProjectDir)\..\external\utfcpp\source;$(ProjectDir)\..\external\fmt-10.1.1\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\include;$(ProjectDir)\..\external\pe_bliss2\utilities\include;$(ProjectDir)\..\external\pe_bliss2\buffers\include;$(ProjectDir)\..\external\pe_bliss2\pe_bliss2\include;$(ProjectDir)\..\external\pe_bliss2\external\simple_asn1\simple_asn1\include;$(ProjectDir)\..\external\pe_bliss2\external\pugixml;$(BoostDir);$(ProjectDir)\..\external\utfcpp\source;$(ProjectDir)\..\external\fmt-10.1.1\include</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
@@ -100,7 +100,7 @@
       <PreprocessorDefinitions>BOOST_ASIO_DISABLE_ERROR_LOCATION;BOOST_ASIO_DISABLE_BOOST_SOURCE_LOCATION;_WIN32_WINNT=0x0601;BOOST_DATE_TIME_NO_LIB;BOOST_REGEX_NO_LIB;BOOST_ASIO_NO_DEPRECATED;WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)\include;$(ProjectDir)\..\external\pe_bliss2\utilities\include;$(ProjectDir)\..\external\pe_bliss2\buffers\include;$(ProjectDir)\..\external\pe_bliss2\pe_bliss2\include;$(ProjectDir)\..\external\pe_bliss2\external\pugixml;$(BoostDir);$(ProjectDir)\..\external\utfcpp\source;$(ProjectDir)\..\external\fmt-10.1.1\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\include;$(ProjectDir)\..\external\pe_bliss2\utilities\include;$(ProjectDir)\..\external\pe_bliss2\buffers\include;$(ProjectDir)\..\external\pe_bliss2\pe_bliss2\include;$(ProjectDir)\..\external\pe_bliss2\external\simple_asn1\simple_asn1\include;$(ProjectDir)\..\external\pe_bliss2\external\pugixml;$(BoostDir);$(ProjectDir)\..\external\utfcpp\source;$(ProjectDir)\..\external\fmt-10.1.1\include</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
@@ -119,7 +119,7 @@
       <PreprocessorDefinitions>BOOST_ASIO_DISABLE_ERROR_LOCATION;BOOST_ASIO_DISABLE_BOOST_SOURCE_LOCATION;_WIN32_WINNT=0x0601;BOOST_DATE_TIME_NO_LIB;BOOST_REGEX_NO_LIB;BOOST_ASIO_NO_DEPRECATED;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)\include;$(ProjectDir)\..\external\pe_bliss2\utilities\include;$(ProjectDir)\..\external\pe_bliss2\buffers\include;$(ProjectDir)\..\external\pe_bliss2\pe_bliss2\include;$(ProjectDir)\..\external\pe_bliss2\external\pugixml;$(BoostDir);$(ProjectDir)\..\external\utfcpp\source;$(ProjectDir)\..\external\fmt-10.1.1\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\include;$(ProjectDir)\..\external\pe_bliss2\utilities\include;$(ProjectDir)\..\external\pe_bliss2\buffers\include;$(ProjectDir)\..\external\pe_bliss2\pe_bliss2\include;$(ProjectDir)\..\external\pe_bliss2\external\simple_asn1\simple_asn1\include;$(ProjectDir)\..\external\pe_bliss2\external\pugixml;$(BoostDir);$(ProjectDir)\..\external\utfcpp\source;$(ProjectDir)\..\external\fmt-10.1.1\include</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
@@ -138,7 +138,7 @@
       <PreprocessorDefinitions>BOOST_ASIO_DISABLE_ERROR_LOCATION;BOOST_ASIO_DISABLE_BOOST_SOURCE_LOCATION;_WIN32_WINNT=0x0601;BOOST_DATE_TIME_NO_LIB;BOOST_REGEX_NO_LIB;BOOST_ASIO_NO_DEPRECATED;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)\include;$(ProjectDir)\..\external\pe_bliss2\utilities\include;$(ProjectDir)\..\external\pe_bliss2\buffers\include;$(ProjectDir)\..\external\pe_bliss2\pe_bliss2\include;$(ProjectDir)\..\external\pe_bliss2\external\pugixml;$(BoostDir);$(ProjectDir)\..\external\utfcpp\source;$(ProjectDir)\..\external\fmt-10.1.1\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\include;$(ProjectDir)\..\external\pe_bliss2\utilities\include;$(ProjectDir)\..\external\pe_bliss2\buffers\include;$(ProjectDir)\..\external\pe_bliss2\pe_bliss2\include;$(ProjectDir)\..\external\pe_bliss2\external\simple_asn1\simple_asn1\include;$(ProjectDir)\..\external\pe_bliss2\external\pugixml;$(BoostDir);$(ProjectDir)\..\external\utfcpp\source;$(ProjectDir)\..\external\fmt-10.1.1\include</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
@@ -194,6 +194,7 @@
     <ClCompile Include="src\output\unformatted_common_output_report.cpp" />
     <ClCompile Include="src\pe\combined_rule\combined_version_info_rule.cpp" />
     <ClCompile Include="src\pe\data\version_info_list.cpp" />
+    <ClCompile Include="src\pe\generator\authenticode_generator.cpp" />
     <ClCompile Include="src\pe\generator\basic_dotnet_info_generator.cpp" />
     <ClCompile Include="src\pe\generator\basic_pe_info_generator.cpp" />
     <ClCompile Include="src\pe\generator\debug_directory_generator.cpp" />
@@ -208,6 +209,7 @@
     <ClCompile Include="src\pe\generator\pe_image_generator.cpp" />
     <ClCompile Include="src\pe\generator\resource_directory_generator.cpp" />
     <ClCompile Include="src\pe\generator\rich_header_generator.cpp" />
+    <ClCompile Include="src\pe\generator\security_directory_generator.cpp" />
     <ClCompile Include="src\pe\generator\vc_feature_generator.cpp" />
     <ClCompile Include="src\pe\generator\version_info_generator.cpp" />
     <ClCompile Include="src\pe\helpers\input_async_stream_buffer.cpp" />
@@ -215,6 +217,8 @@
     <ClCompile Include="src\pe\pe_format_detector.cpp" />
     <ClCompile Include="src\pe\rule\ansi_import_rule.cpp" />
     <ClCompile Include="src\pe\rule\application_manifest_rule.cpp" />
+    <ClCompile Include="src\pe\rule\authenticode_error_descriptions.cpp" />
+    <ClCompile Include="src\pe\rule\authenticode_rule.cpp" />
     <ClCompile Include="src\pe\rule\cet_rule.cpp" />
     <ClCompile Include="src\pe\rule\checksum_rule.cpp" />
     <ClCompile Include="src\pe\rule\cross_resource_version_info_rule.cpp" />
@@ -241,6 +245,7 @@
     <ClCompile Include="src\pe\rule\safeseh_rule.cpp" />
     <ClCompile Include="src\pe\rule\sections_rule.cpp" />
     <ClCompile Include="src\pe\rule\security_cookie_rule.cpp" />
+    <ClCompile Include="src\pe\rule\security_directory_format_rule.cpp" />
     <ClCompile Include="src\pe\rule\simple_flags_rule.cpp" />
     <ClCompile Include="src\pe\rule\vc_feature_rule.cpp" />
     <ClCompile Include="src\pe\rule\version_info_format_rule.cpp" />
@@ -348,6 +353,7 @@
     <ClInclude Include="include\binary_valentine\pe\data\main_pe_icon.h" />
     <ClInclude Include="include\binary_valentine\pe\data\manifest_info.h" />
     <ClInclude Include="include\binary_valentine\pe\data\version_info_list.h" />
+    <ClInclude Include="include\binary_valentine\pe\generator\authenticode_generator.h" />
     <ClInclude Include="include\binary_valentine\pe\generator\basic_dotnet_info_generator.h" />
     <ClInclude Include="include\binary_valentine\pe\generator\basic_pe_info_generator.h" />
     <ClInclude Include="include\binary_valentine\pe\generator\debug_directory_generator.h" />
@@ -362,6 +368,7 @@
     <ClInclude Include="include\binary_valentine\pe\generator\pe_image_generator.h" />
     <ClInclude Include="include\binary_valentine\pe\generator\resource_directory_generator.h" />
     <ClInclude Include="include\binary_valentine\pe\generator\rich_header_generator.h" />
+    <ClInclude Include="include\binary_valentine\pe\generator\security_directory_generator.h" />
     <ClInclude Include="include\binary_valentine\pe\generator\vc_feature_generator.h" />
     <ClInclude Include="include\binary_valentine\pe\generator\version_info_generator.h" />
     <ClInclude Include="include\binary_valentine\pe\helpers\error_helpers.h" />
@@ -372,6 +379,8 @@
     <ClInclude Include="include\binary_valentine\pe\pe_rule_reports.h" />
     <ClInclude Include="include\binary_valentine\pe\rule\ansi_import_rule.h" />
     <ClInclude Include="include\binary_valentine\pe\rule\application_manifest_rule.h" />
+    <ClInclude Include="include\binary_valentine\pe\rule\authenticode_error_descriptions.h" />
+    <ClInclude Include="include\binary_valentine\pe\rule\authenticode_rule.h" />
     <ClInclude Include="include\binary_valentine\pe\rule\cet_rule.h" />
     <ClInclude Include="include\binary_valentine\pe\rule\checksum_rule.h" />
     <ClInclude Include="include\binary_valentine\pe\rule\cross_resource_version_info_rule.h" />
@@ -398,6 +407,7 @@
     <ClInclude Include="include\binary_valentine\pe\rule\safeseh_rule.h" />
     <ClInclude Include="include\binary_valentine\pe\rule\sections_rule.h" />
     <ClInclude Include="include\binary_valentine\pe\rule\security_cookie_rule.h" />
+    <ClInclude Include="include\binary_valentine\pe\rule\security_directory_format_rule.h" />
     <ClInclude Include="include\binary_valentine\pe\rule\simple_flags_rule.h" />
     <ClInclude Include="include\binary_valentine\pe\rule\vc_feature_rule.h" />
     <ClInclude Include="include\binary_valentine\pe\rule\version_info_format_rule.h" />

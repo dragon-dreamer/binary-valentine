@@ -89,12 +89,25 @@ struct owning_localizable_string_id
 	{
 	}
 
+	constexpr owning_localizable_string_id(std::string_view string_id) noexcept
+		: string_id(string_id)
+	{
+	}
+
+	constexpr owning_localizable_string_id(std::string_view string_id,
+		std::span<const std::pair<std::string, std::string>> args) noexcept
+		: string_id(string_id)
+		, args(args.begin(), args.end())
+	{
+	}
+
 	std::string string_id;
 	std::vector<std::pair<std::string, std::string>> args;
 };
 } //namespace impl
 
 using localizable_arg = named_arg<impl::localizable_string_id>;
+using owning_localizable_arg = named_arg<impl::owning_localizable_string_id>;
 
 using arg_type = std::variant<
 	bool,

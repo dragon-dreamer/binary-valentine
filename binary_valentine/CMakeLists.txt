@@ -146,6 +146,7 @@ target_sources(binary_valentine_lib
 		include/binary_valentine/pe/data/main_pe_icon.h
 		include/binary_valentine/pe/data/manifest_info.h
 		include/binary_valentine/pe/data/version_info_list.h
+		include/binary_valentine/pe/generator/authenticode_generator.h
 		include/binary_valentine/pe/generator/basic_dotnet_info_generator.h
 		include/binary_valentine/pe/generator/basic_pe_info_generator.h
 		include/binary_valentine/pe/generator/debug_directory_generator.h
@@ -160,6 +161,7 @@ target_sources(binary_valentine_lib
 		include/binary_valentine/pe/generator/pe_image_generator.h
 		include/binary_valentine/pe/generator/resource_directory_generator.h
 		include/binary_valentine/pe/generator/rich_header_generator.h
+		include/binary_valentine/pe/generator/security_directory_generator.h
 		include/binary_valentine/pe/generator/vc_feature_generator.h
 		include/binary_valentine/pe/generator/version_info_generator.h
 		include/binary_valentine/pe/helpers/error_helpers.h
@@ -168,6 +170,8 @@ target_sources(binary_valentine_lib
 		include/binary_valentine/pe/helpers/version_helpers.h
 		include/binary_valentine/pe/rule/ansi_import_rule.h
 		include/binary_valentine/pe/rule/application_manifest_rule.h
+		include/binary_valentine/pe/rule/authenticode_error_descriptions.h
+		include/binary_valentine/pe/rule/authenticode_rule.h
 		include/binary_valentine/pe/rule/cet_rule.h
 		include/binary_valentine/pe/rule/checksum_rule.h
 		include/binary_valentine/pe/rule/cross_resource_version_info_rule.h
@@ -194,6 +198,7 @@ target_sources(binary_valentine_lib
 		include/binary_valentine/pe/rule/safeseh_rule.h
 		include/binary_valentine/pe/rule/sections_rule.h
 		include/binary_valentine/pe/rule/security_cookie_rule.h
+		include/binary_valentine/pe/rule/security_directory_format_rule.h
 		include/binary_valentine/pe/rule/simple_flags_rule.h
 		include/binary_valentine/pe/rule/vc_feature_rule.h
 		include/binary_valentine/pe/rule/version_info_format_rule.h
@@ -263,6 +268,7 @@ target_sources(binary_valentine_lib
 		src/pe/pe_format_detector.cpp
 		src/pe/combined_rule/combined_version_info_rule.cpp
 		src/pe/data/version_info_list.cpp
+		src/pe/generator/authenticode_generator.cpp
 		src/pe/generator/basic_dotnet_info_generator.cpp
 		src/pe/generator/basic_pe_info_generator.cpp
 		src/pe/generator/debug_directory_generator.cpp
@@ -277,12 +283,15 @@ target_sources(binary_valentine_lib
 		src/pe/generator/pe_image_generator.cpp
 		src/pe/generator/resource_directory_generator.cpp
 		src/pe/generator/rich_header_generator.cpp
+		src/pe/generator/security_directory_generator.cpp
 		src/pe/generator/vc_feature_generator.cpp
 		src/pe/generator/version_info_generator.cpp
 		src/pe/helpers/input_async_stream_buffer.cpp
 		src/pe/helpers/section_helpers.cpp
 		src/pe/rule/ansi_import_rule.cpp
 		src/pe/rule/application_manifest_rule.cpp
+		src/pe/rule/authenticode_error_descriptions.cpp
+		src/pe/rule/authenticode_rule.cpp
 		src/pe/rule/cet_rule.cpp
 		src/pe/rule/checksum_rule.cpp
 		src/pe/rule/cross_resource_version_info_rule.cpp
@@ -309,6 +318,7 @@ target_sources(binary_valentine_lib
 		src/pe/rule/safeseh_rule.cpp
 		src/pe/rule/sections_rule.cpp
 		src/pe/rule/security_cookie_rule.cpp
+		src/pe/rule/security_directory_format_rule.cpp
 		src/pe/rule/simple_flags_rule.cpp
 		src/pe/rule/vc_feature_rule.cpp
 		src/pe/rule/version_info_format_rule.cpp

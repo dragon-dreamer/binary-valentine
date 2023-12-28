@@ -24,6 +24,8 @@ constexpr auto strings = std::to_array<std::pair<std::string_view, std::string_v
 	{ "pe_rich_header_generator", "PE rich header parser" },
 	{ "pe_image_generator", "PE image parser" },
 	{ "pe_import_based_info_generator", "PE import based info generator" },
+	{ "pe_authenticode_generator", "PE Authenticode signature generator" },
+	{ "pe_security_directory_generator", "PE security directory generator" },
 
 	{ "pe_full_winapi_map_generator", "PE full WinAPI map loader" },
 	{ "pe_not_recommended_imports_generator", "PE not recommended WinAPI loader" },
@@ -41,10 +43,11 @@ constexpr auto strings = std::to_array<std::pair<std::string_view, std::string_v
 	{ "report_level_critical", "CRITICAL" },
 	{ "report_level_unknown", "UNKNOWN" },
 
-	{ output::reports::rule_exception, "Exception in rule {rule_name}: {exception}"},
-	{ output::reports::generator_exception, "Exception in generator {generator_name}: {exception}"},
-	{ output::reports::no_generator_for_type, "No generator for type {tag_name}"},
-	{ output::reports::inaccessible_entity, "Inaccessible file or directory '{entity_name}': {exception}"},
+	{ output::reports::absent_text, "(absent)" },
+	{ output::reports::rule_exception, "Exception in rule {rule_name}: {exception}" },
+	{ output::reports::generator_exception, "Exception in generator {generator_name}: {exception}" },
+	{ output::reports::no_generator_for_type, "No generator for type {tag_name}" },
+	{ output::reports::inaccessible_entity, "Inaccessible file or directory '{entity_name}': {exception}" },
 	{ output::reports::system_error_description,
 		"System error: category: '{error_category_name}', code '{error_code_value}', '{error_message}'" },
 	{ output::reports::user_error_description, "User error: {error_message}" },
@@ -255,18 +258,10 @@ constexpr auto strings = std::to_array<std::pair<std::string_view, std::string_v
 	{ "PE019_description", "DEP (data execution prevention) is disabled. "
 		"This allows self-modifying code (including exploits) to be executed easily "
 		"even from the write-only memory without the need to manipulate memory attributes." },
-	{ "PE021", "Signature check is not enforced" },
-	{ "PE021_description", "Signature check is not enforced. "
-		"The executable is signed, but the signature check is not enforced. "
-		"The loader will not prevent the image from being loaded and executed even if the signature is not correct. "
-	    "This effectively enables the attacker to do any modifications to the disk image of the executable without being detected." },
 	{ "PE022", "ASLR compatibility mode is active" },
 	{ "PE022_description", "ASLR (address space layout randomization) compatibility mode is active, "
 		"as the executable image base is set to the value less than 0xFFFFFFFF (current image base: '{image_base:#x}'). "
 		"This limits ASLR in mitigating memory corruption vulnerabilities."},
-	{ "PE017", "Executable is not signed" },
-	{ "PE017_description", "Executable is not signed. "
-		"This enables the attacker to do any modifications to the disk image of the executable without being detected." },
 	{ "PE099", "Executable is not terminal server aware" },
 	{ "PE099_description", "Executable is not marked as terminal server aware. "
 		"If an executable is launched under the terminal server session, Terminal Server makes certain modifications "
@@ -905,6 +900,96 @@ constexpr auto strings = std::to_array<std::pair<std::string_view, std::string_v
 		"is '{most_popular_string}'. The version info string of the executable does not match it: "
 		"'{string}'. This string should likely be the same for all executables of the project." },
 
+	{ "pe_security_directory_format_rule", "PE Security directory format rule" },
+	{ "PE047", "Security directory format error" },
+	{ "PE047_description", "Security directory was loaded with errors. "
+		"Error description: '{description}'. "
+		"Lower-level error details: '{exception}'." },
+
+	{ "pe_authenticode_rule", "PE Authenticode signature rule" },
+	{ "PE017", "Executable is not signed" },
+	{ "PE017_description", "Executable is not signed. "
+		"This enables the attacker to do any modifications to the disk image of the executable without being detected." },
+	{ "PE021", "Signature check is not enforced" },
+	{ "PE021_description", "Signature check is not enforced. "
+		"The executable is signed, but the signature check is not enforced. "
+		"The loader will not prevent the image from being loaded and executed even if the signature is not correct. "
+		"This effectively enables the attacker to do any modifications to the disk image of the executable without being detected." },
+	{ "PE048", "Authenticode signature format error" },
+	{ "PE048_description", "Authenticode signature format error for {signature_info}. "
+		"Error description: '{description}'. "
+		"Lower-level error details: '{exception}'." },
+	{ "PE165", "Incorrect Authenticode image hash value" },
+	{ "PE165_description", "Authenticode image hash value is not correct for {signature_info}. "
+		"This makes the Authenticode signature invalid." },
+	{ "PE166", "Authenticode certificate store format warning" },
+	{ "PE166_description", "Authenticode certificate store format warning for {signature_info}. "
+		"Error description: '{description}'. "
+		"Lower-level error details: '{exception}'." },
+	{ "PE167", "Incorrect Authenticode image page hashes" },
+	{ "PE167_description", "Authenticode image page hashes value is not correct for {signature_info}. "
+		"This makes the Authenticode signature invalid." },
+	{ "PE168", "Absent Authenticode image page hashes" },
+	{ "PE168_description", "Authenticode image page hashes are absent for {signature_info}. "
+		"Image page hashes do not impact security, although they are recommended for performance "
+		"reasons to make image loading faster in some scenarios (especially when used with the "
+		"/INTEGRITYCHECK linker option)."},
+	{ "PE169", "Authenticode image page hashes check error" },
+	{ "PE169_description", "Unable to check Authenticode image page hashes for {signature_info}. "
+		"Error description: '{description}'. "
+		"Lower-level error details: '{exception}'." },
+	{ "PE170", "Incorrect Authenticode message digest" },
+	{ "PE170_description", "Authenticode message digest value is not correct for {signature_info}. "
+		"This makes the Authenticode signature invalid." },
+	{ "PE171", "Weak Authenticode image hash algorithm" },
+	{ "PE171_description", "Authenticode image hash algorithm is too weak for {signature_info}. "
+		"This may allow an attacker to modify the executable while keeping the signature valid. "
+		"Hash algorithm used is '{hash_algorithm}'." },
+	{ "PE172", "Unable to check Authenticode image signature" },
+	{ "PE172_description", "Unable to check Authenticode image signature for {signature_info}. "
+		"Error description: '{description}'. "
+		"Lower-level error details: '{exception}'." },
+	{ "PE173", "Weak Authenticode signature RSA key size" },
+	{ "PE173_description", "Authenticode signature RSA key size is too small for {signature_info}. "
+		"This may allow an attacker to modify the executable while keeping the signature valid. "
+		"RSA key size is '{key_size}', while the recommended key size is at least '{min_key_size}'." },
+	{ "PE174", "Weak Authenticode signature ECDSA curve" },
+	{ "PE174_description", "Authenticode signature ECDSA curve is too weak for {signature_info}. "
+		"This may allow an attacker to modify the executable while keeping the signature valid. "
+		"ECDSA curve is '{curve}', while the recommended curve key size is at least '{min_key_size}'." },
+	{ "PE175", "Incorrect Authenticode image signature" },
+	{ "PE175_description", "Authenticode image signature is not correct for {signature_info}." },
+	{ "PE176", "Absent Authenticode timestamp counter-signature" },
+	{ "PE176_description", "Authenticode timestamp counter-signature is absent for {signature_info}. "
+		"The signature will become invalid if the signing certificate is revoked or if it expires. "
+		"Consider signing the executable with the timestamp counter-signature to avoid that." },
+	{ "PE177", "Incorrect Authenticode timestamp counter-signature digest" },
+	{ "PE177_description", "Authenticode timestamp counter-signature digest is not correct for {signature_info}. "
+		"This makes the timestamp Authenticode signature invalid." },
+	{ "PE178", "Weak Authenticode timestamp counter-signature digest algorithm" },
+	{ "PE178_description", "Authenticode timestamp counter-signature "
+		"digest algorithm is too weak for {signature_info}. "
+		"This may allow an attacker to modify the executable while keeping the signature valid. "
+		"Hash algorithm used is '{hash_algorithm}'." },
+	{ "PE179", "Weak Authenticode timestamp counter-signature imprint digest algorithm" },
+	{ "PE179_description", "Authenticode timestamp counter-signature imprint "
+		"digest algorithm is too weak for {signature_info}. "
+		"This may allow an attacker to modify the executable while keeping the signature valid. "
+		"Hash algorithm used is '{hash_algorithm}'." },
+	{ "PE180", "Incorrect Authenticode timestamp counter-signature" },
+	{ "PE180_description", "Authenticode timestamp counter-signature is not correct for {signature_info}." },
+	{ "PE181", "Absent Authenticode timestamp counter-signature signing time" },
+	{ "PE181_description", "Authenticode timestamp counter-signature lacks signing time for {signature_info}. "
+		"A valid timestamp counter-signature must have the correct signing time attribute."},
+	{ "PE182", "Authenticode signature check error" },
+	{ "PE182_description", "Unable to check Authenticode signature. "
+		"Error details: {exception}" },
+
+	{ "pe_authenticode_signature_info_root", "root signature" },
+	{ "pe_authenticode_signature_info_nested", "nested signature (index {index})" },
+	{ "pe_authenticode_timestamp_signature_info_root", "timestamp root signature" },
+	{ "pe_authenticode_timestamp_signature_info_nested", "timestamp nested signature (index {index})" },
+
 	{ "pe_manifest_invalid_manifest_version",
 		"Invalid manifest version string. The only supported manifest version is 1.0." },
 	{ "pe_manifest_empty_manifest", "Manifest is an empty XML." },
@@ -1265,7 +1350,81 @@ constexpr auto strings = std::to_array<std::pair<std::string_view, std::string_v
 	{ "pe_resources_unsorted_entries",
 		"Resource directory has unsorted entries." },
 	{ "pe_resources_duplicate_entries",
-		"Resource directory has duplicate entries with the same path (type/name or id /language)." }
+		"Resource directory has duplicate entries with the same path (type/name or id /language)." },
+
+	{ "pe_security_invalid_directory", "Unable to read security directory, its data is not valid." },
+	{ "pe_security_invalid_entry",
+		"Security directory contains one or more invalid entries which are not readable." },
+	{ "pe_security_invalid_certificate_data",
+		"Unable to read security directory certificate data." },
+	{ "pe_security_invalid_entry_size",
+		"Security directory contains one or more invalid entries with invalid entry size." },
+	{ "pe_security_invalid_directory_size",
+		"Invalid security directory size." },
+	{ "pe_security_unaligned_directory",
+		"Security directory is not aligned." },
+	{ "pe_security_too_many_entries",
+		"There are too many entries in the security directory." },
+
+	{ "pe_authenticode_signature_hash_and_digest_algorithm_mismatch",
+		"Authenticode signer digest algorithm and the hash algorithm specified "
+		"in the signer digest encryption algorithm info do not match." },
+	{ "pe_authenticode_unsupported_digest_algorithm",
+		"Authenticode digest algorithm is not supported." },
+	{ "pe_authenticode_unsupported_digest_encryption_algorithm",
+		"Authenticode signature algorithm is not supported." },
+	{ "pe_authenticode_pkcs7_invalid_signed_data_oid",
+		"Invalid PKCS7 signed data OID." },
+	{ "pe_authenticode_pkcs7_invalid_signed_data_version",
+		"Invalid PKCS7 signed data version." },
+	{ "pe_authenticode_pkcs7_invalid_signer_count",
+		"Invalid PKCS7 signer count." },
+	{ "pe_authenticode_pkcs7_non_matching_digest_algorithm",
+		"PKCS7 signer and content info digest algorithms do not match." },
+	{ "pe_authenticode_pkcs7_invalid_signer_info_version",
+		"Invalid PKCS7 signer info version." },
+	{ "pe_authenticode_pkcs7_absent_message_digest",
+		"PKCS7 message digest attribute is absent." },
+	{ "pe_authenticode_pkcs7_invalid_message_digest",
+		"PKCS7 message digest attribute format is not valid." },
+	{ "pe_authenticode_pkcs7_absent_content_type",
+		"PKCS7 content type attribute is absent." },
+	{ "pe_authenticode_pkcs7_invalid_content_type",
+		"PKCS7 content type attribute format is not valid." },
+	{ "pe_authenticode_pkcs7_invalid_signing_time",
+		"PKCS7 signing time attribute format is not valid." },
+	{ "pe_authenticode_invalid_content_info_oid",
+		"Invalid Authenticode signed data content info OID." },
+	{ "pe_authenticode_invalid_type_value_type",
+		"Invalid Authenticode SpcIndirectDataContent type." },
+	{ "pe_authenticode_non_matching_type_value_digest_algorithm",
+		"Authenticode SpcIndirectDataContent digest algorithm and signer info digest algorithm do not match." },
+	{ "pe_authenticode_invalid_page_hash_format",
+		"Invalid Authenticode page hashes format." },
+	{ "pe_authenticode_invalid_image_format_for_hashing",
+		"Executable image format is not suitable for hashing." },
+	{ "pe_authenticode_image_security_directory_has_errors",
+		"Executable image security directory has errors." },
+	{ "pe_authenticode_invalid_authenticode_signature_format",
+		"Authenticode signature format is not valid." },
+	{ "pe_authenticode_invalid_tst_info_version",
+		"Authenticode timestamp counter-signature TST version if not valid." },
+	{ "pe_authenticode_invalid_tst_info_accuracy_value",
+		"Authenticode timestamp counter-signature TST accuracy value is not valid." },
+	{ "pe_authenticode_duplicate_attribute_oid",
+		"Authenticode signature has duplicate attribute OIDs." },
+	{ "pe_authenticode_absent_authenticated_attributes",
+		"Authenticode signature lacks authenticated attributes." },
+	{ "pe_authenticode_absent_certificates",
+		"Authenticode signature lacks certificates." },
+	{ "pe_authenticode_duplicate_certificates",
+		"Authenticode signature has duplicate certificates." },
+	{ "pe_authenticode_absent_signing_cert",
+		"Authenticode signature signing certificate is absent." },
+	{ "pe_authenticode_absent_signing_cert_issuer_and_sn",
+		"Authenticode signature signer does not specify signing certificate issuer and/or serial number." },
+	{ "pe_authenticode_unable_to_verify_signature",
+		"Unable to verify Authenticode signature." },
 });
 
 } //namespace bv::resource::en

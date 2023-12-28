@@ -1,5 +1,6 @@
 #include "binary_valentine/pe/generator/pe_generators.h"
 
+#include "binary_valentine/pe/generator/authenticode_generator.h"
 #include "binary_valentine/pe/generator/basic_dotnet_info_generator.h"
 #include "binary_valentine/pe/generator/basic_pe_info_generator.h"
 #include "binary_valentine/pe/generator/debug_directory_generator.h"
@@ -13,6 +14,7 @@
 #include "binary_valentine/pe/generator/pe_image_generator.h"
 #include "binary_valentine/pe/generator/resource_directory_generator.h"
 #include "binary_valentine/pe/generator/rich_header_generator.h"
+#include "binary_valentine/pe/generator/security_directory_generator.h"
 #include "binary_valentine/pe/generator/vc_feature_generator.h"
 #include "binary_valentine/pe/generator/version_info_generator.h"
 
@@ -37,6 +39,8 @@ void pe_generators_factory::add_pe_generators(core::data_generator_list& generat
 	import_based_info_generator_factory::add_generator(generators);
 	vc_feature_generator_factory::add_generator(generators);
 	manifest_generator_factory::add_generator(async_generators);
+	security_directory_generator_factory::add_generator(generators);
+	authenticode_generator_factory::add_generator(generators);
 }
 
 } //namespace bv::pe

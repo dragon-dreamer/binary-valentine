@@ -453,6 +453,21 @@
     <ClCompile Include="src\pe\generator\pe_image_generator.cpp">
       <Filter>Source Files\pe\generator</Filter>
     </ClCompile>
+    <ClCompile Include="src\pe\rule\authenticode_rule.cpp">
+      <Filter>Source Files\pe\rule</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pe\generator\security_directory_generator.cpp">
+      <Filter>Source Files\pe\generator</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pe\generator\authenticode_generator.cpp">
+      <Filter>Source Files\pe\generator</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pe\rule\security_directory_format_rule.cpp">
+      <Filter>Source Files\pe\rule</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pe\rule\authenticode_error_descriptions.cpp">
+      <Filter>Source Files\pe\rule</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\binary_valentine\analysis\analysis_context.h">
@@ -949,6 +964,21 @@
     </ClInclude>
     <ClInclude Include="include\binary_valentine\version.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\pe\rule\authenticode_rule.h">
+      <Filter>Header Files\pe\rule</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\pe\generator\security_directory_generator.h">
+      <Filter>Header Files\pe\generator</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\pe\generator\authenticode_generator.h">
+      <Filter>Header Files\pe\generator</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\pe\rule\security_directory_format_rule.h">
+      <Filter>Header Files\pe\rule</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\pe\rule\authenticode_error_descriptions.h">
+      <Filter>Header Files\pe\rule</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -28,9 +28,7 @@ public:
 		pe_report::not_large_address_aware_no_high_entropy_va,
 		pe_report::no_high_entropy_va,
 		pe_report::dep_disabled,
-		pe_report::signature_check_not_forced,
 		pe_report::aslr_compatibility_mode,
-		pe_report::not_signed,
 		pe_report::not_terminal_server_aware>();
 
 	template<typename Reporter>
@@ -40,7 +38,6 @@ public:
 		check_high_entropy_aslr(reporter, image, basic_info);
 		check_aslr_compatibility_mode(reporter, image, basic_info);
 		check_dep(reporter, image, basic_info);
-		check_integrity(reporter, image);
 		check_terminal_server_aware(reporter, image, basic_info);
 	}
 
@@ -115,22 +112,6 @@ private:
 			& pe_bliss::core::optional_header::dll_characteristics::nx_compat))
 		{
 			reporter.template log<pe_report::dep_disabled>();
-		}
-	}
-
-	template<typename Reporter>
-	static void check_integrity(Reporter& reporter, const pe_bliss::image::image& image)
-	{
-		if (!image.get_data_directories().has_security())
-		{
-			reporter.template log<pe_report::not_signed>();
-			return;
-		}
-
-		if (!(image.get_optional_header().get_dll_characteristics()
-			& pe_bliss::core::optional_header::dll_characteristics::force_integrity))
-		{
-			reporter.template log<pe_report::signature_check_not_forced>();
 		}
 	}
 };

@@ -984,6 +984,21 @@ constexpr auto strings = std::to_array<std::pair<std::string_view, std::string_v
 	{ "PE182", "Authenticode signature check error" },
 	{ "PE182_description", "Unable to check Authenticode signature. "
 		"Error details: {exception}" },
+	{ "PE184", "Authenticode test signature" },
+	{ "PE184_description", "Authenticode signature marked as test for {signature_info}. "
+		"Test signatures should not be present in production executables." },
+	{ "PE185", "Authenticode signing certificate empty subject DN" },
+	{ "PE185_description", "Authenticode signing certificate subject distinguished name "
+		"is empty for {signature_info}. "
+		"Valid subject DN must contain at least one attribute." },
+	{ "PE186", "Authenticode signing certificate subject DN missing attributes" },
+	{ "PE186_description", "Authenticode signing certificate subject distinguished name "
+		"is missing some of the most common attributes for {signature_info}. "
+		"Missing attributes are: '{attributes}'" },
+	{ "PE187", "Authenticode signing certificate subject DN invalid attributes" },
+	{ "PE187_description", "Authenticode signing certificate subject distinguished name "
+		"has some attributes which are not valid for {signature_info}. "
+		"Attributes which have invalid ASN.1 DER repersentations: '{attributes}'" },
 
 	{ "pe_authenticode_signature_info_root", "root signature" },
 	{ "pe_authenticode_signature_info_nested", "nested signature (index {index})" },

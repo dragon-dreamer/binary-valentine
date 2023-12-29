@@ -2,6 +2,7 @@
 
 #include <array>
 #include <cstddef>
+#include <cstdint>
 #include <optional>
 #include <string>
 #include <string_view>
@@ -18,8 +19,9 @@
 #include "binary_valentine/rule_class.h"
 
 #include "pe_bliss2/core/optional_header.h"
-#include "pe_bliss2/security/image_authenticode_verifier.h"
 #include "pe_bliss2/image/image.h"
+#include "pe_bliss2/security/image_authenticode_verifier.h"
+#include "pe_bliss2/security/x500/flat_distinguished_name.h"
 
 #include "utilities/variant_helpers.h"
 
@@ -111,6 +113,38 @@ constexpr std::string_view get_hash_name(
 	default: return "unknown";
 	}
 }
+
+struct rdn_attribute final
+{
+	enum value
+	{
+		common_name = 1 << 0, //CN
+		organization = 1 << 1, //O
+		locality = 1 << 2, //L
+		state = 1 << 3, //S
+		country = 1 << 4 //C
+	};
+};
+
+std::string mask_to_attributes(std::uint32_t mask)
+{
+	std::string result;
+	if (mask & rdn_attribute::common_name)
+		result += "CN,";
+	if (mask & rdn_attribute::organization)
+		result += "O,";
+	if (mask & rdn_attribute::locality)
+		result += "L,";
+	if (mask & rdn_attribute::state)
+		result += "S,";
+	if (mask & rdn_attribute::country)
+		result += "C,";
+
+	if (!result.empty())
+		result.pop_back();
+
+	return result;
+}
 } // namespace
 
 class authenticode_rule final
@@ -141,7 +175,11 @@ public:
 		pe_report::authenticode_weak_timestamp_imprint_digest_algorithm,
 		pe_report::authenticode_incorrect_timestamp_signature,
 		pe_report::authenticode_absent_signing_time,
-		pe_report::authenticode_check_error>();
+		pe_report::authenticode_check_error,
+		pe_report::authenticode_test_signature,
+		pe_report::authenticode_empty_subject_dn,
+		pe_report::authenticode_missing_subject_dn_attributes,
+		pe_report::authenticode_invalid_subject_dn_attributes>();
 
 	template<typename Reporter>
 	void run(Reporter& reporter, const pe_bliss::image::image& image,
@@ -381,8 +419,97 @@ private:
 		else
 			check_signature(reporter, *signature.timestamp_signature_result, nested_signature_index);
 
+		if (signature.signature && signature.cert_store)
+		{
+			check_signer(reporter, *signature.signature, *signature.cert_store, signature_info_arg);
+		}
+
 		if (!signature)
 			reporter.template log<pe_report::authenticode_incorrect_signature>(signature_info_arg);
+	}
+
+	template<typename Reporter, typename RangeType>
+	static void check_signer(Reporter& reporter,
+		const pe_bliss::security::authenticode_pkcs7<RangeType>& signature,
+		const pe_bliss::security::x509::x509_certificate_store<
+			pe_bliss::security::x509::x509_certificate<RangeType>>& cert_store,
+		const output::owning_localizable_arg& signature_info_arg)
+	{
+		if (!signature.get_signer_count())
+			return;
+
+		const auto issuer_and_sn = signature.get_signer(0)
+			.get_signer_certificate_issuer_and_serial_number();
+		const auto* signing_cert = cert_store.find_certificate(
+			*issuer_and_sn.serial_number,
+			*issuer_and_sn.issuer);
+
+		if (!signing_cert)
+			return;
+
+		validate_subject_dn(reporter, signing_cert->get_subject(), signature_info_arg);
+	}
+
+	template<typename Reporter, typename RangeType>
+	static void validate_subject_dn(Reporter& reporter,
+		const pe_bliss::security::x500::flat_distinguished_name<RangeType> subject_dn,
+		const output::owning_localizable_arg& signature_info_arg)
+	{
+		if (subject_dn.empty())
+		{
+			reporter.template log<pe_report::authenticode_empty_subject_dn>(signature_info_arg);
+			return;
+		}
+
+		std::uint32_t missing_attributes{}, invalid_attributes{};
+
+		try
+		{
+			const auto cn = subject_dn.get_common_name();
+			if (cn)
+			{
+				const std::string* cn_str = std::get_if<std::string>(&*cn);
+				if (cn_str && cn_str->starts_with("WDKTestCert"))
+					reporter.template log<pe_report::authenticode_test_signature>(signature_info_arg);
+			}
+		}
+		catch (const pe_bliss::pe_error&)
+		{
+			invalid_attributes |= rdn_attribute::common_name;
+		}
+
+		auto validate_rdn_attribute = [&missing_attributes,
+			&invalid_attributes, &subject_dn](auto attr, auto func) {
+			try
+			{
+				if (!(subject_dn.*func)())
+					missing_attributes |= attr;
+			}
+			catch (const pe_bliss::pe_error&)
+			{
+				invalid_attributes |= attr;
+			}
+		};
+
+		using dn_type = pe_bliss::security::x500::flat_distinguished_name<RangeType>;
+		validate_rdn_attribute(rdn_attribute::country, &dn_type::get_country_name);
+		validate_rdn_attribute(rdn_attribute::locality, &dn_type::get_locality_name);
+		validate_rdn_attribute(rdn_attribute::organization, &dn_type::get_organization_name);
+		validate_rdn_attribute(rdn_attribute::state, &dn_type::get_state_or_province_name);
+
+		if (missing_attributes)
+		{
+			reporter.template log<pe_report::authenticode_missing_subject_dn_attributes>(
+				signature_info_arg,
+				output::named_arg("attributes", mask_to_attributes(missing_attributes)));
+		}
+
+		if (invalid_attributes)
+		{
+			reporter.template log<pe_report::authenticode_invalid_subject_dn_attributes>(
+				signature_info_arg,
+				output::named_arg("attributes", mask_to_attributes(invalid_attributes)));
+		}
 	}
 
 	template<typename Reporter>

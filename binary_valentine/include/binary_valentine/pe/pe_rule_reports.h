@@ -436,6 +436,14 @@ using authenticode_absent_signing_time = output::rule_report_info<
 	"PE181", output::report_category::security, output::report_level::critical>;
 using authenticode_check_error = output::rule_report_info<
 	"PE182", output::report_category::format, output::report_level::critical>;
+using authenticode_test_signature = output::rule_report_info<
+	"PE184", output::report_category::security, output::report_level::warning>;
+using authenticode_empty_subject_dn = output::rule_report_info<
+	"PE185", output::report_category::format, output::report_level::error>;
+using authenticode_missing_subject_dn_attributes = output::rule_report_info<
+	"PE186", output::report_category::format, output::report_level::info>;
+using authenticode_invalid_subject_dn_attributes = output::rule_report_info<
+	"PE187", output::report_category::format, output::report_level::critical>;
 
-//NEXT: PE183
+//NEXT: PE183, PE188
 } //namespace bv::pe_report

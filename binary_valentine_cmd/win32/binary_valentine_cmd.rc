@@ -68,12 +68,12 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "Denis T / dragondreamer"
             VALUE "FileDescription", "Executable files static analyzer"
-            VALUE "FileVersion", "0.1.0.0"
+            VALUE "FileVersion", "0.2.0.0"
             VALUE "InternalName", "Binary Valentine"
             VALUE "LegalCopyright", "Denis T (C) 2023, https://github.com/dragon-dreamer/binary-valentine"
             VALUE "OriginalFilename", "binary_valentine_cmd.exe"
             VALUE "ProductName", "Binary Valentine"
-            VALUE "ProductVersion", "0.1.0.0"
+            VALUE "ProductVersion", "0.2.0.0"
         END
     END
     BLOCK "VarFileInfo"

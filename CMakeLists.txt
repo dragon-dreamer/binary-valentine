@@ -30,3 +30,7 @@ add_subdirectory(external/pe_bliss2)
 add_subdirectory(binary_valentine)
 add_subdirectory(binary_valentine_cmd)
 add_subdirectory(data)
+
+# Trim __FILE__ macros in some of the cryptopp cpp files
+file(TO_NATIVE_PATH "${CMAKE_CURRENT_LIST_DIR}" CMAKE_CURRENT_LIST_DIR_NATIVE)
+target_compile_options(cryptopp PRIVATE "$<$<COMPILE_LANGUAGE:CXX>:/d1trimfile:${CMAKE_CURRENT_LIST_DIR_NATIVE}">)

@@ -39,11 +39,13 @@ bool exclude(const std::string& utf8_canonical_path,
 }
 
 void add_regex(std::string_view regex,
-	std::vector<std::regex>& list)
+	std::vector<std::regex>& regex_list,
+	std::vector<std::string>& regex_string_list)
 {
 	try
 	{
-		list.emplace_back(regex.begin(), regex.end());
+		regex_list.emplace_back(regex.begin(), regex.end());
+		regex_string_list.emplace_back(regex.begin(), regex.end());
 	}
 	catch (const std::regex_error&)
 	{
@@ -69,12 +71,12 @@ bool target_filter::satisfies(const std::filesystem::path& path) const
 
 void target_filter::add_include_regex(std::string_view regex)
 {
-	add_regex(regex, include_regex_);
+	add_regex(regex, include_regex_, include_regex_strings_);
 }
 
 void target_filter::add_exclude_regex(std::string_view regex)
 {
-	add_regex(regex, exclude_regex_);
+	add_regex(regex, exclude_regex_, exclude_regex_strings_);
 }
 
 plan_target::plan_target(std::string_view path)
@@ -103,6 +105,18 @@ void analysis_plan::set_progress_report(
 	std::shared_ptr<progress::progress_report_interface>&& report) noexcept
 {
 	progress_report_ = std::move(report);
+}
+
+void analysis_plan::add_realtime_report_creator(
+	output::realtime_report_creator_type&& creator)
+{
+	report_creators_.emplace_back(std::move(creator));
+}
+
+void analysis_plan::set_custom_in_memory_report_creator(
+	output::in_memory_report_creator_type&& creator)
+{
+	in_memory_report_creator_ = std::move(creator);
 }
 
 result_report_file::result_report_file(std::string_view path, result_report_file_type type)

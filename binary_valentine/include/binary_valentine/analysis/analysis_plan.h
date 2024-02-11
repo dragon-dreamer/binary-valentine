@@ -14,6 +14,8 @@
 #include <vector>
 
 #include "binary_valentine/core/rule_selector.h"
+#include "binary_valentine/output/realtime_report_creator_type.h"
+#include "binary_valentine/output/in_memory_report_creator_type.h"
 
 namespace bv::progress { class progress_report_interface; }
 
@@ -30,9 +32,24 @@ public:
 	void add_include_regex(std::string_view regex);
 	void add_exclude_regex(std::string_view regex);
 
+public:
+	[[nodiscard]]
+	const std::vector<std::string>& get_include_regex_strings() const noexcept
+	{
+		return include_regex_strings_;
+	}
+
+	[[nodiscard]]
+	const std::vector<std::string>& get_exclude_regex_strings() const noexcept
+	{
+		return exclude_regex_strings_;
+	}
+
 private:
 	std::vector<std::regex> include_regex_;
 	std::vector<std::regex> exclude_regex_;
+	std::vector<std::string> include_regex_strings_;
+	std::vector<std::string> exclude_regex_strings_;
 };
 
 class [[nodiscard]] plan_target
@@ -226,6 +243,12 @@ public:
 	void set_progress_report(
 		std::shared_ptr<progress::progress_report_interface>&& report) noexcept;
 
+	void add_realtime_report_creator(
+		output::realtime_report_creator_type&& creator);
+	
+	void set_custom_in_memory_report_creator(
+		output::in_memory_report_creator_type&& creator);
+
 public:
 	[[nodiscard]]
 	bool do_combined_analysis() const noexcept
@@ -288,6 +311,20 @@ public:
 		return progress_report_;
 	}
 
+	[[nodiscard]]
+	const std::vector<output::realtime_report_creator_type>&
+		get_realtime_report_creators() const noexcept
+	{
+		return report_creators_;
+	}
+
+	[[nodiscard]]
+	const output::in_memory_report_creator_type&
+		get_custom_in_memory_report_creator() const noexcept
+	{
+		return in_memory_report_creator_;
+	}
+
 private:
 	std::filesystem::path root_path_;
 	std::vector<plan_target> targets_;
@@ -299,6 +336,8 @@ private:
 	thread_count_type thread_count_ = 0;
 	bool enable_signal_cancellation_ = false;
 	std::shared_ptr<progress::progress_report_interface> progress_report_;
+	std::vector<output::realtime_report_creator_type> report_creators_;
+	output::in_memory_report_creator_type in_memory_report_creator_;
 };
 
 } //namespace bv::analysis

@@ -70,7 +70,7 @@ BEGIN
             VALUE "FileDescription", "Executable files static analyzer"
             VALUE "FileVersion", "0.2.0.0"
             VALUE "InternalName", "Binary Valentine"
-            VALUE "LegalCopyright", "Denis T (C) 2023, https://github.com/dragon-dreamer/binary-valentine"
+            VALUE "LegalCopyright", "Denis T (C) 2024, https://github.com/dragon-dreamer/binary-valentine"
             VALUE "OriginalFilename", "binary_valentine_cmd.exe"
             VALUE "ProductName", "Binary Valentine"
             VALUE "ProductVersion", "0.2.0.0"

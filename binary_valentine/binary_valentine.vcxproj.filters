@@ -980,5 +980,11 @@
     <ClInclude Include="include\binary_valentine\pe\rule\authenticode_error_descriptions.h">
       <Filter>Header Files\pe\rule</Filter>
     </ClInclude>
+    <ClInclude Include="include\binary_valentine\output\realtime_report_creator_type.h">
+      <Filter>Header Files\output</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\output\in_memory_report_creator_type.h">
+      <Filter>Header Files\output</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

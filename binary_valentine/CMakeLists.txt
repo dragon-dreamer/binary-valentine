@@ -19,7 +19,7 @@ include(../external/pe_bliss2/cmake/output_options.cmake)
 set_output_dirs(binary_valentine_lib)
 set_msvc_runtime_library(binary_valentine_lib "${BINARY_VALENTINE_MSVC_RUNTIME_LIBRARY}")
 
-target_include_directories(binary_valentine_lib PUBLIC include)
+target_include_directories(binary_valentine_lib PUBLIC include "${Boost_INCLUDE_DIRS}")
 
 target_link_libraries(binary_valentine_lib
 	PRIVATE
@@ -30,9 +30,10 @@ target_link_libraries(binary_valentine_lib
 		pugixml
 		utf8cpp
 		Boost::filesystem
-		Boost::locale
-		Boost::system
+                Boost::locale
 		Boost::program_options
+        PUBLIC
+                Boost::system
 )
 
 if (UNIX AND NOT APPLE)
@@ -125,9 +126,11 @@ target_sources(binary_valentine_lib
 		include/binary_valentine/output/internal_report_messages.h
 		include/binary_valentine/output/in_memory_output_creator.h
 		include/binary_valentine/output/in_memory_report.h
+		include/binary_valentine/output/in_memory_report_creator_type.h
 		include/binary_valentine/output/in_memory_report_output.h
 		include/binary_valentine/output/issue_tracking_output.h
 		include/binary_valentine/output/multiple_report_output.h
+		include/binary_valentine/output/realtime_report_creator_type.h
 		include/binary_valentine/output/result_report_interface.h
 		include/binary_valentine/output/rule_report.h
 		include/binary_valentine/output/rule_report_helper.h

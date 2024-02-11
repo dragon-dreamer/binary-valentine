@@ -338,9 +338,11 @@
     <ClInclude Include="include\binary_valentine\output\internal_report_messages.h" />
     <ClInclude Include="include\binary_valentine\output\in_memory_output_creator.h" />
     <ClInclude Include="include\binary_valentine\output\in_memory_report.h" />
+    <ClInclude Include="include\binary_valentine\output\in_memory_report_creator_type.h" />
     <ClInclude Include="include\binary_valentine\output\in_memory_report_output.h" />
     <ClInclude Include="include\binary_valentine\output\issue_tracking_output.h" />
     <ClInclude Include="include\binary_valentine\output\multiple_report_output.h" />
+    <ClInclude Include="include\binary_valentine\output\realtime_report_creator_type.h" />
     <ClInclude Include="include\binary_valentine\output\result_report_interface.h" />
     <ClInclude Include="include\binary_valentine\output\rule_report.h" />
     <ClInclude Include="include\binary_valentine\output\rule_report_helper.h" />

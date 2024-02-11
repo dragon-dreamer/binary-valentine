@@ -143,7 +143,11 @@ constexpr auto strings = std::to_array<std::pair<std::string_view, std::string_v
 		"At least one output report should be specified" },
 	{ "user_error_no_options_allowed_with_config", "No additional options are allowed "
 		"when --config is specified." },
-
+	{ "user_error_invalid_target_path", "Invalid executable target path." },
+	{ "user_error_invalid_report_path", "Invalid output report file path." },
+	{ "user_error_invalid_project_path", "Invalid project path." },
+	{ "user_error_unable_to_write_file", "Unable to write file. Underlying error: '{error}'" },
+		
 	{ "unable_to_load_analysis_plan", "Unable to load analysis plan: {exception}." },
 
 	{ "pe_debug_directory_rule", "PE debug directory rule" },

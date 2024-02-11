@@ -57,7 +57,11 @@ enum class user_errc
 	no_reports_specified,
 	help_requested,
 	reports_info_requested,
-	no_options_allowed_with_config
+	no_options_allowed_with_config,
+	invalid_target_path,
+	invalid_report_path,
+	invalid_project_path,
+	unable_to_write_file
 };
 
 std::error_code make_error_code(user_errc) noexcept;

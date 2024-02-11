@@ -94,6 +94,14 @@ std::string_view get_error_string_id_impl(int ev) noexcept
 		return "user_error_reports_info_requested";
 	case no_options_allowed_with_config:
 		return "user_error_no_options_allowed_with_config";
+	case invalid_target_path:
+		return "user_error_invalid_target_path";
+	case invalid_report_path:
+		return "user_error_invalid_report_path";
+	case invalid_project_path:
+		return "user_error_invalid_project_path";
+	case unable_to_write_file:
+		return "user_error_unable_to_write_file";
 	default:
 		return {};
 	}

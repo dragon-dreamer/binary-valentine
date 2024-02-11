@@ -30,4 +30,10 @@ std::string_view rule_report_resource_helper::get_report_description() const
 		report_.get_description_key());
 }
 
+std::string_view rule_report_resource_helper::get_rule_name() const
+{
+	return resource_provider_.get_string(
+		report_.get_rule_name_key());
+}
+
 } //namespace bv::string

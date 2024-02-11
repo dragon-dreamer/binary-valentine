@@ -34,6 +34,9 @@ public:
 	[[nodiscard]]
 	std::string_view get_report_description() const;
 
+	[[nodiscard]]
+	std::string_view get_rule_name() const;
+
 private:
 	const output::rule_report_base& report_;
 	const resource_provider_interface& resource_provider_;

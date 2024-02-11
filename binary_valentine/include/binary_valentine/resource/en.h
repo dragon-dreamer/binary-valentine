@@ -438,7 +438,7 @@ constexpr auto strings = std::to_array<std::pair<std::string_view, std::string_v
 		"StringFileInfo version string value: '{version_string}'." },
 	{ "PE067", "Version info StringFileInfo version string has suffix" },
 	{ "PE067_description", "Version information StringFileInfo block version string has the standard format "
-		"'MAJOR.MINOR.BUILD.REVISION', 'MAJOR.MINOR.BUILD' or 'MAJOR.MINOR', but also has a non-standard suffix in the end."
+		"'MAJOR.MINOR.BUILD.REVISION', 'MAJOR.MINOR.BUILD' or 'MAJOR.MINOR', but also has a non-standard suffix in the end. "
 		"Affected StringFileInfo language: {string_lcid}, tag: '{string_lcid_tag}', location: '{string_lcid_location}', "
 		"character set: '{string_cpid}', character set name: '{string_cpid_name}'. "
 		"StringFileInfo version string value: '{version_string}'." },
@@ -714,7 +714,7 @@ constexpr auto strings = std::to_array<std::pair<std::string_view, std::string_v
 		"The code may be not optimal, have bugs, or be insecure. "
 		"Tool type: '{type}', product version: '{version}'."},
 
-	{ "pe_manifest_rule", "PE Manifest rule" },
+	{ "pe_application_manifest_rule", "PE Manifest rule" },
 	{ "PE128", "Manifest does not exist" },
 	{ "PE128_description", "The executable lacks the manifest file or the manifest resource. "
 		"Several system mitigations and optimizations are disabled." },

@@ -4,6 +4,7 @@
 #include <concepts>
 #include <exception>
 #include <system_error>
+#include <utility>
 
 #include "binary_valentine/analysis/analysis_plan.h"
 #include "binary_valentine/analysis/analysis_plan_parse_helpers.h"
@@ -257,11 +258,18 @@ void parse_target_filters(const pugi::xml_node& target_node, plan_target& target
 }
 
 void parse_targets(const pugi::xml_node& plan_root,
-	const immutable_context& context, analysis_plan& plan)
+	const immutable_context& context,
+	bool allow_empty_targets,
+	analysis_plan& plan)
 {
 	auto targets_node = get_single_node(plan_root, "targets");
 	if (!targets_node)
-		throw core::user_error(core::user_errc::no_targets_specified);
+	{
+		if (!allow_empty_targets)
+			throw core::user_error(core::user_errc::no_targets_specified);
+
+		return;
+	}
 
 	for (const auto& target_node : *targets_node)
 	{
@@ -292,7 +300,7 @@ void parse_targets(const pugi::xml_node& plan_root,
 		parse_target_filters(target_node, target);
 	}
 
-	if (plan.get_targets().empty())
+	if (plan.get_targets().empty() && !allow_empty_targets)
 		throw core::user_error(core::user_errc::no_targets_specified);
 }
 
@@ -306,11 +314,17 @@ void parse_file_output(const pugi::xml_node& report_node,
 	plan.emplace_output_report(result_report_file(path, type));
 }
 
-void parse_output_reports(const pugi::xml_node& plan_root, analysis_plan& plan)
+void parse_output_reports(const pugi::xml_node& plan_root,
+	bool allow_empty_reports, analysis_plan& plan)
 {
 	auto reports_node = get_single_node(plan_root, "reports");
 	if (!reports_node)
-		throw core::user_error(core::user_errc::no_reports_specified);
+	{
+		if (!allow_empty_reports)
+			throw core::user_error(core::user_errc::no_reports_specified);
+
+		return;
+	}
 
 	bool has_terminal_output = false;
 	for (const auto& report_node : *reports_node)
@@ -343,7 +357,7 @@ void parse_output_reports(const pugi::xml_node& plan_root, analysis_plan& plan)
 			core::user_error::arg_type("tag", std::string(node_name)));
 	}
 
-	if (plan.get_result_reports().empty())
+	if (plan.get_result_reports().empty() && !allow_empty_reports)
 		throw core::user_error(core::user_errc::no_reports_specified);
 }
 
@@ -389,6 +403,24 @@ void parse_output_reports(const pugi::xml_node& plan_root, analysis_plan& plan)
 </plan>
 */
 
+xml_analysis_plan_provider::xml_analysis_plan_provider(std::filesystem::path&& path,
+	const immutable_context& context,
+	const analysis_plan_options& options)
+	: xml_(std::move(path))
+	, context_(context)
+	, options_(options)
+{
+}
+
+xml_analysis_plan_provider::xml_analysis_plan_provider(std::string&& xml,
+	const immutable_context& context,
+	const analysis_plan_options& options)
+	: xml_(std::move(xml))
+	, context_(context)
+	, options_(options)
+{
+}
+
 analysis_plan xml_analysis_plan_provider::get() const
 {
 	pugi::xml_document config;
@@ -418,8 +450,8 @@ analysis_plan xml_analysis_plan_provider::get() const
 	parse_preload_limit(plan_root, result);
 	parse_combined_analysis_options(plan_root, result);
 	parse_global_selector(plan_root, context_, result);
-	parse_targets(plan_root, context_, result);
-	parse_output_reports(plan_root, result);
+	parse_targets(plan_root, context_, options_.allow_empty_targets, result);
+	parse_output_reports(plan_root, options_.allow_empty_reports, result);
 
 	return result;
 }

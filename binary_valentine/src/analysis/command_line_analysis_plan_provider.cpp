@@ -79,7 +79,8 @@ public:
 			}
 
 			const auto& config_path = config_path_it->second.as<std::basic_string<Char>>();
-			auto plan = config_file_analysis_plan_provider(to_path(config_path))->get();
+			auto plan = config_file_analysis_plan_provider(to_path(config_path,
+				core::user_errc::invalid_project_path))->get();
 			set_plan_common_options(vm, resources, plan);
 			return plan;
 		}
@@ -170,14 +171,16 @@ private:
 		if (auto path_it = vm.find("sarif"); path_it != vm.end())
 		{
 			plan.emplace_output_report(result_report_file(to_path(
-				path_it->second.as<std::basic_string<Char>>()),
+				path_it->second.as<std::basic_string<Char>>(),
+				core::user_errc::invalid_report_path),
 				result_report_file_type::sarif));
 		}
 
 		if (auto path_it = vm.find("text"); path_it != vm.end())
 		{
 			plan.emplace_output_report(result_report_file(to_path(
-				path_it->second.as<std::basic_string<Char>>()),
+				path_it->second.as<std::basic_string<Char>>(),
+				core::user_errc::invalid_report_path),
 				result_report_file_type::text));
 		}
 
@@ -222,7 +225,8 @@ private:
 	static void add_target(analysis_plan& plan, bool is_recursive,
 		const Path& path, Filter&& filter)
 	{
-		plan_target& target = plan.emplace_target(to_path(path));
+		plan_target& target = plan.emplace_target(to_path(path,
+			core::user_errc::invalid_target_path));
 		target.set_recursive(is_recursive);
 		target.get_target_filter() = std::forward<Filter>(filter);
 	}
@@ -265,20 +269,30 @@ private:
 		if (auto root_path_it = vm.find("root-path"); root_path_it != vm.end())
 		{
 			plan.set_root_path(to_path(
-				root_path_it->second.as<std::basic_string<Char>>()));
+				root_path_it->second.as<std::basic_string<Char>>(),
+				core::user_errc::invalid_root_path));
 		}
 	}
 
 private:
-	static std::filesystem::path to_path(std::string_view str)
+	static std::filesystem::path to_path(std::string_view str,
+		core::user_errc error)
 	{
-		return string::utf8_to<std::filesystem::path::string_type>::convert(str);
+		try
+		{
+			return string::utf8_to<std::filesystem::path::string_type>::convert(str);
+		}
+		catch (const std::exception&)
+		{
+			std::throw_with_nested(core::user_error(error));
+		}
 	}
 
 #if BOOST_OS_WINDOWS
-	static std::filesystem::path to_path(std::wstring_view str)
+	static std::filesystem::path to_path(std::wstring_view str,
+		core::user_errc error)
 	{
-		return to_path(string::to_utf8(str));
+		return to_path(string::to_utf8(str), error);
 	}
 #endif //BOOST_OS_WINDOWS
 

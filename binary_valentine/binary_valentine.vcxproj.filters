@@ -468,6 +468,12 @@
     <ClCompile Include="src\pe\rule\authenticode_error_descriptions.cpp">
       <Filter>Source Files\pe\rule</Filter>
     </ClCompile>
+    <ClCompile Include="src\core\file_embedded_resource_loader.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\embedded_resource_loader_generator.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\binary_valentine\analysis\analysis_context.h">
@@ -985,6 +991,15 @@
     </ClInclude>
     <ClInclude Include="include\binary_valentine\output\in_memory_report_creator_type.h">
       <Filter>Header Files\output</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\core\embedded_resource_loader_interface.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\core\file_embedded_resource_loader.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\core\embedded_resource_loader_generator.h">
+      <Filter>Header Files\core</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

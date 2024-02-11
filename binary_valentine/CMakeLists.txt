@@ -86,7 +86,10 @@ target_sources(binary_valentine_lib
 		include/binary_valentine/core/data_generator_helpers.h
 		include/binary_valentine/core/data_generator_interface.h
 		include/binary_valentine/core/data_generator_list.h
+		include/binary_valentine/core/embedded_resource_loader_generator.h
+		include/binary_valentine/core/embedded_resource_loader_interface.h
 		include/binary_valentine/core/entity_stream_provider_interface.h
+		include/binary_valentine/core/file_embedded_resource_loader.h
 		include/binary_valentine/core/hash_combine.h
 		include/binary_valentine/core/inaccessible_subject_entity.h
 		include/binary_valentine/core/localizable_error.h
@@ -243,6 +246,8 @@ target_sources(binary_valentine_lib
 		src/core/combined_value_provider.cpp
 		src/core/core_error.cpp
 		src/core/data_generator_list.cpp
+		src/core/embedded_resource_loader_generator.cpp
+		src/core/file_embedded_resource_loader.cpp
 		src/core/rule_detector_container.cpp
 		src/core/rule_list.cpp
 		src/core/rule_selector.cpp

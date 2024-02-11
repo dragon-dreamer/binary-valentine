@@ -1,14 +1,15 @@
 #include "binary_valentine/pe/shared_generator/not_recommended_imports_generator.h"
 
 #include <cstdint>
+#include <memory>
 #include <string_view>
 #include <unordered_map>
 #include <utility>
 
-#include "binary_valentine/common/shared_data/program_path.h"
 #include "binary_valentine/common/xml_loader.h"
 #include "binary_valentine/core/data_generator.h"
 #include "binary_valentine/core/data_generator_list.h"
+#include "binary_valentine/core/embedded_resource_loader_interface.h"
 #include "binary_valentine/core/transparent_hash.h"
 #include "binary_valentine/pe/shared_data/api_sets.h"
 #include "binary_valentine/pe/shared_data/not_recommended_imports.h"
@@ -29,19 +30,19 @@ public:
 
 	[[nodiscard]]
 	core::typed_value_ptr<not_recommended_imports> generate(
-		const common::program_path& program_path,
+		const std::shared_ptr<core::embedded_resource_loader_interface>& embedded_resource_loader,
 		const api_sets& sets) const
 	{
-		return load_not_recommended_imports(program_path, sets);
+		return load_not_recommended_imports(embedded_resource_loader, sets);
 	}
 
 private:
 	static core::typed_value_ptr<not_recommended_imports> load_not_recommended_imports(
-		const common::program_path& program_path,
+		const std::shared_ptr<core::embedded_resource_loader_interface>& embedded_resource_loader,
 		const api_sets& sets)
 	{
-		const auto xml = common::xml_loader::load_xml(program_path.resource_path
-			/ not_recommended_winapi_file_name);
+		const auto xml = common::xml_loader::load_xml(
+			std::string_view{ embedded_resource_loader->load_file(not_recommended_winapi_file_name) });
 
 		const string_to_flags_map_type attr_name_to_flag{
 			{ "deprecated", api_flags::deprecated },

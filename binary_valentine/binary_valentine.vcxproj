@@ -167,6 +167,8 @@
     <ClCompile Include="src\core\combined_value_provider.cpp" />
     <ClCompile Include="src\core\core_error.cpp" />
     <ClCompile Include="src\core\data_generator_list.cpp" />
+    <ClCompile Include="src\core\embedded_resource_loader_generator.cpp" />
+    <ClCompile Include="src\core\file_embedded_resource_loader.cpp" />
     <ClCompile Include="src\core\rule_detector_container.cpp" />
     <ClCompile Include="src\core\rule_list.cpp" />
     <ClCompile Include="src\core\rule_selector.cpp" />
@@ -294,7 +296,10 @@
     <ClInclude Include="include\binary_valentine\core\data_generator_helpers.h" />
     <ClInclude Include="include\binary_valentine\core\data_generator_interface.h" />
     <ClInclude Include="include\binary_valentine\core\data_generator_list.h" />
+    <ClInclude Include="include\binary_valentine\core\embedded_resource_loader_generator.h" />
+    <ClInclude Include="include\binary_valentine\core\embedded_resource_loader_interface.h" />
     <ClInclude Include="include\binary_valentine\core\entity_stream_provider_interface.h" />
+    <ClInclude Include="include\binary_valentine\core\file_embedded_resource_loader.h" />
     <ClInclude Include="include\binary_valentine\core\hash_combine.h" />
     <ClInclude Include="include\binary_valentine\core\inaccessible_subject_entity.h" />
     <ClInclude Include="include\binary_valentine\core\localizable_error.h" />

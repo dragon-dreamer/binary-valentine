@@ -1,12 +1,13 @@
 #include "binary_valentine/pe/shared_generator/full_winapi_map_generator.h"
 
+#include <memory>
 #include <string_view>
 #include <utility>
 
-#include "binary_valentine/common/shared_data/program_path.h"
 #include "binary_valentine/common/xml_loader.h"
 #include "binary_valentine/core/data_generator.h"
 #include "binary_valentine/core/data_generator_list.h"
+#include "binary_valentine/core/embedded_resource_loader_interface.h"
 #include "binary_valentine/core/transparent_hash.h"
 #include "binary_valentine/pe/shared_data/winapi_library_list.h"
 
@@ -22,10 +23,10 @@ public:
 
 	[[nodiscard]]
 	core::typed_value_ptr<full_winapi_library_map_type> generate(
-		const common::program_path& program_path) const
+		const std::shared_ptr<core::embedded_resource_loader_interface>& embedded_resource_loader) const
 	{
-		const auto xml = common::xml_loader::load_xml(program_path.resource_path
-			/ all_winapi_file_name);
+		const auto xml = common::xml_loader::load_xml(
+			std::string_view{ embedded_resource_loader->load_file(all_winapi_file_name) });
 
 		auto result = core::make_value<full_winapi_library_map_type>();
 		auto& imports = result->get_value();

@@ -6,6 +6,7 @@
 #include "binary_valentine/core/combined_data_generator.h"
 #include "binary_valentine/core/data_generator_interface.h"
 #include "binary_valentine/core/data_generator_list.h"
+#include "binary_valentine/core/embedded_resource_loader_interface.h"
 #include "binary_valentine/core/rule_list.h"
 #include "binary_valentine/core/rule_detector_container.h"
 #include "binary_valentine/core/value_provider.h"
@@ -18,7 +19,8 @@ namespace bv::analysis
 class [[nodiscard]] immutable_context
 {
 public:
-	immutable_context();
+	explicit immutable_context(
+		std::shared_ptr<core::embedded_resource_loader_interface> embedded_resource_loader = nullptr);
 
 	[[nodiscard]]
 	const bv::core::data_generator_list& get_generators() const noexcept
@@ -72,7 +74,8 @@ public:
 	output::report_uid get_report_uid(std::string_view report_string_uid) const;
 
 private:
-	static core::data_generator_list create_shared_generators();
+	static core::data_generator_list create_shared_generators(
+		std::shared_ptr<core::embedded_resource_loader_interface> embedded_resource_loader);
 
 private:
 	output::exception_formatter exception_formatter_;

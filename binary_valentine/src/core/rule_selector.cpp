@@ -78,8 +78,7 @@ bool any_matches(
 	std::span<const output::arg_type> args,
 	std::span<const char* const> arg_names,
 	const output::exception_formatter& formatter,
-	const std::unordered_map<std::string, std::regex, transparent_hash,
-		std::equal_to<>>& arg_name_to_arg)
+	const report_selector::arg_regex_map& arg_name_to_arg)
 {
 	for (std::size_t i = 0; i != arg_names.size(); ++i)
 	{
@@ -88,7 +87,7 @@ bool any_matches(
 		if (it == arg_name_to_arg.end())
 			continue;
 
-		if (arg_matches(args[i], it->second, formatter))
+		if (arg_matches(args[i], it->second.first, formatter))
 			return true;
 	}
 
@@ -99,8 +98,7 @@ bool all_match(
 	std::span<const output::arg_type> args,
 	std::span<const char* const> arg_names,
 	const output::exception_formatter& formatter,
-	const std::unordered_map<std::string, std::regex, transparent_hash,
-		std::equal_to<>>& arg_name_to_arg)
+	const report_selector::arg_regex_map& arg_name_to_arg)
 {
 	if (arg_names.size() < arg_name_to_arg.size())
 		return false;
@@ -120,7 +118,7 @@ bool all_match(
 		if (it == name_to_arg.end())
 			return false;
 
-		if (!arg_matches(it->second, regex, formatter))
+		if (!arg_matches(it->second, regex.first, formatter))
 			return false;
 	}
 

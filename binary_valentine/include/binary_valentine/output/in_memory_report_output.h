@@ -18,7 +18,7 @@ namespace bv::output
 
 class exception_formatter;
 
-class [[nodiscard]] in_memory_report_output final
+class [[nodiscard]] in_memory_report_output
 	: public entity_report_interface
 	, public entity_in_memory_report_interface
 {
@@ -56,9 +56,16 @@ public:
 	}
 
 	[[nodiscard]]
-	virtual const core::subject_entity_interface* get_entity() const noexcept override
+	virtual const std::shared_ptr<const core::subject_entity_interface>&
+		get_entity() const noexcept override
 	{
-		return entity_.get();
+		return entity_;
+	}
+
+	[[nodiscard]]
+	const string::resource_provider_interface& get_resource_provider() const noexcept
+	{
+		return resource_provider_;
 	}
 
 private:

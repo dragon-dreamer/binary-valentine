@@ -29,9 +29,11 @@ public:
 	}
 
 	[[nodiscard]]
-	virtual const core::subject_entity_interface* get_entity() const noexcept override
+	virtual const std::shared_ptr<const core::subject_entity_interface>&
+		get_entity() const noexcept override
 	{
-		return nullptr;
+		static const constinit std::shared_ptr<const core::subject_entity_interface> nothing;
+		return nothing;
 	}
 
 	[[nodiscard]]

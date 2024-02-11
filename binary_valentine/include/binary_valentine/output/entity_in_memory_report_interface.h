@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 #include "binary_valentine/output/in_memory_report.h"
 
 namespace bv::core
@@ -20,7 +22,8 @@ public:
 	[[nodiscard]]
 	virtual const saved_common_reports_type& get_common_reports() const noexcept = 0;
 	[[nodiscard]]
-	virtual const core::subject_entity_interface* get_entity() const noexcept = 0;
+	virtual const std::shared_ptr<const core::subject_entity_interface>&
+		get_entity() const noexcept = 0;
 };
 
 } //namespace bv::output

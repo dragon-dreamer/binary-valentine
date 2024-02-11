@@ -395,7 +395,7 @@ void sarif_output_format::start(const analysis_state& state)
 void sarif_output_format::append(const entity_in_memory_report_interface& report)
 {
 	std::string_view location;
-	const auto* entity = report.get_entity();
+	const auto& entity = report.get_entity();
 	if (entity)
 	{
 		location = entity->get_utf8_path();

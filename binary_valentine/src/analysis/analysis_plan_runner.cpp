@@ -16,11 +16,13 @@
 #include "binary_valentine/output/format/output_format_interface.h"
 #include "binary_valentine/output/format/sarif_output_format.h"
 #include "binary_valentine/output/format/text_output_format.h"
+#include "binary_valentine/output/in_memory_report_creator_type.h"
 #include "binary_valentine/output/internal_report_messages.h"
 #include "binary_valentine/output/result_report_interface.h"
 #include "binary_valentine/output/terminal_output_creator.h"
 #include "binary_valentine/output/in_memory_output_creator.h"
 #include "binary_valentine/output/issue_tracking_output.h"
+#include "binary_valentine/output/realtime_report_creator_type.h"
 #include "binary_valentine/string/embedded_resource_loader.h"
 #include "binary_valentine/string/encoding.h"
 #include "binary_valentine/string/resource_provider_interface.h"
@@ -54,10 +56,12 @@ namespace
 output::configurable_result_report_factory& init_result_report_factory(
 	const string::resource_provider_interface& resources,
 	const std::vector<result_report_type>& output_reports,
+	const std::vector<output::realtime_report_creator_type>& additional_realtime_reports,
+	const output::in_memory_report_creator_type& custom_in_memory_report_creator,
 	const std::shared_ptr<output::issue_tracking_output>& issue_tracking_output,
 	std::optional<output::configurable_result_report_factory>& factory)
 {
-	bool use_in_memory_report = false;
+	bool use_in_memory_report = !!custom_in_memory_report_creator;
 	bool use_terminal_report = false;
 	for (const auto& output_report : output_reports)
 	{
@@ -82,9 +86,16 @@ output::configurable_result_report_factory& init_result_report_factory(
 	if (use_terminal_report)
 		creators.emplace_back(output::terminal_output_creator{});
 
+	creators.insert(creators.end(),
+		additional_realtime_reports.begin(), additional_realtime_reports.end());
+
 	output::in_memory_report_creator_type in_memory_report_creator;
 	if (use_in_memory_report)
-		in_memory_report_creator = output::in_memory_output_creator{};
+	{
+		in_memory_report_creator = custom_in_memory_report_creator
+			? custom_in_memory_report_creator
+			: output::in_memory_output_creator{};
+	}
 	return factory.emplace(
 		resources, std::move(creators), std::move(in_memory_report_creator));
 }
@@ -147,6 +158,8 @@ void analysis_plan_runner::start()
 {
 	auto& report_factory = init_result_report_factory(
 		impl_->resources, impl_->plan.get_result_reports(),
+		impl_->plan.get_realtime_report_creators(),
+		impl_->plan.get_custom_in_memory_report_creator(),
 		impl_->issue_tracking_output, impl_->report_factory);
 
 	const auto& global_report = impl_->global_context.get_global_report();
@@ -181,7 +194,7 @@ output::format::analysis_state analysis_plan_runner::write_reports(
 		std::visit(core::overloaded{
 			[](result_report_terminal) {},
 			[](result_report_in_memory) {},
-				[&saver, &state, error_log, this](const result_report_file& file) {
+			[&saver, &state, error_log, this](const result_report_file& file) {
 				save_report_to_file(file, state, impl_->resources,
 					impl_->plan.get_root_path(), saver, error_log);
 			}

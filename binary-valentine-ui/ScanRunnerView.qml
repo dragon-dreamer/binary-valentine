@@ -212,6 +212,7 @@ PropertyView {
         }
     }
 
+    // TODO: allow saving scan results without pre-specifying reports
     Frame {
         Layout.fillWidth: true
         Layout.fillHeight: true

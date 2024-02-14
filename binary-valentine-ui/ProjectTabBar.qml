@@ -2,6 +2,9 @@ import QtQuick
 import QtQuick.Controls.Universal
 
 Item {
+    id: root
+    signal tabCloseRequested(index: int)
+
     property alias currentIndex: tabs.currentIndex
 
     implicitWidth: tabs.implicitWidth
@@ -9,9 +12,13 @@ Item {
 
     function addNewTab(): void {
         const tabButton = Qt.createComponent("ProjectTabButton.qml");
-        const obj = tabButton.createObject(tabs);
+        const obj = tabButton.createObject(tabs) as ProjectTabButton;
         tabs.addItem(obj);
         tabs.setCurrentIndex(tabs.count - 1);
+        obj.tabCloseRequested.connect(
+                    () => {
+                        root.tabCloseRequested(obj.TabBar.index);
+                    });
     }
 
     function renameTab(index: int, newName: string, hasAnyChanges: bool): void {
@@ -20,8 +27,12 @@ Item {
         item.hasAnyChanges = hasAnyChanges;
     }
 
-    function closeTab(index) {
+    function closeTab(index: int): void {
         tabs.takeItem(index);
+    }
+
+    function selectTab(index: int): void {
+        tabs.setCurrentIndex(index);
     }
 
     TabBar {
@@ -30,7 +41,9 @@ Item {
         x: 5
         width: parent.width - 10
 
-        ProjectTabButton {}
+        ProjectTabButton {
+            onTabCloseRequested: root.tabCloseRequested(TabBar.index)
+        }
     }
 
     Rectangle {

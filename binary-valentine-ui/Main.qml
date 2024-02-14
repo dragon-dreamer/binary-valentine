@@ -52,8 +52,8 @@ ApplicationWindow {
             MenuSeparator { }
 
             Action {
-                text: qsTr("Close current project")
-                enabled: logic.isProjectTab && !logic.modalDialogInProgress
+                text: qsTr("Close current tab")
+                enabled: !logic.modalDialogInProgress
                 shortcut: StandardKey.Close
                 onTriggered: {
                     logic.closeCurrentProject();
@@ -94,6 +94,10 @@ ApplicationWindow {
     ProjectTabBar {
         id: tabs
         width: parent.width
+
+        onTabCloseRequested: (index) => {
+            logic.tabCloseRequested(index);
+        }
     }
 
     StackLayout {
@@ -149,7 +153,7 @@ ApplicationWindow {
             wrapMode: Label.WordWrap
         }
 
-        onAccepted: logic.abortCurrentProjectAnalysis()
+        onAccepted: logic.abortProjectAnalysis()
     }
 
     Dialog {
@@ -170,7 +174,7 @@ ApplicationWindow {
             wrapMode: Label.WordWrap
         }
 
-        onAccepted: logic.closeCurrentProject(true)
+        onAccepted: logic.closeProject(true)
     }
 
     Dialog {
@@ -278,6 +282,7 @@ ApplicationWindow {
     QtObject {
         id: logic
         property int projectIndex: 0
+        property int projectBeingClosed: 0
         property bool isProjectTab: false
         property bool shouldCloseAppWithUnsavedChanges: false
         property bool modalDialogInProgress: false
@@ -367,17 +372,34 @@ ApplicationWindow {
         }
 
         function closeCurrentProject(confirmUnsavedChanges): void {
+            projectBeingClosed = tabs.currentIndex;
+            closeProject(confirmUnsavedChanges);
+        }
+
+        function selectNearestTab(index: int): void {
+            if (tabs.currentIndex === index && tabContent.count > index + 1) {
+                tabs.selectTab(index + 1);
+            }
+        }
+
+        function closeProject(confirmUnsavedChanges): void {
             stopWaitingForAnalysisAbort();
 
             analysisAbortWaitDialog.close();
 
-            if (!isProjectTab) {
+            const view = tabStackLayout.children[projectBeingClosed] as ProjectView;
+            if (!view) {
+                if (tabContent.count > 1) {
+                    selectNearestTab(projectBeingClosed);
+                    tabContent.remove(projectBeingClosed);
+                    tabs.closeTab(projectBeingClosed);
+                    updateIsProjectTab();
+                }
+
                 return;
             }
 
-            const index = tabs.currentIndex;
-            const currentModel = (tabStackLayout.children[index] as ProjectView).projectModel;
-
+            const currentModel = view.projectModel;
             if (currentModel.analysisInProgress) {
                 openDialog(analysisAbortDialog);
                 return;
@@ -393,31 +415,34 @@ ApplicationWindow {
                 addNewHomeView();
             }
 
-            tabContent.remove(index);
-            tabs.closeTab(index);
+            selectNearestTab(projectBeingClosed);
+            tabContent.remove(projectBeingClosed);
+            tabs.closeTab(projectBeingClosed);
+            updateIsProjectTab();
         }
 
         function stopWaitingForAnalysisAbort(): void {
             if (modelWaitingForAnalysisAbort) {
-                modelWaitingForAnalysisAbort.analysisInProgressChanged.disconnect(closeCurrentProject);
-                modelWaitingForAnalysisAbort = undefined;
+                modelWaitingForAnalysisAbort.analysisInProgressChanged.disconnect(closeProject);
+                modelWaitingForAnalysisAbort = null;
             }
         }
 
-        function abortCurrentProjectAnalysis(): void {
-            if (!isProjectTab) {
+        function abortProjectAnalysis(): void {
+            const view = tabStackLayout.children[projectBeingClosed] as ProjectView;
+            if (!view) {
                 return;
             }
 
-            const currentModel = (tabStackLayout.children[tabs.currentIndex] as ProjectView).projectModel;
+            const currentModel = view.projectModel;
             if (!currentModel.analysisInProgress) {
-                closeCurrentProject();
+                closeProject();
                 return;
             }
 
             openDialog(analysisAbortWaitDialog);
             modelWaitingForAnalysisAbort = currentModel;
-            currentModel.analysisInProgressChanged.connect(closeCurrentProject);
+            currentModel.analysisInProgressChanged.connect(closeProject);
             currentModel.requestAnalysisStop();
         }
 
@@ -524,6 +549,15 @@ ApplicationWindow {
             dialogId.onClosed.connect(slotConnection);
             modalDialogInProgress = true;
             dialogId.open();
+        }
+
+        function tabCloseRequested(index: int): void {
+            if (tabContent.count === 1 && !isProjectTab) {
+                return;
+            }
+
+            logic.projectBeingClosed = index;
+            closeProject();
         }
     }
 

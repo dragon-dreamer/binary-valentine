@@ -48,7 +48,7 @@ qt_add_qml_module(appbinary-valentine-ui
     QML_FILES ReportOutputsView.qml
     QML_FILES ScanRunnerView.qml
     QML_FILES CheckableButton.qml
-    RESOURCES res/level-0.png res/level-1.png res/level-2.png res/level-3.png res/level-no.png res/level-progress.png res/logo.png res/logo-big.png res/logo-small.png
+    RESOURCES res/level-0.png res/level-1.png res/level-2.png res/level-3.png res/level-no.png res/level-progress.png res/logo.png res/logo-big.png res/logo-small.png res/close.png res/close-inactive.png res/close-down.png
     QML_FILES ProjectViewLoader.qml
     QML_FILES AboutWindow.qml
     RESOURCES ../data/all_winapi.xml ../data/apisets.xml ../data/not_recommended_winapi.xml

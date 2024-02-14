@@ -21,9 +21,9 @@ Item {
                     });
     }
 
-    function renameTab(index: int, newName: string, hasAnyChanges: bool): void {
+    function renameTab(index: int, newName, hasAnyChanges: bool): void {
         const item = tabs.itemAt(index) as ProjectTabButton;
-        item.tabName = newName;
+        item.tabName = newName; // Can be a binding
         item.hasAnyChanges = hasAnyChanges;
     }
 

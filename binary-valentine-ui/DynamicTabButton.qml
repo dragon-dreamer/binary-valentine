@@ -19,6 +19,7 @@ TabButton {
 
         Label {
             anchors.fill: parent
+            anchors.rightMargin: 26
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
             text: tabButton.text

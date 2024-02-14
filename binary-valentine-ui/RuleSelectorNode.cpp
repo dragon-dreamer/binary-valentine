@@ -139,7 +139,7 @@ RuleSelectorNode::RuleSelectorNode(ProjectTreeNode* parent, bool isGlobal)
 QVariant RuleSelectorNode::dataImpl(int role) const
 {
     if (role == ProjectNodeRole::ProjectNodeNameRole)
-        return isGlobal_;
+        return isGlobal_ ? QString("1") : QString{};
 
     return {};
 }

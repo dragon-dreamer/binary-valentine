@@ -3,6 +3,7 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQuickWindow>
+#include <QQuickStyle>
 #include <QQuickView>
 
 #include "AnalysisProgress.h"
@@ -34,6 +35,8 @@ int main(int argc, char *argv[])
     QGuiApplication::setApplicationName(versionInfo->getToolName());
     QGuiApplication::setApplicationVersion(versionInfo->getVersion());
     QGuiApplication::setOrganizationName(versionInfo->getAuthorName());
+
+    QQuickStyle::setStyle("Universal");
 
     QQmlApplicationEngine engine;
 

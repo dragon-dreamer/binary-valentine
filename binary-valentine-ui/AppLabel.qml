@@ -1,4 +1,4 @@
-import QtQuick.Controls
+import QtQuick.Controls.Universal
 
 Label {
     color: Colors.labelText

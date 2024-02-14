@@ -1,5 +1,5 @@
 import QtQuick
-import QtQuick.Controls
+import QtQuick.Controls.Universal
 
 Item {
     property alias currentIndex: tabs.currentIndex

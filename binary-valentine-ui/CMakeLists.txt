@@ -1,10 +1,10 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(binary-valentine-ui VERSION 0.2 LANGUAGES CXX)
+project(binary-valentine-ui VERSION 0.3 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(Qt6 6.4 REQUIRED COMPONENTS Quick QuickControls2)
+find_package(Qt6 6.5 REQUIRED COMPONENTS Quick QuickControls2)
 
 qt_standard_project_setup()
 

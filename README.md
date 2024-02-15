@@ -7,7 +7,10 @@ Website: https://binary-valentine.com
 
 Documentation: https://binary-valentine.com/docs
 
+<img align="center" src="./.github/bv-scan.png">
+
 ## Main features
+* Provides both the compatible command line and the GUI executables. Also provides the graphical project editor.
 * Finds bugs, misconfigurations, format and security issues related to the executable format and not the code it contains. Suggests hardening and optimization techniques.
 * Supports flexible project configuration (file path, rule filters), which can be supplied as a separate file or in the command line.
 * Supports several output formats (terminal output, plain text, SARIF).
@@ -25,7 +28,7 @@ Binary Valentine currently only supports the Portable Executable format (which i
 * **System issues**, which are related to the operating system misuse, such as deprecated or internal WinAPI usage, system compatibility issues, and DPI awareness.
 * **Format issues**, which are related to the PE format itself.
 
-For Portable Executable, more than 160 rules are currently provided. Most rules are single-executable, but some of them do combined scans (e.g., version info cross-executable consistency check rules).
+For Portable Executable, more than 180 rules are currently provided. Most rules are single-executable, but some of them do combined scans (e.g., version info cross-executable consistency check rules).
 
 ### Flexible project configuration
 An XML project file can be supplied to Binary Valentine, which would scan the project according to selected rules and filters. A project can contain one or more files or directories to scan (with optional regular expressions to filter path names). Each path or file can be configured with a separate set of applied rules, warning levels and categories. Apart from that, XML projects can specify output format and execution options (e.g. thread count and max memory consumption limit).
@@ -33,6 +36,10 @@ In addition to project-based execution, Binary Valentine can be invoked by suppl
 
 ### Industry standard output formats
 Binary Valentine supports several output formats to ease integration with other systems. In addition to terminal and plain text output, it supports the [Static Analysis Results Interchange Format (SARIF) 2.1.0](https://docs.oasis-open.org/sarif/sarif/v2.1.0/sarif-v2.1.0.html), which is the industry standard format for the output of static analysis tools.
+
+### Fluent GUI
+In addition to the command line, Binary Valentine provides a fully featured graphical user interface, which allows to perform executable files analysis in real time!
+It is also a Binary Valentine project editor, allowing to create, edit, save and load projects without manually writing XML.
 
 ### Cross-platform
 Binary Valentine can be built for a range of platforms with a set of C++20 compilers:

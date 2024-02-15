@@ -79,7 +79,12 @@ PropertyView {
             return root.node.addTargets(paths);
         }
         function addEnteredTargetToProject(): void {
-            if (logic.addTargetsToProject(targetPath.text)) {
+            var path = targetPath.text.trim();
+            if (path.length === 0) {
+                return;
+            }
+
+            if (logic.addTargetsToProject(path)) {
                 targetExistsLabel.visible = true;
             } else {
                 targetPath.text = "";

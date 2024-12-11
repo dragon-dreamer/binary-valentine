@@ -1,6 +1,7 @@
 #pragma once
 
 #include <filesystem>
+#include <string>
 
 #include "binary_valentine/core/embedded_resource_loader_interface.h"
 

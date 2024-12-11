@@ -56,7 +56,7 @@ public:
 			buffers::input_buffer_stateful_wrapper ref(data.data());
 
 			//Set copy_value_memory because this info will be used
-			//in a combined rule. THis will help free the remaining image memory by the
+			//in a combined rule. This will help free the remaining image memory by the
 			//time that rule is called (version info will remain in the
 			//value provider, and everything else will be evicted, so we do not
 			//want version info to reference the whole image buffer)

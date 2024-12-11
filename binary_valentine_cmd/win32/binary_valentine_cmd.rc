@@ -50,8 +50,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 0,3,0,0
- PRODUCTVERSION 0,3,0,0
+ FILEVERSION 0,3,1,0
+ PRODUCTVERSION 0,3,1,0
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -68,12 +68,12 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "Denis T / dragondreamer"
             VALUE "FileDescription", "Executable files static analyzer"
-            VALUE "FileVersion", "0.3.0.0"
+            VALUE "FileVersion", "0.3.1.0"
             VALUE "InternalName", "Binary Valentine"
             VALUE "LegalCopyright", "Denis T (C) 2024, https://github.com/dragon-dreamer/binary-valentine"
             VALUE "OriginalFilename", "binary_valentine_cmd.exe"
             VALUE "ProductName", "Binary Valentine"
-            VALUE "ProductVersion", "0.3.0.0"
+            VALUE "ProductVersion", "0.3.1.0"
         END
     END
     BLOCK "VarFileInfo"

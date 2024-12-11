@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <assembly xmlns="urn:schemas-microsoft-com:asm.v1" manifestVersion="1.0">
-        <assemblyIdentity name="binary_valentine_cmd.exe" version="0.3.0.0" processorArchitecture="amd64" type="win32" />
+        <assemblyIdentity name="binary_valentine_cmd.exe" version="0.3.1.0" processorArchitecture="amd64" type="win32" />
 	<trustInfo xmlns="urn:schemas-microsoft-com:asm.v2">
 		<security>
 			<requestedPrivileges xmlns="urn:schemas-microsoft-com:asm.v3">

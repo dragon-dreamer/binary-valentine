@@ -114,3 +114,8 @@ install(TARGETS appbinary-valentine-ui
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
+
+if(MSVC)
+	target_compile_options(BinaryValentineNative PRIVATE "/MP")
+	target_compile_options(appbinary-valentine-ui PRIVATE "/MP")
+endif()

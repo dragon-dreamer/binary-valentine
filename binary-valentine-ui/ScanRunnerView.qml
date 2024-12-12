@@ -75,26 +75,57 @@ PropertyView {
 
         CheckableButton {
             text: qsTr("FATAL")
+
+            icon.width: 16
+            icon.height: 16
+            icon.source: "res/level-3.png"
+            icon.color: checked ? "transparent" : Colors.buttonLevelIconColorUnchecked
+
             checkedColor: Colors.buttonLevelCriticalChecked
+            checkedTextColor: Colors.labelText
+            uncheckedTextColor: Colors.buttonLevelLabelTextUnchecked
             checked: root.node.reportLevels & RuleSelector.ReportLevelCritical
             onToggled: logic.checkReportLevel(RuleSelector.ReportLevelCritical, checked)
         }
         CheckableButton {
             text: qsTr("ERROR")
+
+            icon.width: 16
+            icon.height: 16
+            icon.source: "res/level-2.png"
+            icon.color: checked ? "transparent" : Colors.buttonLevelIconColorUnchecked
+
             checkedColor: Colors.buttonLevelErrorChecked
+            checkedTextColor: Colors.labelText
+            uncheckedTextColor: Colors.buttonLevelLabelTextUnchecked
             checked: root.node.reportLevels & RuleSelector.ReportLevelError
             onToggled: logic.checkReportLevel(RuleSelector.ReportLevelError, checked)
         }
         CheckableButton {
             text: qsTr("WARN")
+
+            icon.width: 16
+            icon.height: 16
+            icon.source: "res/level-1.png"
+            icon.color: checked ? "transparent" : Colors.buttonLevelIconColorUnchecked
+
             checkedColor: Colors.buttonLevelWarningChecked
             checkedTextColor: Colors.labelText
+            uncheckedTextColor: Colors.buttonLevelLabelTextUnchecked
             checked: root.node.reportLevels & RuleSelector.ReportLevelWarning
             onToggled: logic.checkReportLevel(RuleSelector.ReportLevelWarning, checked)
         }
         CheckableButton {
             text: qsTr("INFO")
+
+            icon.width: 16
+            icon.height: 16
+            icon.source: "res/level-0.png"
+            icon.color: checked ? "transparent" : Colors.buttonLevelIconColorUnchecked
+
             checkedColor: Colors.buttonLevelInfoChecked
+            checkedTextColor: Colors.labelText
+            uncheckedTextColor: Colors.buttonLevelLabelTextUnchecked
             checked: root.node.reportLevels & RuleSelector.ReportLevelInfo
             onToggled: logic.checkReportLevel(RuleSelector.ReportLevelInfo, checked)
         }
@@ -137,173 +168,179 @@ PropertyView {
         }
     }
 
-    Frame {
+    SplitView{
         Layout.fillWidth: true
         Layout.fillHeight: true
-        Layout.maximumHeight: 100
+        orientation: Qt.Vertical
 
-        background: Rectangle {
-            color: "transparent"
-            border.color: Colors.frameBorder
-            radius: 2
-        }
+        Frame {
+            SplitView.minimumHeight: 50
+            SplitView.preferredHeight: 100
 
-        ScrollView  {
-            width: parent.width
-            height: parent.height
-            contentHeight: analyzedFilesList.height
-            ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
-            ScrollBar.vertical.policy: ScrollBar.AlwaysOn
+            background: Rectangle {
+                color: "transparent"
+                border.color: Colors.frameBorder
+                radius: 2
+            }
 
-            ListView {
-                model: analyzedFilesListModel
-                id: analyzedFilesList
-                boundsBehavior: Flickable.StopAtBounds
-                boundsMovement: Flickable.StopAtBounds
-                clip: true
-                pixelAligned: true
-                highlightMoveDuration: 0
-                highlightResizeDuration: 0
-                spacing: 5
-                activeFocusOnTab: true
+            ScrollView  {
+                width: parent.width
+                height: parent.height
+                contentHeight: analyzedFilesList.height
+                ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
+                ScrollBar.vertical.policy: ScrollBar.AlwaysOn
 
-                highlight: Rectangle {
-                    color: Colors.listViewHighlightBg;
-                    radius: 2
-                }
+                ListView {
+                    model: analyzedFilesListModel
+                    id: analyzedFilesList
+                    boundsBehavior: Flickable.StopAtBounds
+                    boundsMovement: Flickable.StopAtBounds
+                    clip: true
+                    pixelAligned: true
+                    highlightMoveDuration: 0
+                    highlightResizeDuration: 0
+                    spacing: 5
+                    activeFocusOnTab: true
 
-                delegate: MouseArea {
-                    id: fileRow
-                    required property var model
-                    required property int index
-                    width: ListView.view.width - 20
-                    height: childrenRect.height
+                    highlight: Rectangle {
+                        color: Colors.listViewHighlightBg;
+                        radius: 2
+                    }
 
-                    RowLayout {
-                        width: parent.width
+                    delegate: MouseArea {
+                        id: fileRow
+                        required property var model
+                        required property int index
+                        width: ListView.view.width - 20
                         height: childrenRect.height
 
-                        Image {
-                            id: fileIcon
-                            width: 16
-                            height: 16
-                            source: "res/level-" + logic.toLevel(fileRow.model.level) + ".png"
+                        RowLayout {
+                            width: parent.width
+                            height: childrenRect.height
+
+                            Image {
+                                id: fileIcon
+                                width: 16
+                                height: 16
+                                source: "res/level-" + logic.toLevel(fileRow.model.level) + ".png"
+                            }
+
+                            Label {
+                                text: fileRow.model.path
+                                Layout.fillWidth: true
+                                elide: Label.ElideLeft
+                            }
                         }
 
-                        Label {
-                            text: fileRow.model.path
-                            Layout.fillWidth: true
-                            elide: Label.ElideLeft
+                        onClicked: {
+                            root.node.selectedFileIndex = fileRow.model.fileIndex;
+                            analyzedFilesList.currentIndex = fileRow.index;
                         }
                     }
 
-                    onClicked: {
-                        root.node.selectedFileIndex = fileRow.model.fileIndex;
-                        analyzedFilesList.currentIndex = fileRow.index;
-                    }
-                }
-
-                onCurrentItemChanged: {
-                    if (currentItem !== null) {
-                        logic.loadReport();
+                    onCurrentItemChanged: {
+                        if (currentItem !== null) {
+                            logic.loadReport();
+                        }
                     }
                 }
             }
         }
-    }
 
-    // TODO: allow saving scan results without pre-specifying reports
-    Frame {
-        Layout.fillWidth: true
-        Layout.fillHeight: true
+        // TODO: allow saving scan results without pre-specifying reports
+        Frame {
+            SplitView.fillHeight: true
+            SplitView.fillWidth: true
+            SplitView.minimumHeight: 50
 
-        background: Rectangle {
-            color: "transparent"
-            border.color: Colors.frameBorder
-            radius: 2
-        }
-        ScrollView  {
-            width: parent.width
-            height: parent.height
-            contentHeight: reportsList.height
-            ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
-            ScrollBar.vertical.policy: ScrollBar.AlwaysOn
+            background: Rectangle {
+                color: "transparent"
+                border.color: Colors.frameBorder
+                radius: 2
+            }
+            ScrollView  {
+                width: parent.width
+                height: parent.height
+                contentHeight: reportsList.height
+                ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
+                ScrollBar.vertical.policy: ScrollBar.AlwaysOn
 
-            ListView {
-                model: analyzedFileReportsListModel
-                id: reportsList
-                boundsBehavior: Flickable.StopAtBounds
-                boundsMovement: Flickable.StopAtBounds
-                clip: true
-                pixelAligned: true
-                highlightMoveDuration: 0
-                highlightResizeDuration: 0
-                spacing: 5
+                ListView {
+                    model: analyzedFileReportsListModel
+                    id: reportsList
+                    boundsBehavior: Flickable.StopAtBounds
+                    boundsMovement: Flickable.StopAtBounds
+                    clip: true
+                    pixelAligned: true
+                    highlightMoveDuration: 0
+                    highlightResizeDuration: 0
+                    spacing: 5
 
-                highlight: Rectangle {
-                    color: Colors.listViewHighlightBg
-                    radius: 2
-                }
-
-                delegate: MouseArea {
-                    id: reportRow
-
-                    required property var model
-                    required property int index
-                    property bool isCurrentItem: ListView.isCurrentItem
-                    property bool isCommonReport: !model.id
-
-                    width: ListView.view.width - 20
-                    height: childrenRect.height
-
-                    Column {
-                        width: parent.width
-
-                        RowLayout {
-                            width: parent.width
-                            Image {
-                                id: reportIcon
-                                width: 16
-                                height: 16
-                                source: "res/level-" + reportRow.model.level + ".png"
-                            }
-                            Label {
-                                Layout.fillWidth: true
-                                text: reportRow.isCommonReport ?
-                                          logic.getCommonReportName(reportRow.model.level) :
-                                          (reportRow.model.id + ": " + reportRow.model.name)
-                                font.bold: reportRow.isCurrentItem
-                                elide: Label.ElideRight
-                                textFormat: Label.PlainText
-                            }
-                        }
-
-                        Label {
-                            x: 21
-                            visible: reportRow.isCurrentItem
-                            width: parent.width - x
-                            text: visible ? reportRow.model.message : ""
-                            wrapMode: visible ? Label.WordWrap : Label.NoWrap
-                            color: Colors.labelTextReportDescription
-                            font.pixelSize: 14
-                            textFormat: Label.PlainText
-                        }
-
-                        Link {
-                            x: 21
-                            visible: reportRow.isCurrentItem && !reportRow.isCommonReport
-                            width: parent.width - x
-                            text: visible ? "<a href='#'>View more details online...</a>" : ""
-                            elide: visible ? Label.ElideRight : Label.ElideNone
-                            font.pixelSize: 14
-                            onLinkActivated: {
-                                Qt.openUrlExternally(VersionInfo.getRuleInfoUrl(reportRow.model.id));
-                            }
-                        }
+                    highlight: Rectangle {
+                        color: Colors.listViewHighlightBg
+                        radius: 2
                     }
 
-                    onClicked: {
-                        reportsList.currentIndex = reportRow.index;
+                    delegate: MouseArea {
+                        id: reportRow
+
+                        required property var model
+                        required property int index
+                        property bool isCurrentItem: ListView.isCurrentItem
+                        property bool isCommonReport: !model.id
+
+                        width: ListView.view.width - 20
+                        height: childrenRect.height
+
+                        Column {
+                            width: parent.width
+
+                            RowLayout {
+                                width: parent.width
+                                Image {
+                                    id: reportIcon
+                                    width: 16
+                                    height: 16
+                                    source: "res/level-" + reportRow.model.level + ".png"
+                                }
+                                Label {
+                                    Layout.fillWidth: true
+                                    text: reportRow.isCommonReport ?
+                                              logic.getCommonReportName(reportRow.model.level) :
+                                              (reportRow.model.id + ": " + reportRow.model.name)
+                                    font.bold: reportRow.isCurrentItem
+                                    elide: Label.ElideRight
+                                    textFormat: Label.PlainText
+                                }
+                            }
+
+                            Label {
+                                x: 21
+                                visible: reportRow.isCurrentItem
+                                width: parent.width - x
+                                text: visible ? reportRow.model.message : ""
+                                wrapMode: visible ? Label.WordWrap : Label.NoWrap
+                                color: Colors.labelTextReportDescription
+                                font.pixelSize: 14
+                                textFormat: Label.PlainText
+                            }
+
+                            Link {
+                                x: 21
+                                visible: reportRow.isCurrentItem && !reportRow.isCommonReport
+                                width: parent.width - x
+                                text: visible ? "<a href='#'>View more details online...</a>" : ""
+                                elide: visible ? Label.ElideRight : Label.ElideNone
+                                font.pixelSize: 14
+                                onLinkActivated: {
+                                    Qt.openUrlExternally(VersionInfo.getRuleInfoUrl(reportRow.model.id));
+                                }
+                            }
+                        }
+
+                        onClicked: {
+                            reportsList.currentIndex = reportRow.index;
+                        }
                     }
                 }
             }

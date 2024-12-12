@@ -37,9 +37,11 @@ QtObject {
     readonly property color listViewHighlightBorder: "#a0a0a0"
     readonly property color listViewHighlightBg: "#d0d0ff"
 
-    readonly property color buttonLevelCriticalChecked: "red"
-    readonly property color buttonLevelErrorChecked: "orange"
-    readonly property color buttonLevelWarningChecked: "#dddd33"
-    readonly property color buttonLevelInfoChecked: "green"
+    readonly property color buttonLevelCriticalChecked: "#e8ffb6"
+    readonly property color buttonLevelErrorChecked: "#e8ffb6"
+    readonly property color buttonLevelWarningChecked: "#e8ffb6"
+    readonly property color buttonLevelInfoChecked: "#e8ffb6"
     readonly property color buttonCategoryChecked: "#8090ff"
+    readonly property color buttonLevelIconColorUnchecked: "grey"
+    readonly property color buttonLevelLabelTextUnchecked: "#505050"
 }

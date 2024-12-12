@@ -200,14 +200,31 @@ public:
 	}
 
 private:
+	static constexpr std::size_t min_rsa_key_size = 2048u;
+	static constexpr std::size_t min_ecdsa_key_size = 256u;
+	struct algo_weakness_status
+	{
+		bool has_strong_image_hash = false;
+		bool has_strong_rsa_key = false;
+		bool has_strong_ecdsa_curve = false;
+
+		bool has_strong_timestamp_digest = false;
+		bool has_strong_timestamp_imprint_digest = false;
+	};
+
 	template<typename Reporter>
 	static void check_signature(Reporter& reporter,
 		const pe_bliss::security::authenticode_check_status<pe_bliss::security::span_range_type>& signature)
 	{
-		check_signature(reporter, signature.root);
+		algo_weakness_status weakness_status;
+		check_weakness(signature.root, weakness_status);
+		for (const auto& nested_signature : signature.nested)
+			check_weakness(nested_signature, weakness_status);
+
+		check_signature(reporter, signature.root, weakness_status);
 		std::size_t i = 0;
 		for (const auto& nested_signature : signature.nested)
-			check_signature(reporter, nested_signature, ++i);
+			check_signature(reporter, nested_signature, weakness_status, ++i);
 	}
 
 	static output::owning_localizable_arg get_signature_info_arg(
@@ -265,7 +282,8 @@ private:
 	template<typename Reporter, typename Signature>
 	static void check_signature_result(Reporter& reporter,
 		const Signature& signature,
-		const output::owning_localizable_arg& signature_info_arg)
+		const output::owning_localizable_arg& signature_info_arg,
+		const algo_weakness_status& weakness_status)
 	{
 		if (!signature.signature_result)
 			return;
@@ -294,8 +312,8 @@ private:
 			if (signature.digest_encryption_alg
 				== pe_bliss::security::digest_encryption_algorithm::rsa)
 			{
-				static constexpr std::size_t min_rsa_key_size = 2048u;
-				if (pkcs7_result.key_size < min_rsa_key_size)
+				if (pkcs7_result.key_size < min_rsa_key_size
+					&& !weakness_status.has_strong_rsa_key)
 				{
 					reporter.template log<pe_report::authenticode_weak_rsa_key_size>(
 						signature_info_arg,
@@ -306,8 +324,8 @@ private:
 			else if (signature.digest_encryption_alg
 				== pe_bliss::security::digest_encryption_algorithm::ecdsa)
 			{
-				static constexpr std::size_t min_ecdsa_key_size = 256u;
-				if (is_weak_ecc_curve(pkcs7_result.curve))
+				if (!weakness_status.has_strong_ecdsa_curve
+					&& is_weak_ecc_curve(pkcs7_result.curve))
 				{
 					reporter.template log<pe_report::authenticode_weak_ecdsa_curve>(
 						signature_info_arg,
@@ -322,6 +340,7 @@ private:
 	static void check_signature(Reporter& reporter,
 		const pe_bliss::security::authenticode_timestamp_signature_check_status<
 			pe_bliss::security::span_range_type>& signature,
+		const algo_weakness_status& weakness_status,
 		std::optional<std::size_t> nested_signature_index)
 	{
 		const auto signature_info_arg = get_signature_info_arg(nested_signature_index,
@@ -339,21 +358,23 @@ private:
 
 		check_message_digest(reporter, signature, signature_info_arg);
 
-		if (is_weak_hash(signature.digest_alg))
+		if (is_weak_hash(signature.digest_alg)
+			&& !weakness_status.has_strong_timestamp_digest)
 		{
 			reporter.template log<pe_report::authenticode_weak_timestamp_digest_algorithm>(
 				signature_info_arg,
 				output::named_arg("hash_algorithm", get_hash_name(signature.digest_alg)));
 		}
 
-		if (is_weak_hash(signature.imprint_digest_alg))
+		if (is_weak_hash(signature.imprint_digest_alg)
+			&& !weakness_status.has_strong_timestamp_imprint_digest)
 		{
 			reporter.template log<pe_report::authenticode_weak_timestamp_imprint_digest_algorithm>(
 				signature_info_arg,
 				output::named_arg("hash_algorithm", get_hash_name(signature.imprint_digest_alg)));
 		}
 
-		check_signature_result(reporter, signature, signature_info_arg);
+		check_signature_result(reporter, signature, signature_info_arg, weakness_status);
 
 		std::visit(utilities::overloaded{
 			[&reporter, &signature_info_arg](std::monostate) {
@@ -373,6 +394,7 @@ private:
 	static void check_signature(Reporter& reporter,
 		const pe_bliss::security::authenticode_check_status_base<
 			pe_bliss::security::span_range_type>& signature,
+		const algo_weakness_status& weakness_status,
 		std::optional<std::size_t> nested_signature_index = {})
 	{
 		const auto signature_info_arg = get_signature_info_arg(nested_signature_index,
@@ -405,23 +427,30 @@ private:
 
 		check_message_digest(reporter, signature, signature_info_arg);
 
-		if (is_weak_hash(signature.image_digest_alg))
+		if (is_weak_hash(signature.image_digest_alg) && !weakness_status.has_strong_image_hash)
 		{
 			reporter.template log<pe_report::authenticode_weak_image_hash_algorithm>(
 				signature_info_arg,
 				output::named_arg("hash_algorithm", get_hash_name(signature.image_digest_alg)));
 		}
 
-		check_signature_result(reporter, signature, signature_info_arg);
+		check_signature_result(reporter, signature, signature_info_arg, weakness_status);
 
 		if (!signature.timestamp_signature_result)
-			reporter.template log<pe_report::authenticode_absent_timestamp_signature>(signature_info_arg);
+		{
+			reporter.template log<pe_report::authenticode_absent_timestamp_signature>(
+				signature_info_arg);
+		}
 		else
-			check_signature(reporter, *signature.timestamp_signature_result, nested_signature_index);
+		{
+			check_signature(reporter, *signature.timestamp_signature_result,
+				weakness_status, nested_signature_index);
+		}
 
 		if (signature.signature && signature.cert_store)
 		{
-			check_signer(reporter, *signature.signature, *signature.cert_store, signature_info_arg);
+			check_signer(reporter, *signature.signature,
+				*signature.cert_store, signature_info_arg);
 		}
 
 		if (!signature)
@@ -527,6 +556,64 @@ private:
 		{
 			reporter.template log<pe_report::signature_check_not_forced>();
 		}
+	}
+
+	template<typename Signature>
+	static void check_signature_weakness(
+		const Signature& signature,
+		algo_weakness_status& weakness_status)
+	{
+		if (!signature.signature_result)
+			return;
+
+		const auto& pkcs7_result = signature.signature_result->pkcs7_result;
+		if (!pkcs7_result.valid)
+			return;
+
+		if (signature.digest_encryption_alg
+			== pe_bliss::security::digest_encryption_algorithm::rsa)
+		{
+			if (pkcs7_result.key_size >= min_rsa_key_size)
+				weakness_status.has_strong_rsa_key = true;
+		}
+		else if (signature.digest_encryption_alg
+			== pe_bliss::security::digest_encryption_algorithm::ecdsa)
+		{
+			if (!is_weak_ecc_curve(pkcs7_result.curve))
+				weakness_status.has_strong_ecdsa_curve = true;
+		}
+	}
+
+	static void check_weakness(const pe_bliss::security::authenticode_timestamp_signature_check_status<
+		pe_bliss::security::span_range_type>& signature,
+		algo_weakness_status& weakness_status)
+	{
+		if (signature.authenticode_format_errors.has_errors())
+			return;
+
+		if (!is_weak_hash(signature.digest_alg))
+			weakness_status.has_strong_timestamp_digest = true;
+
+		if (!is_weak_hash(signature.imprint_digest_alg))
+			weakness_status.has_strong_timestamp_imprint_digest = true;
+
+		check_signature_weakness(signature, weakness_status);
+	}
+
+	static void check_weakness(const pe_bliss::security::authenticode_check_status_base<
+		pe_bliss::security::span_range_type>& signature,
+		algo_weakness_status& weakness_status)
+	{
+		if (signature.authenticode_format_errors.has_errors())
+			return;
+
+		if (!is_weak_hash(signature.image_digest_alg))
+			weakness_status.has_strong_image_hash = true;
+
+		check_signature_weakness(signature, weakness_status);
+
+		if (signature.timestamp_signature_result)
+			check_weakness(*signature.timestamp_signature_result, weakness_status);
 	}
 };
 

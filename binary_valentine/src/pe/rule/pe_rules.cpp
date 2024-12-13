@@ -34,6 +34,7 @@
 #include "binary_valentine/pe/rule/version_info_rule.h"
 #include "binary_valentine/pe/rule/version_info_format_rule.h"
 #include "binary_valentine/pe/combined_rule/combined_version_info_rule.h"
+#include "binary_valentine/pe/combined_rule/combined_dll_import_names_case_rule.h"
 
 namespace bv::pe
 {
@@ -77,6 +78,7 @@ void pe_rules_factory::add_pe_rules(core::rule_list& rules,
 	security_directory_format_rule_factory::add_rule(rules, shared_values);
 	
 	combined_version_info_rule_factory::add_rule(combined_rules, shared_values);
+	combined_dll_import_names_case_rule_factory::add_rule(combined_rules, shared_values);
 }
 
 } //namespace bv::pe

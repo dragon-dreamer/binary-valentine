@@ -445,5 +445,11 @@ using authenticode_missing_subject_dn_attributes = output::rule_report_info<
 using authenticode_invalid_subject_dn_attributes = output::rule_report_info<
 	"PE187", output::report_category::format, output::report_level::critical>;
 
-//NEXT: PE183, PE188
+//combined_dll_import_names_case_rule
+using imported_dll_name_case_mismatch = output::rule_report_info<
+	"PE183", output::report_category::configuration, output::report_level::warning>;
+using delay_imported_dll_name_case_mismatch = output::rule_report_info<
+	"PE188", output::report_category::configuration, output::report_level::warning>;
+
+//NEXT: PE189
 } //namespace bv::pe_report

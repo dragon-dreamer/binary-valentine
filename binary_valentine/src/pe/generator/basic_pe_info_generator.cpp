@@ -106,6 +106,9 @@ public:
 		auto& file_name = result->get_value().file_name;
 		file_name = string::to_utf8(entity->get_path().filename().native());
 
+		result->get_value().canonical_parent_path
+			= string::to_utf8(entity->get_path().parent_path().native());
+
 		if (image.get_optional_header().get_raw_address_of_entry_point()
 			|| image.get_data_directories().has_bound_import()
 			|| image.get_data_directories().has_delay_import()

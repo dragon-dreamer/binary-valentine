@@ -474,6 +474,9 @@
     <ClCompile Include="src\core\embedded_resource_loader_generator.cpp">
       <Filter>Source Files\core</Filter>
     </ClCompile>
+    <ClCompile Include="src\pe\combined_rule\combined_dll_import_names_case_rule.cpp">
+      <Filter>Source Files\pe\combined_rule</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\binary_valentine\analysis\analysis_context.h">
@@ -1000,6 +1003,9 @@
     </ClInclude>
     <ClInclude Include="include\binary_valentine\core\embedded_resource_loader_generator.h">
       <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\pe\combined_rule\combined_dll_import_names_case_rule.h">
+      <Filter>Header Files\pe\combined_rule</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

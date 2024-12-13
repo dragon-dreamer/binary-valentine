@@ -23,6 +23,7 @@ struct basic_pe_info
 	pe_bliss::core::file_header::machine_type machine_type{};
 	std::string file_extension;
 	std::string file_name;
+	std::string canonical_parent_path;
 };
 
 } //namespace bv::pe

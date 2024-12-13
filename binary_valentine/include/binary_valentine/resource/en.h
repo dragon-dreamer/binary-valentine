@@ -1004,6 +1004,18 @@ constexpr auto strings = std::to_array<std::pair<std::string_view, std::string_v
 		"has some attributes which are not valid for {signature_info}. "
 		"Attributes which have invalid ASN.1 DER repersentations: '{attributes}'" },
 
+	{ "pe_combined_dll_import_names_case_rule", "PE Combined imported DLL name case rule" },
+	{ "PE183", "Imported DLL name and the actual DLL file name have different case" },
+	{ "PE183_description", "The executable imports the '{imported_library}' library. "
+		"The actual library file name is '{library_file_name}'. Importing a library with different letter "
+		"case will cause issues if the application is installed in a Windows folder which is set up to be "
+		"case-sensitive."},
+	{ "PE188", "Delay-imported DLL name and the actual DLL file name have different case" },
+	{ "PE188_description", "The executable delay-imports the '{imported_library}' library. "
+		"The actual library file name is '{library_file_name}'. Importing a library with different letter "
+		"case will cause issues if the application is installed in a Windows folder which is set up to be "
+		"case-sensitive." },
+
 	{ "pe_authenticode_signature_info_root", "root signature" },
 	{ "pe_authenticode_signature_info_nested", "nested signature (index {index})" },
 	{ "pe_authenticode_timestamp_signature_info_root", "timestamp root signature" },

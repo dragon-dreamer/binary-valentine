@@ -146,6 +146,7 @@ target_sources(binary_valentine_lib
 		include/binary_valentine/output/format/text_output_format.h
 		include/binary_valentine/pe/pe_format_detector.h
 		include/binary_valentine/pe/pe_rule_reports.h
+		include/binary_valentine/pe/combined_rule/combined_cross_signature_check_rule.h
 		include/binary_valentine/pe/combined_rule/combined_dll_import_names_case_rule.h
 		include/binary_valentine/pe/combined_rule/combined_version_info_rule.h
 		include/binary_valentine/pe/data/basic_pe_info.h
@@ -275,6 +276,7 @@ target_sources(binary_valentine_lib
 		src/output/format/sarif_output_format.cpp
 		src/output/format/text_output_format.cpp
 		src/pe/pe_format_detector.cpp
+		src/pe/combined_rule/combined_cross_signature_check_rule.cpp
 		src/pe/combined_rule/combined_dll_import_names_case_rule.cpp
 		src/pe/combined_rule/combined_version_info_rule.cpp
 		src/pe/data/version_info_list.cpp

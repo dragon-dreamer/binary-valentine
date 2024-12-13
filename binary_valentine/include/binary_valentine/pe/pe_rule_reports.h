@@ -451,5 +451,11 @@ using imported_dll_name_case_mismatch = output::rule_report_info<
 using delay_imported_dll_name_case_mismatch = output::rule_report_info<
 	"PE188", output::report_category::configuration, output::report_level::warning>;
 
-//NEXT: PE189
+//combined_cross_signature_check_rule
+using signed_executable_imported_dll_is_unsigned = output::rule_report_info<
+	"PE189", output::report_category::security, output::report_level::error>;
+using signed_executable_delay_imported_dll_is_unsigned = output::rule_report_info<
+	"PE190", output::report_category::security, output::report_level::error>;
+
+//NEXT: PE191
 } //namespace bv::pe_report

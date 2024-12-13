@@ -12,7 +12,6 @@
 #include "binary_valentine/pe/pe_rule_reports.h"
 #include "binary_valentine/rule_class.h"
 #include "binary_valentine/string/case_conv.h"
-#include "binary_valentine/string/encoding.h"
 
 #include "pe_bliss2/delay_import/delay_import_directory.h"
 #include "pe_bliss2/imports/import_directory.h"

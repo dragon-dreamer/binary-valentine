@@ -477,6 +477,9 @@
     <ClCompile Include="src\pe\combined_rule\combined_dll_import_names_case_rule.cpp">
       <Filter>Source Files\pe\combined_rule</Filter>
     </ClCompile>
+    <ClCompile Include="src\pe\combined_rule\combined_cross_signature_check_rule.cpp">
+      <Filter>Source Files\pe\combined_rule</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\binary_valentine\analysis\analysis_context.h">
@@ -1005,6 +1008,9 @@
       <Filter>Header Files\core</Filter>
     </ClInclude>
     <ClInclude Include="include\binary_valentine\pe\combined_rule\combined_dll_import_names_case_rule.h">
+      <Filter>Header Files\pe\combined_rule</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\pe\combined_rule\combined_cross_signature_check_rule.h">
       <Filter>Header Files\pe\combined_rule</Filter>
     </ClInclude>
   </ItemGroup>

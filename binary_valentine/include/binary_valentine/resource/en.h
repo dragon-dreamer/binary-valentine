@@ -1016,6 +1016,14 @@ constexpr auto strings = std::to_array<std::pair<std::string_view, std::string_v
 		"case will cause issues if the application is installed in a Windows folder which is set up to be "
 		"case-sensitive." },
 
+	{ "pe_combined_cross_signature_check_rule", "PE Combined digital signature cross-check rule" },
+	{ "PE189", "Signed executable imports unsigned DLL" },
+	{ "PE189_description", "The digitally signed executable imports the unsigned '{imported_library}' library. "
+		"This is a security risk which significantly diminishes the value of the executable digital signature." },
+	{ "PE190", "Signed executable delay-imports unsigned DLL" },
+	{ "PE190_description", "The digitally signed executable delay-imports the unsigned '{imported_library}' library. "
+		"This is a security risk which significantly diminishes the value of the executable digital signature." },
+
 	{ "pe_authenticode_signature_info_root", "root signature" },
 	{ "pe_authenticode_signature_info_nested", "nested signature (index {index})" },
 	{ "pe_authenticode_timestamp_signature_info_root", "timestamp root signature" },

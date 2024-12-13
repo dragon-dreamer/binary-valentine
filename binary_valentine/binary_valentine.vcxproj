@@ -194,6 +194,7 @@
     <ClCompile Include="src\output\multiple_report_output.cpp" />
     <ClCompile Include="src\output\terminal_report_output.cpp" />
     <ClCompile Include="src\output\unformatted_common_output_report.cpp" />
+    <ClCompile Include="src\pe\combined_rule\combined_cross_signature_check_rule.cpp" />
     <ClCompile Include="src\pe\combined_rule\combined_dll_import_names_case_rule.cpp" />
     <ClCompile Include="src\pe\combined_rule\combined_version_info_rule.cpp" />
     <ClCompile Include="src\pe\data\version_info_list.cpp" />
@@ -355,6 +356,7 @@
     <ClInclude Include="include\binary_valentine\output\terminal_output_creator.h" />
     <ClInclude Include="include\binary_valentine\output\terminal_report_output.h" />
     <ClInclude Include="include\binary_valentine\output\unformatted_common_output_report.h" />
+    <ClInclude Include="include\binary_valentine\pe\combined_rule\combined_cross_signature_check_rule.h" />
     <ClInclude Include="include\binary_valentine\pe\combined_rule\combined_dll_import_names_case_rule.h" />
     <ClInclude Include="include\binary_valentine\pe\combined_rule\combined_version_info_rule.h" />
     <ClInclude Include="include\binary_valentine\pe\data\basic_pe_info.h" />

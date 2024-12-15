@@ -501,6 +501,7 @@ public:
 				continue;
 
 			if (it->second.find(u"TODO:") != std::u16string::npos
+				|| it->second == u"TODO"
 				|| it->second.find(u"com.embarcadero.") != std::u16string::npos)
 			{
 				log_with_translation<pe_report::version_info_default>(

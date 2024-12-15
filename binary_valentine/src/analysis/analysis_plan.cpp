@@ -119,18 +119,4 @@ void analysis_plan::set_custom_in_memory_report_creator(
 	in_memory_report_creator_ = std::move(creator);
 }
 
-result_report_file::result_report_file(std::string_view path, result_report_file_type type)
-	: path_(string::utf8_to<std::filesystem::path::string_type>
-		::convert(path))
-	, type_(type)
-{
-}
-
-result_report_file::result_report_file(
-	std::filesystem::path&& path, result_report_file_type type)
-	: path_(std::move(path))
-	, type_(type)
-{
-}
-
 } //namespace bv::analysis

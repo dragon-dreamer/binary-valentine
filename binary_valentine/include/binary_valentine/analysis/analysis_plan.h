@@ -13,6 +13,7 @@
 #include <variant>
 #include <vector>
 
+#include "binary_valentine/analysis/result_report_file.h"
 #include "binary_valentine/core/rule_selector.h"
 #include "binary_valentine/output/realtime_report_creator_type.h"
 #include "binary_valentine/output/in_memory_report_creator_type.h"
@@ -140,35 +141,6 @@ using target_preload_limit_type = std::variant<
 
 struct result_report_terminal {};
 struct result_report_in_memory {};
-
-enum class result_report_file_type
-{
-	text,
-	sarif
-};
-
-class [[nodiscard]] result_report_file
-{
-public:
-	explicit result_report_file(std::string_view path, result_report_file_type type);
-	explicit result_report_file(std::filesystem::path&& path, result_report_file_type type);
-
-	[[nodiscard]]
-	const std::filesystem::path& get_path() const noexcept
-	{
-		return path_;
-	}
-
-	[[nodiscard]]
-	result_report_file_type get_type() const noexcept
-	{
-		return type_;
-	}
-
-private:
-	std::filesystem::path path_;
-	result_report_file_type type_;
-};
 
 using result_report_type = std::variant<
 	result_report_terminal, result_report_in_memory, result_report_file>;

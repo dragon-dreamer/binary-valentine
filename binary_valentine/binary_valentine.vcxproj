@@ -158,6 +158,7 @@
     <ClCompile Include="src\analysis\command_line_analysis_plan_provider.cpp" />
     <ClCompile Include="src\analysis\concurrent_analysis_executor.cpp" />
     <ClCompile Include="src\analysis\immutable_context.cpp" />
+    <ClCompile Include="src\analysis\result_report_file.cpp" />
     <ClCompile Include="src\analysis\xml_analysis_plan_provider.cpp" />
     <ClCompile Include="src\common\shared_generator\common_generators.cpp" />
     <ClCompile Include="src\common\shared_generator\program_path_generator.cpp" />
@@ -277,6 +278,7 @@
     <ClInclude Include="include\binary_valentine\analysis\command_line_analysis_plan_provider.h" />
     <ClInclude Include="include\binary_valentine\analysis\concurrent_analysis_executor.h" />
     <ClInclude Include="include\binary_valentine\analysis\immutable_context.h" />
+    <ClInclude Include="include\binary_valentine\analysis\result_report_file.h" />
     <ClInclude Include="include\binary_valentine\analysis\xml_analysis_plan_provider.h" />
     <ClInclude Include="include\binary_valentine\common\shared_data\program_path.h" />
     <ClInclude Include="include\binary_valentine\common\shared_generator\common_generators.h" />

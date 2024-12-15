@@ -64,6 +64,7 @@ target_sources(binary_valentine_lib
 		include/binary_valentine/analysis/command_line_analysis_plan_provider.h
 		include/binary_valentine/analysis/concurrent_analysis_executor.h
 		include/binary_valentine/analysis/immutable_context.h
+		include/binary_valentine/analysis/result_report_file.h
 		include/binary_valentine/analysis/xml_analysis_plan_provider.h
 		include/binary_valentine/common/xml_loader.h
 		include/binary_valentine/common/shared_data/program_path.h
@@ -240,6 +241,7 @@ target_sources(binary_valentine_lib
 		src/analysis/command_line_analysis_plan_provider.cpp
 		src/analysis/concurrent_analysis_executor.cpp
 		src/analysis/immutable_context.cpp
+		src/analysis/result_report_file.cpp
 		src/analysis/xml_analysis_plan_provider.cpp
 		src/common/xml_loader.cpp
 		src/common/shared_generator/common_generators.cpp

@@ -161,20 +161,13 @@ void format_args_helper::format_as_string(const arg_type& arg,
 		else if constexpr (std::is_same_v<nested_type, impl::localizable_string_id>
 			|| std::is_same_v<nested_type, impl::owning_localizable_string_id>)
 		{
-			if (arg.args.empty())
+			auto& vector = value.emplace<multiple_value_arg_type>();
+			vector.reserve(1u + arg.args.size());
+			vector.emplace_back(arg::string_id, arg.string_id);
+			for (const auto& [name, nested_value] : arg.args)
 			{
-				value = std::string(arg.string_id);
-			}
-			else
-			{
-				auto& vector = value.emplace<multiple_value_arg_type>();
-				vector.reserve(1u + arg.args.size());
-				vector.emplace_back(arg::string_id, arg.string_id);
-				for (const auto& [name, nested_value] : arg.args)
-				{
-					vector.emplace_back(name,
-						string::replace_invalid_characters_copy(nested_value));
-				}
+				vector.emplace_back(name,
+					string::replace_invalid_characters_copy(nested_value));
 			}
 		}
 		else if constexpr (std::is_same_v<nested_type, std::string>

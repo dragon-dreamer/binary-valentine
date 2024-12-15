@@ -79,25 +79,21 @@ void exception_formatter::format(std::exception_ptr exception,
 	}
 	catch (const core::localizable_error& e)
 	{
-		if (e.get_args().empty())
+		auto& vector = value.emplace<multiple_value_arg_type>();
+		vector.reserve(2u + e.get_args().size());
+		vector.emplace_back(arg::localizable_string_id, reports::user_error_description);
+		vector.emplace_back(arg::error_message, e.get_error_string_id());
+		for (const auto& [name, nested_value] : e.get_args())
 		{
-			value = std::string(e.get_error_string_id());
-		}
-		else
-		{
-			auto& vector = value.emplace<multiple_value_arg_type>();
-			vector.reserve(1u + e.get_args().size());
-			vector.emplace_back(arg::string_id, e.get_error_string_id());
-			for (const auto& [name, nested_value] : e.get_args())
-			{
-				vector.emplace_back(name,
-					string::replace_invalid_characters_copy(nested_value));
-			}
+			vector.emplace_back(name,
+				string::replace_invalid_characters_copy(nested_value));
 		}
 	}
 	catch (const std::system_error& e)
 	{
 		auto& vector = value.emplace<multiple_value_arg_type>();
+		vector.emplace_back(arg::string_id,
+			reports::system_error_description);
 		vector.emplace_back(arg::error_category_name,
 			e.code().category().name());
 		vector.emplace_back(arg::error_code_value,
@@ -118,7 +114,10 @@ void exception_formatter::format(std::exception_ptr exception,
 	}
 	catch (const std::exception& e)
 	{
-		value = e.what();
+		auto& vector = value.emplace<multiple_value_arg_type>();
+		vector.emplace_back(arg::string_id,
+			reports::exception_description);
+		vector.emplace_back(arg::error_message, e.what());
 	}
 }
 

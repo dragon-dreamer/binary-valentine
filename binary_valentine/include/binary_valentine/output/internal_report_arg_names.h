@@ -12,5 +12,6 @@ constexpr const char error_code_value[] = "error_code_value";
 constexpr const char error_message[] = "error_message";
 constexpr const char entity_name[] = "entity_name";
 constexpr const char string_id[] = "string_id";
+constexpr const char localizable_string_id[] = "localizable_string_id";
 
 } //namespace bv::output::arg

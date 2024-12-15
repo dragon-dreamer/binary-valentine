@@ -181,6 +181,7 @@
     <ClCompile Include="src\file\async_file.cpp" />
     <ClCompile Include="src\file\async_target_enumerator.cpp" />
     <ClCompile Include="src\file\file_entity_stream_provider.cpp" />
+    <ClCompile Include="src\file\file_loader.cpp" />
     <ClCompile Include="src\output\configurable_result_report_factory.cpp" />
     <ClCompile Include="src\output\exception_formatter.cpp" />
     <ClCompile Include="src\output\filtering_report_output.cpp" />
@@ -331,6 +332,7 @@
     <ClInclude Include="include\binary_valentine\file\async_target_enumerator.h" />
     <ClInclude Include="include\binary_valentine\file\file_entity.h" />
     <ClInclude Include="include\binary_valentine\file\file_entity_stream_provider.h" />
+    <ClInclude Include="include\binary_valentine\file\file_loader.h" />
     <ClInclude Include="include\binary_valentine\json\json_printer.h" />
     <ClInclude Include="include\binary_valentine\output\configurable_result_report_factory.h" />
     <ClInclude Include="include\binary_valentine\output\entity_in_memory_report_interface.h" />

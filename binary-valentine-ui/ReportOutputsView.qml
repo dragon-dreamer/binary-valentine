@@ -102,7 +102,7 @@ PropertyView {
                         textRole: "text"
                         valueRole: "value"
                         Component.onCompleted: currentIndex = indexOfValue(parent.model.fileFormat)
-                        onActivated: logic.setOutputFileFormat(parent.index, currentValue)
+                        onActivated: logic.setOutputFileFormat(parent.index, currentValue, filePathTextField)
                     }
 
                     TextField {
@@ -150,14 +150,32 @@ PropertyView {
         function setOutputFilePath(index, path): void {
             root.node.setOutputFilePath(index, path);
         }
-        function setOutputFileFormat(index, fileFormat): void {
+        function setOutputFileFormat(index, fileFormat, pathField): void {
             root.node.setOutputFileFormat(index, fileFormat);
+            var path = pathField.text;
+            var lastDot = path.lastIndexOf(".");
+            if (lastDot === -1) {
+                return;
+            }
+            path = path.substring(0, lastDot);
+            if (fileFormat === ReportOutputs.FileFormatText) {
+                path += ".txt";
+            } else if (fileFormat === ReportOutputs.FileFormatSarif) {
+                path += ".json";
+            } else if (fileFormat === ReportOutputs.FileFormatHtml) {
+                path += ".html";
+            } else {
+                return;
+            }
+
+            setOutputFilePath(index, path);
+            pathField.text = path;
         }
         function deleteOutputFile(model, index): void {
             model.remove(index);
             root.node.deleteOutputFile(index);
         }
-        function selectOutputFile(model, index, fileFormat, textField): void {
+        function selectOutputFile(model, index, fileFormat, pathField): void {
             if (fileFormat === ReportOutputs.FileFormatText) {
                 saveReportDialog.nameFilters = [
                             qsTr("Plaintext files (*.txt)"),
@@ -181,7 +199,7 @@ PropertyView {
                     var localPaths = helper.getLocalFilePaths();
                     if (localPaths.length === 1) {
                         logic.setOutputFilePath(index, localPaths[0]);
-                        textField.text = localPaths[0];
+                        pathField.text = localPaths[0];
                     }
                 }
 

@@ -73,6 +73,12 @@ public:
 	[[nodiscard]]
 	output::report_uid get_report_uid(std::string_view report_string_uid) const;
 
+	[[nodiscard]]
+	const core::embedded_resource_loader_interface& get_embedded_resource_loader() const noexcept
+	{
+		return *embedded_resource_loader_;
+	}
+
 private:
 	static core::data_generator_list create_shared_generators(
 		std::shared_ptr<core::embedded_resource_loader_interface> embedded_resource_loader);
@@ -88,6 +94,7 @@ private:
 	core::rule_detector_container detector_;
 	core::combined_data_generator_list combined_generators_;
 	core::combined_rule_list combined_rules_;
+	const core::embedded_resource_loader_interface* embedded_resource_loader_{};
 };
 
 } //namespace bv::analysis

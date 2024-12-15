@@ -43,6 +43,8 @@ immutable_context::immutable_context(
 {
 	bv::pe::pe_generators_factory::add_pe_generators(generators_, async_generators_);
 	bv::pe::pe_rules_factory::add_pe_rules(rules_, combined_rules_, shared_values_);
+	embedded_resource_loader_ = static_cast<core::value_provider_interface&>(shared_values_)
+		.get<std::shared_ptr<core::embedded_resource_loader_interface>>()->get();
 	detector_.add_file_format_detector(std::make_unique<bv::pe::pe_format_detector>());
 	detector_.add_extra_detector(
 		std::make_unique<bv::executable::executable_extra_rule_detector>());

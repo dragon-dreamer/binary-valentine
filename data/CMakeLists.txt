@@ -12,6 +12,7 @@ add_custom_command(
 		"${CMAKE_CURRENT_SOURCE_DIR}/all_winapi.xml"
 		"${CMAKE_CURRENT_SOURCE_DIR}/apisets.xml"
 		"${CMAKE_CURRENT_SOURCE_DIR}/not_recommended_winapi.xml"
+		"${CMAKE_CURRENT_SOURCE_DIR}/html_report.tpl"
 		"${CMAKE_BINARY_DIR}/bin/$<CONFIG>/data"
 )
 

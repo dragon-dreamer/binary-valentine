@@ -136,7 +136,7 @@ constexpr auto strings = std::to_array<std::pair<std::string_view, std::string_v
 		"Only 'include' and 'exclude' are supported. Encountered tag: '{tag}'" },
 	{ "user_error_invalid_target_filter", "Invalid 'include' or 'exclude' ECMAScript regex: '{regex}'" },
 	{ "user_error_unsupported_reports_tag", "Unsupported tag in 'reports' node. "
-		"Only 'terminal', 'text' and 'sarif' are supported. Encountered tag: '{tag}'" },
+		"Only 'terminal', 'text', 'sarif' and 'html' are supported. Encountered tag: '{tag}'" },
 	{ "user_error_empty_report_path", "Empty output report path" },
 	{ "user_error_unable_to_load_xml", "Unable to load XML. Underlying error: '{error}'"},
 	{ "user_error_no_reports_specified", "Reports are absent or empty. "
@@ -147,6 +147,11 @@ constexpr auto strings = std::to_array<std::pair<std::string_view, std::string_v
 	{ "user_error_invalid_report_path", "Invalid output report file path." },
 	{ "user_error_invalid_project_path", "Invalid project path." },
 	{ "user_error_unable_to_write_file", "Unable to write file. Underlying error: '{error}'" },
+	{ "user_error_duplicate_output_extra_option", "Duplicate output report extra option name: '{option}'" },
+	{ "user_error_unable_to_load_html_report_template_file",
+		"Unable to load HTML report template file: '{file}'" },
+	{ "user_error_unable_to_write_html_report",
+		"Unable to write HTML report. Underlying error message: '{underlying}'" },
 		
 	{ "unable_to_load_analysis_plan", "Unable to load analysis plan: {exception}." },
 

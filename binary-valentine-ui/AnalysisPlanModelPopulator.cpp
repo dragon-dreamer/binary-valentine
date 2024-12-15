@@ -146,10 +146,22 @@ void populateOutputReports(const analysis::analysis_plan& plan, ReportOutputsNod
                        [](const analysis::result_report_in_memory&) {},
                        [&toTerminal](const analysis::result_report_terminal&) { toTerminal = true; },
                        [&outputs](const analysis::result_report_file& file) {
+                           ReportOutputsNode::FileFormat report_format{};
+                           switch (file.get_type())
+                           {
+                           case analysis::result_report_file_type::sarif:
+                               report_format = ReportOutputsNode::FileFormatSarif;
+                               break;
+                           case analysis::result_report_file_type::text:
+                               report_format = ReportOutputsNode::FileFormatText;
+                               break;
+                           case analysis::result_report_file_type::html_report:
+                               report_format = ReportOutputsNode::FileFormatHtml;
+                               break;
+                           }
+
                            outputs.addOutputFile(
-                               file.get_type() == analysis::result_report_file_type::sarif
-                                   ? ReportOutputsNode::FileFormatSarif
-                                   : ReportOutputsNode::FileFormatText,
+                               report_format,
                                QtStdTypeConverter::toString(file.get_path()));
                        }
                    }, report);

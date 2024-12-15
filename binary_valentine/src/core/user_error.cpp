@@ -102,6 +102,12 @@ std::string_view get_error_string_id_impl(int ev) noexcept
 		return "user_error_invalid_project_path";
 	case unable_to_write_file:
 		return "user_error_unable_to_write_file";
+	case duplicate_output_extra_option:
+		return "user_error_duplicate_output_extra_option";
+	case unable_to_load_html_report_template_file:
+		return "user_error_unable_to_load_html_report_template_file";
+	case unable_to_write_html_report:
+		return "user_error_unable_to_write_html_report";
 	default:
 		return {};
 	}

@@ -20,7 +20,8 @@ public:
     enum FileFormat
     {
         FileFormatText,
-        FileFormatSarif
+        FileFormatSarif,
+        FileFormatHtml
     };
     Q_ENUM(FileFormat);
 

@@ -1,5 +1,6 @@
 #include "binary_valentine/analysis/analysis_plan_runner.h"
 
+#include <atomic>
 #include <cassert>
 #include <filesystem>
 #include <memory>
@@ -10,10 +11,12 @@
 
 #include "binary_valentine/analysis/immutable_context.h"
 #include "binary_valentine/analysis/concurrent_analysis_executor.h"
+#include "binary_valentine/core/rule_class.h"
 #include "binary_valentine/core/overloaded.h"
 #include "binary_valentine/output/configurable_result_report_factory.h"
 #include "binary_valentine/output/format/output_format_executor.h"
 #include "binary_valentine/output/format/output_format_interface.h"
+#include "binary_valentine/output/format/html_report_output_format.h"
 #include "binary_valentine/output/format/sarif_output_format.h"
 #include "binary_valentine/output/format/text_output_format.h"
 #include "binary_valentine/output/in_memory_report_creator_type.h"
@@ -29,6 +32,56 @@
 
 namespace bv::analysis
 {
+
+class extended_stats_progress_report final : public progress::progress_report_interface
+{
+public:
+	explicit extended_stats_progress_report(
+		std::shared_ptr<progress::progress_report_interface> next)
+		: next_(std::move(next))
+	{
+	}
+
+	void report_progress(const std::shared_ptr<const core::subject_entity_interface>& entity,
+		progress::progress_state state) noexcept override
+	{
+		if (next_)
+			next_->report_progress(entity, state);
+
+		switch (state)
+		{
+		case progress::progress_state::analysis_completed:
+			total_analyzed_.fetch_add(1, std::memory_order_relaxed);
+			break;
+		case progress::progress_state::target_skipped_unsupported:
+			total_skipped_unsupported_.fetch_add(1, std::memory_order_relaxed);
+			break;
+		case progress::progress_state::target_skipped_filtered:
+			total_skipped_filtered_.fetch_add(1, std::memory_order_relaxed);
+			break;
+		default:
+			break;
+		}
+	}
+
+	output::format::extended_analysis_state get_state() const
+	{
+		return {
+			.total_analyzed = total_analyzed_
+				.load(std::memory_order_relaxed),
+			.total_skipped_unsupported = total_skipped_unsupported_
+				.load(std::memory_order_relaxed),
+			.total_skipped_filtered = total_skipped_filtered_
+				.load(std::memory_order_relaxed)
+		};
+	}
+
+private:
+	std::shared_ptr<progress::progress_report_interface> next_;
+	std::atomic<std::uint32_t> total_analyzed_;
+	std::atomic<std::uint32_t> total_skipped_unsupported_;
+	std::atomic<std::uint32_t> total_skipped_filtered_;
+};
 
 struct analysis_plan_runner::impl
 {
@@ -49,6 +102,7 @@ struct analysis_plan_runner::impl
 	std::optional<output::configurable_result_report_factory> report_factory;
 	const immutable_context& global_context;
 	std::optional<bv::analysis::concurrent_analysis_executor> executor;
+	std::shared_ptr<extended_stats_progress_report> extended_report;
 };
 
 namespace
@@ -79,9 +133,10 @@ output::configurable_result_report_factory& init_result_report_factory(
 	creators.emplace_back([&issue_tracking_output](
 		const std::shared_ptr<const bv::core::subject_entity_interface>&,
 		const output::exception_formatter&,
+		const std::vector<core::rule_class_type>&,
 		const string::resource_provider_interface&) {
-		return issue_tracking_output;
-	});
+			return issue_tracking_output;
+		});
 
 	if (use_terminal_report)
 		creators.emplace_back(output::terminal_output_creator{});
@@ -105,7 +160,9 @@ void save_report_to_file(const result_report_file& file,
 	const string::resource_provider_interface& resources,
 	const std::filesystem::path& root_path,
 	output::format::output_format_executor& saver,
-	output::common_report_interface* error_log)
+	output::common_report_interface* error_log,
+	const immutable_context& global_context,
+	const std::optional<output::format::extended_analysis_state>& extra_state)
 {
 	try
 	{
@@ -125,12 +182,19 @@ void save_report_to_file(const result_report_file& file,
 				output::format::sarif_output_format>(resources,
 					std::move(path_copy));
 			break;
+		case result_report_file_type::html_report:
+			output = std::make_shared<
+				output::format::html_report_output_format>(resources,
+					std::move(path_copy),
+					file.get_extra_options(),
+					global_context);
+			break;
 		default:
 			assert(false);
 			return;
 		}
 
-		saver.save_to(output, state);
+		saver.save_to(output, state, extra_state);
 	}
 	catch (const std::exception&)
 	{
@@ -154,6 +218,24 @@ analysis_plan_runner::analysis_plan_runner(analysis_plan&& plan,
 {
 }
 
+bool analysis_plan_runner::needs_extended_stats() const
+{
+	for (const auto& output_report : impl_->plan.get_result_reports())
+	{
+		const bool result = std::visit(core::overloaded{
+			[](result_report_terminal) { return false; },
+			[](result_report_in_memory) {return false;  },
+			[](const result_report_file& file) {
+				return file.get_type() == result_report_file_type::html_report;
+			}
+		}, output_report);
+
+		if (result)
+			return result;
+	}
+	return false;
+}
+
 void analysis_plan_runner::start()
 {
 	auto& report_factory = init_result_report_factory(
@@ -169,8 +251,16 @@ void analysis_plan_runner::start()
 			{}, impl_->global_context.get_exception_formatter()));
 	}
 
+	auto progress_report = impl_->plan.get_progress_report();
+	if (needs_extended_stats())
+	{
+		impl_->extended_report = std::make_shared<extended_stats_progress_report>(
+			std::move(progress_report));
+		progress_report = impl_->extended_report;
+	}
+
 	impl_->executor.emplace(impl_->plan, report_factory,
-		impl_->plan.get_progress_report(), impl_->global_context);
+		progress_report, impl_->global_context);
 }
 
 void analysis_plan_runner::join()
@@ -189,14 +279,19 @@ output::format::analysis_state analysis_plan_runner::write_reports(
 	state.analysis_issues = impl_->issue_tracking_status.analysis_issues;
 	state.entity_issues = impl_->issue_tracking_status.entity_issues;
 
+	std::optional<output::format::extended_analysis_state> extra_state;
+	if (impl_->extended_report)
+		extra_state = impl_->extended_report->get_state();
+
 	for (auto& output_report : impl_->plan.get_result_reports())
 	{
 		std::visit(core::overloaded{
 			[](result_report_terminal) {},
 			[](result_report_in_memory) {},
-			[&saver, &state, error_log, this](const result_report_file& file) {
+			[&saver, &state, error_log, &extra_state, this](const result_report_file& file) {
 				save_report_to_file(file, state, impl_->resources,
-					impl_->plan.get_root_path(), saver, error_log);
+					impl_->plan.get_root_path(), saver, error_log,
+					impl_->global_context, extra_state);
 			}
 		}, output_report);
 	}

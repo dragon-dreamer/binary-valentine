@@ -2,6 +2,7 @@
 
 #include <chrono>
 #include <memory>
+#include <optional>
 #include <vector>
 
 #include "binary_valentine/output/format/output_format_interface.h"
@@ -18,7 +19,8 @@ public:
 		const entity_in_memory_report_interface>> reports);
 
 	void save_to(const std::shared_ptr<output_format_interface>& output,
-		const analysis_state& state) const;
+		const analysis_state& state,
+		const std::optional<extended_analysis_state>& extra_state) const;
 
 private:
 	std::vector<std::shared_ptr<

@@ -15,7 +15,8 @@
 namespace bv::output::format
 {
 
-void text_output_format::start(const analysis_state& state)
+void text_output_format::start(const analysis_state& state,
+	const std::optional<extended_analysis_state>& /* extra_state */)
 {
 	out_.exceptions(std::ios::badbit | std::ios::failbit);
 	out_.open(path_, std::ios::out | std::ios::binary | std::ios::trunc);

@@ -12,9 +12,11 @@ struct [[nodiscard]] in_memory_output_creator
 {
 	[[nodiscard]]
 	std::shared_ptr<in_memory_report_output> operator()(
-		const auto& entity, const auto& formatter, const auto& resources) const
+		const auto& entity, const auto& formatter,
+		const auto& detected_rule_types, const auto& resources) const
 	{
-		return std::make_shared<in_memory_report_output>(entity, resources, formatter);
+		return std::make_shared<in_memory_report_output>(
+			entity, resources, detected_rule_types, formatter);
 	}
 };
 

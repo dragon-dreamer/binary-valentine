@@ -15,6 +15,8 @@ include(../external/pe_bliss2/cmake/library_options.cmake)
 
 add_library(binary_valentine_lib ${BINARY_VALENTINE_LIB_BUILD_TYPE})
 
+target_include_directories(binary_valentine_lib PRIVATE ../external/html)
+
 include(../external/pe_bliss2/cmake/output_options.cmake)
 set_output_dirs(binary_valentine_lib)
 set_msvc_runtime_library(binary_valentine_lib "${BINARY_VALENTINE_MSVC_RUNTIME_LIBRARY}")
@@ -142,6 +144,7 @@ target_sources(binary_valentine_lib
 		include/binary_valentine/output/terminal_output_creator.h
 		include/binary_valentine/output/terminal_report_output.h
 		include/binary_valentine/output/unformatted_common_output_report.h
+		include/binary_valentine/output/format/html_report_output_format.h
 		include/binary_valentine/output/format/output_format_executor.h
 		include/binary_valentine/output/format/output_format_interface.h
 		include/binary_valentine/output/format/sarif_output_format.h
@@ -275,6 +278,7 @@ target_sources(binary_valentine_lib
 		src/output/multiple_report_output.cpp
 		src/output/terminal_report_output.cpp
 		src/output/unformatted_common_output_report.cpp
+		src/output/format/html_report_output_format.cpp
 		src/output/format/output_format_executor.cpp
 		src/output/format/output_format_interface.cpp
 		src/output/format/sarif_output_format.cpp

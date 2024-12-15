@@ -12,7 +12,8 @@ struct [[nodiscard]] terminal_output_creator
 {
 	[[nodiscard]]
 	std::shared_ptr<entity_report_interface> operator()(
-		const auto& entity, const auto& formatter, const auto& resources) const
+		const auto& entity, const auto& formatter,
+		const auto& /* detected_rule_types */, const auto& resources) const
 	{
 		return std::make_shared<terminal_report_output>(entity, resources, formatter);
 	}

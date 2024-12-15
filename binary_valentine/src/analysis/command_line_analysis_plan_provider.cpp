@@ -184,6 +184,22 @@ private:
 				result_report_file_type::text));
 		}
 
+		if (auto path_it = vm.find("html"); path_it != vm.end())
+		{
+			result_report_file file(to_path(
+				path_it->second.as<std::basic_string<Char>>(),
+				core::user_errc::invalid_report_path),
+				result_report_file_type::html_report);
+
+			if (auto template_it = vm.find("html-template"); template_it != vm.end())
+			{
+				file.add_extra_option("template",
+					string::to_utf8(template_it->second.as<std::basic_string<Char>>()));
+			}
+
+			plan.emplace_output_report(std::move(file));
+		}
+
 		if (plan.get_result_reports().empty())
 			throw core::user_error(core::user_errc::no_reports_specified);
 	}
@@ -372,8 +388,12 @@ private:
 			("sarif,S", po_value<std::basic_string<Char>>(),
 				"Path to save the output report in SARIF format.")
 			("text,T", po_value<std::basic_string<Char>>(),
-				"Path to save the output report in plaintext.");
-
+				"Path to save the output report in plaintext.")
+			("html,H", po_value<std::basic_string<Char>>(),
+				"Path to save the HTML output report.")
+			("html-template", po_value<std::basic_string<Char>>(),
+				"Path to the HTML template to form the HTML report. If absent, a default template will be used.");
+		
 		po::options_description all_options;
 		all_options
 			.add(general_opts)

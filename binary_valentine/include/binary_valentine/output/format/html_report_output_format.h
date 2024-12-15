@@ -1,27 +1,29 @@
 #pragma once
 
 #include <filesystem>
-#include <fstream>
+#include <memory>
 #include <utility>
 
+#include "binary_valentine/analysis/result_report_file.h"
 #include "binary_valentine/output/format/output_format_interface.h"
 
+namespace bv::analysis { class immutable_context; }
 namespace bv::string { class resource_provider_interface; }
 
 namespace bv::output::format
 {
 
-class [[nodiscard]] text_output_format final
+class [[nodiscard]] html_report_output_format final
 	: public output_format_interface
 {
 public:
-	explicit text_output_format(
+	explicit html_report_output_format(
 		const string::resource_provider_interface& resource_provider,
-		std::filesystem::path&& path) noexcept
-		: resource_provider_(resource_provider)
-		, path_(std::move(path))
-	{
-	}
+		std::filesystem::path&& path,
+		const analysis::result_report_file::options_map_type& extra_options,
+		const analysis::immutable_context& global_context);
+
+	virtual ~html_report_output_format() override;
 
 	virtual void start(const analysis_state& state,
 		const std::optional<extended_analysis_state>& extra_state) override;
@@ -29,9 +31,10 @@ public:
 	virtual void finalize() override;
 
 private:
-	const string::resource_provider_interface& resource_provider_;
+	struct impl;
+
 	std::filesystem::path path_;
-	std::ofstream out_;
+	std::unique_ptr<impl> impl_;
 };
 
 } //namespace bv::output::format

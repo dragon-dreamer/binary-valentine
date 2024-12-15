@@ -480,6 +480,9 @@
     <ClCompile Include="src\pe\combined_rule\combined_cross_signature_check_rule.cpp">
       <Filter>Source Files\pe\combined_rule</Filter>
     </ClCompile>
+    <ClCompile Include="src\output\format\html_report_output_format.cpp">
+      <Filter>Source Files\output\format</Filter>
+    </ClCompile>
     <ClCompile Include="src\analysis\result_report_file.cpp">
       <Filter>Source Files\analysis</Filter>
     </ClCompile>
@@ -1018,6 +1021,9 @@
     </ClInclude>
     <ClInclude Include="include\binary_valentine\pe\combined_rule\combined_cross_signature_check_rule.h">
       <Filter>Header Files\pe\combined_rule</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\output\format\html_report_output_format.h">
+      <Filter>Header Files\output\format</Filter>
     </ClInclude>
     <ClInclude Include="include\binary_valentine\analysis\result_report_file.h">
       <Filter>Header Files\analysis</Filter>

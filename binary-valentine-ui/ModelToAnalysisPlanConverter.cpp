@@ -192,10 +192,18 @@ void convertOutputReports(const ReportOutputsNode& outputs, analysis::analysis_p
     {
         const auto map = outputFile.toMap();
         analysis::result_report_file_type fileType{};
-        if (map[ReportOutputsNode::fileFormatKey].toInt() == ReportOutputsNode::FileFormatText)
+        switch (map[ReportOutputsNode::fileFormatKey].toInt())
+        {
+        case ReportOutputsNode::FileFormatText:
             fileType = analysis::result_report_file_type::text;
-        else
+            break;
+        case ReportOutputsNode::FileFormatSarif:
             fileType = analysis::result_report_file_type::sarif;
+            break;
+        case ReportOutputsNode::FileFormatHtml:
+            fileType = analysis::result_report_file_type::html_report;
+            break;
+        }
 
         result.emplace_output_report(analysis::result_report_file(
             QtStdTypeConverter::toPath(

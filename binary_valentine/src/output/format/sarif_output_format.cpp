@@ -380,9 +380,20 @@ private:
 	std::unordered_map<report_uid, rule_info> rules_;
 };
 
-void sarif_output_format::start(const analysis_state& state)
+sarif_output_format::sarif_output_format(
+	const string::resource_provider_interface& resource_provider,
+	std::filesystem::path&& path) noexcept
+	: resource_provider_(resource_provider)
+	, path_(std::move(path))
 {
-	impl_ = std::make_shared<impl>();
+}
+
+sarif_output_format::~sarif_output_format() = default;
+
+void sarif_output_format::start(const analysis_state& state,
+	const std::optional<extended_analysis_state>& /* extra_state */)
+{
+	impl_ = std::make_unique<impl>();
 	auto& run = impl_->log.runs->front();
 	run.tool->driver->short_description->text = version::tool_description;
 	run.language = resource_provider_.get_language();

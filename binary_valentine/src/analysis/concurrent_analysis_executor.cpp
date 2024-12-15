@@ -107,15 +107,19 @@ boost::asio::awaitable<void> concurrent_analysis_executor::load_target(
 			std::move(dir_entry), result.root_path);
 	}
 
-	const auto create_report = [&]() {
-		return context_.get_report_factory().get_entity_report(
-			target_entity, result.selector,
-			context_.get_global_context().get_exception_formatter());
-	};
+	const auto create_report = [&](
+		const std::vector<bv::core::rule_class_type>& detected_rule_types) {
+			return context_.get_report_factory().get_entity_report(
+				target_entity, result.selector,
+				context_.get_global_context().get_exception_formatter(),
+				detected_rule_types);
+		};
+
+	std::vector<bv::core::rule_class_type> rule_types;
 
 	if (result.ec)
 	{
-		create_report()->log_noexcept(
+		create_report(rule_types)->log_noexcept(
 			output::report_level::critical,
 			output::reports::inaccessible_entity,
 			output::named_arg(output::arg::exception,
@@ -127,7 +131,6 @@ boost::asio::awaitable<void> concurrent_analysis_executor::load_target(
 
 	report_progress(target_entity, progress::progress_state::load_started);
 
-	std::vector<bv::core::rule_class_type> rule_types;
 	core::value_cache value_cache;
 
 	try
@@ -138,7 +141,7 @@ boost::asio::awaitable<void> concurrent_analysis_executor::load_target(
 	}
 	catch (...)
 	{
-		create_report()->log_noexcept(output::report_level::error,
+		create_report(rule_types)->log_noexcept(output::report_level::error,
 			output::reports::entity_load_exception,
 			output::current_exception_arg(),
 			output::named_arg(output::arg::entity_name,
@@ -152,7 +155,7 @@ boost::asio::awaitable<void> concurrent_analysis_executor::load_target(
 		co_return;
 	}
 
-	auto report = create_report();
+	auto report = create_report(rule_types);
 	auto value_provider = std::make_shared<bv::core::async_value_provider>(
 		std::move(value_cache),
 		context_.get_global_context().get_async_generators(),

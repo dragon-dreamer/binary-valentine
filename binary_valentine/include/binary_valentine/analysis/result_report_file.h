@@ -15,6 +15,7 @@ enum class result_report_file_type
 {
 	text,
 	sarif,
+	html_report
 };
 
 class [[nodiscard]] result_report_file

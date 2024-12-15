@@ -1,7 +1,9 @@
 #pragma once
 
 #include <memory>
+#include <span>
 
+#include "binary_valentine/core/rule_class.h"
 #include "binary_valentine/output/in_memory_report.h"
 
 namespace bv::core
@@ -24,6 +26,9 @@ public:
 	[[nodiscard]]
 	virtual const std::shared_ptr<const core::subject_entity_interface>&
 		get_entity() const noexcept = 0;
+	[[nodiscard]]
+	virtual std::span<const core::rule_class_type>
+		get_detected_rule_types() const noexcept = 0;
 };
 
 } //namespace bv::output

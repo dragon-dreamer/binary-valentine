@@ -1,5 +1,7 @@
 #include "ScanRunnerNode.h"
 
+#include <vector>
+
 #include "AnalysisRunner.h"
 #include "AnalyzedFileTracker.h"
 #include "ImmutableContext.h"
@@ -7,6 +9,7 @@
 #include "ModelToAnalysisPlanConverter.h"
 #include "ProgressReport.h"
 
+#include "binary_valentine/core/rule_class.h"
 #include "binary_valentine/output/format/output_format_interface.h"
 #include "binary_valentine/output/internal_report_messages.h"
 
@@ -72,6 +75,7 @@ void ScanRunnerNode::runAnalysis()
     auto commonReport = std::make_shared<InMemoryReportOutput>(
         nullptr,
         ImmutableContext::getLocalizedResources(),
+        std::vector<bv::core::rule_class_type>{},
         ImmutableContext::getImmutableContext().get_exception_formatter());
     fileTracker_->registerFile(commonReport);
 
@@ -98,8 +102,10 @@ void ScanRunnerNode::runAnalysis()
 
     plan.set_custom_in_memory_report_creator(
         [fileTracker = fileTracker_]
-        (const auto& entity, const auto& formatter, const auto& resources) {
-            auto report = std::make_shared<InMemoryReportOutput>(entity, resources, formatter);
+        (const auto& entity, const auto& formatter,
+                                     const auto& detected_rule_types, const auto& resources) {
+            auto report = std::make_shared<InMemoryReportOutput>(
+                entity, resources, detected_rule_types, formatter);
             fileTracker->registerFile(report);
             return report;
         });

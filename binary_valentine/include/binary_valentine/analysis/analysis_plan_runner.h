@@ -42,6 +42,7 @@ public:
 
 private:
 	struct impl;
+	bool needs_extended_stats() const;
 
 private:
 	std::shared_ptr<impl> impl_;

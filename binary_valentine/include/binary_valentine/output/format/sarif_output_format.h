@@ -17,13 +17,12 @@ class [[nodiscard]] sarif_output_format final
 public:
 	explicit sarif_output_format(
 		const string::resource_provider_interface& resource_provider,
-		std::filesystem::path&& path) noexcept
-		: resource_provider_(resource_provider)
-		, path_(std::move(path))
-	{
-	}
+		std::filesystem::path&& path) noexcept;
 
-	virtual void start(const analysis_state& state) override;
+	virtual ~sarif_output_format() override;
+
+	virtual void start(const analysis_state& state,
+		const std::optional<extended_analysis_state>& extra_state) override;
 	virtual void append(const entity_in_memory_report_interface& report) override;
 	virtual void finalize() override;
 
@@ -32,7 +31,7 @@ private:
 
 	const string::resource_provider_interface& resource_provider_;
 	std::filesystem::path path_;
-	std::shared_ptr<impl> impl_;
+	std::unique_ptr<impl> impl_;
 };
 
 } //namespace bv::output::format

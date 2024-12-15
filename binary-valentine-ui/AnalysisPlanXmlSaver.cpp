@@ -268,18 +268,23 @@ void writeReports(const std::vector<analysis::result_report_type>& reports, QXml
                            stream.writeEmptyElement("terminal");
                        },
                        [&stream] (const analysis::result_report_file& file) {
-                           if (file.get_type() == analysis::result_report_file_type::sarif)
+                           QAnyStringView elementName;
+                           switch (file.get_type())
                            {
-                               stream.writeTextElement(
-                                   "sarif",
-                                   QtStdTypeConverter::toString(file.get_path()));
+                           case analysis::result_report_file_type::text:
+                               elementName = "text";
+                               break;
+                           case analysis::result_report_file_type::sarif:
+                               elementName = "sarif";
+                               break;
+                           case analysis::result_report_file_type::html_report:
+                               elementName = "html";
+                               break;
                            }
-                           else
-                           {
-                               stream.writeTextElement(
-                                   "text",
-                                   QtStdTypeConverter::toString(file.get_path()));
-                           }
+
+                           stream.writeTextElement(
+                               elementName,
+                               QtStdTypeConverter::toString(file.get_path()));
                        },
                        [] (analysis::result_report_in_memory) {}
                    }, report);

@@ -37,6 +37,13 @@ public:
 	}
 
 	[[nodiscard]]
+	virtual std::span<const core::rule_class_type>
+		get_detected_rule_types() const noexcept override
+	{
+		return {};
+	}
+
+	[[nodiscard]]
 	saved_common_reports_type& get_common_reports() noexcept
 	{
 		return common_;
@@ -77,9 +84,10 @@ output_format_executor::output_format_executor(std::vector<std::shared_ptr<
 
 void output_format_executor::save_to(
 	const std::shared_ptr<output_format_interface>& output,
-	const analysis_state& state) const
+	const analysis_state& state,
+	const std::optional<extended_analysis_state>& extra_state) const
 {
-	output->start(state);
+	output->start(state, extra_state);
 	if (common_report_)
 	{
 		if (!common_report_->get_common_reports().empty()

@@ -61,7 +61,10 @@ enum class user_errc
 	invalid_target_path,
 	invalid_report_path,
 	invalid_project_path,
-	unable_to_write_file
+	unable_to_write_file,
+	duplicate_output_extra_option,
+	unable_to_load_html_report_template_file,
+	unable_to_write_html_report
 };
 
 std::error_code make_error_code(user_errc) noexcept;

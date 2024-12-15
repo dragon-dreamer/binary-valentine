@@ -311,7 +311,17 @@ void parse_file_output(const pugi::xml_node& report_node,
 	if (path.empty())
 		throw core::user_error(core::user_errc::empty_report_path);
 
-	plan.emplace_output_report(result_report_file(path, type));
+	result_report_file file(path, type);
+	for (const auto& attr : report_node.attributes())
+	{
+		if (!file.add_extra_option(attr.name(), attr.value()))
+		{
+			throw core::user_error(core::user_errc::duplicate_output_extra_option,
+				core::user_error::arg_type("option", attr.name()));
+		}
+	}
+
+	plan.emplace_output_report(std::move(file));
 }
 
 void parse_output_reports(const pugi::xml_node& plan_root,
@@ -350,6 +360,12 @@ void parse_output_reports(const pugi::xml_node& plan_root,
 		if (node_name == "sarif")
 		{
 			parse_file_output(report_node, result_report_file_type::sarif, plan);
+			continue;
+		}
+
+		if (node_name == "html")
+		{
+			parse_file_output(report_node, result_report_file_type::html_report, plan);
 			continue;
 		}
 
@@ -399,6 +415,7 @@ void parse_output_reports(const pugi::xml_node& plan_root,
 		<terminal />
 		<text>c:/report.txt</text>
 		<sarif>c:/report.sarif.json</sarif>
+		<html>c:/report.html</html>
 	</reports>
 </plan>
 */

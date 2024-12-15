@@ -93,8 +93,10 @@ PropertyView {
                         model: [
                             { value: ReportOutputs.FileFormatText,
                                 text: qsTr("Plaintext") },
-                            { value: ScanTarget.FileFormatSarif,
+                            { value: ReportOutputs.FileFormatSarif,
                                 text: qsTr("SARIF") },
+                            { value: ReportOutputs.FileFormatHtml,
+                                text: qsTr("HTML") },
                         ]
                         implicitContentWidthPolicy: ComboBox.WidestText
                         textRole: "text"
@@ -161,9 +163,14 @@ PropertyView {
                             qsTr("Plaintext files (*.txt)"),
                             qsTr("All files (*.*)")
                         ];
-            } else {
+            } else if (fileFormat === ReportOutputs.FileFormatSarif) {
                 saveReportDialog.nameFilters = [
                             qsTr("SARIF files (*.sarif *.json)"),
+                            qsTr("All files (*.*)")
+                        ];
+            } else if (fileFormat === ReportOutputs.FileFormatHtml) {
+                saveReportDialog.nameFilters = [
+                            qsTr("HTML files (*.htm *.html)"),
                             qsTr("All files (*.*)")
                         ];
             }

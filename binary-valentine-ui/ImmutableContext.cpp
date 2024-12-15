@@ -23,8 +23,11 @@ public:
         if (!file.open(QIODeviceBase::ReadOnly | QIODeviceBase::ExistingOnly))
             throw std::runtime_error("Unable to open built-in resource file " + std::string(path));
 
-        const auto arr = file.readAll();
-        return std::string(arr.constData(), arr.length());
+        std::string result;
+        result.resize(file.size());
+        if (result.size() != file.read(result.data(), result.size()))
+            throw std::runtime_error("Unable to read built-in resource file " + std::string(path));
+        return result;
     }
 };
 } //namespace

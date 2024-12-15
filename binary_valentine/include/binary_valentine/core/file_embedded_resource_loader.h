@@ -2,6 +2,7 @@
 
 #include <filesystem>
 #include <string>
+#include <string_view>
 
 #include "binary_valentine/core/embedded_resource_loader_interface.h"
 

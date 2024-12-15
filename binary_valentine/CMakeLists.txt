@@ -119,6 +119,7 @@ target_sources(binary_valentine_lib
 		include/binary_valentine/file/async_target_enumerator.h
 		include/binary_valentine/file/file_entity.h
 		include/binary_valentine/file/file_entity_stream_provider.h
+		include/binary_valentine/file/file_loader.h
 		include/binary_valentine/json/json_printer.h
 		include/binary_valentine/output/configurable_result_report_factory.h
 		include/binary_valentine/output/entity_in_memory_report_interface.h
@@ -262,6 +263,7 @@ target_sources(binary_valentine_lib
 		src/file/async_file.cpp
 		src/file/async_target_enumerator.cpp
 		src/file/file_entity_stream_provider.cpp
+		src/file/file_loader.cpp
 		src/output/configurable_result_report_factory.cpp
 		src/output/exception_formatter.cpp
 		src/output/filtering_report_output.cpp

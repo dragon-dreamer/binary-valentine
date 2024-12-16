@@ -45,7 +45,8 @@ boost::asio::awaitable<bool> pe_format_detector::detect(
     auto file = stream_provider.get(co_await boost::asio::this_coro::executor);
     std::shared_ptr<buffers::input_buffer_interface> buf
         = std::make_shared<bv::pe::input_async_stream_buffer>(file);
-    if (!pe_bliss::image::format_detector::looks_like_pe(*buf))
+    const auto detected_format = pe_bliss::image::format_detector::detect_format(*buf);
+    if (detected_format == pe_bliss::image::detected_format::none)
         co_return false;
 
     auto file_size = buf->physical_size();
@@ -70,6 +71,10 @@ boost::asio::awaitable<bool> pe_format_detector::detect(
 
     rules.emplace_back(static_cast<core::rule_class_type>(rule_class_type::pe));
     rules.emplace_back(static_cast<core::rule_class_type>(rule_class_type::executable));
+    if (detected_format == pe_bliss::image::detected_format::pe32)
+        rules.emplace_back(static_cast<core::rule_class_type>(rule_class_type::pe32));
+    else if (detected_format == pe_bliss::image::detected_format::pe64)
+        rules.emplace_back(static_cast<core::rule_class_type>(rule_class_type::pe64));
     co_return true;
 }
 

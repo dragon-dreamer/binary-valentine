@@ -6,6 +6,7 @@
 #include <stdexcept>
 
 #include "binary_valentine/analysis/immutable_context.h"
+#include "binary_valentine/analysis/result_report_file.h"
 #include "binary_valentine/core/subject_entity_interface.h"
 #include "binary_valentine/core/user_error.h"
 #include "binary_valentine/file/file_loader.h"
@@ -30,7 +31,6 @@ struct html_report_output_format::impl
 {
 public:
 	static constexpr std::string_view default_html_template_file_name = "html_report.tpl";
-	static constexpr std::string_view template_extra_argument_name = "template";
 
 	impl(const analysis::result_report_file::options_map_type& extra_options,
 		const analysis::immutable_context& global_context,
@@ -40,7 +40,8 @@ public:
 		std::string_view template_file_name = default_html_template_file_name;
 		try
 		{
-			if (auto it = extra_options.find(template_extra_argument_name);
+			if (auto it = extra_options.find(
+				analysis::result_report_file::report_template_extra_argument_name);
 				it != extra_options.cend())
 			{
 				template_file_name = it->second;

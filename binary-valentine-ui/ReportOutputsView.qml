@@ -102,7 +102,9 @@ PropertyView {
                         textRole: "text"
                         valueRole: "value"
                         Component.onCompleted: currentIndex = indexOfValue(parent.model.fileFormat)
-                        onActivated: logic.setOutputFileFormat(parent.index, currentValue, filePathTextField)
+                        onActivated: logic.setOutputFileFormat(parent.index,
+                                                               currentValue,
+                                                               filePathTextField)
                     }
 
                     TextField {
@@ -121,10 +123,55 @@ PropertyView {
                     }
                     Button {
                         Layout.leftMargin: 5
+                        text: qsTr("Advanced...")
+                        visible: fileFormatCombo.currentValue === ReportOutputs.FileFormatHtml
+                        onClicked: logic.handleAdvancedOptions(parent.model,
+                                                               parent.index,
+                                                               filePathTextField);
+                    }
+                    Button {
+                        Layout.leftMargin: 5
                         text: qsTr("Delete")
                         onClicked: logic.deleteOutputFile(listModel, parent.index)
                     }
                 }
+            }
+        }
+    }
+
+    Column {
+        id: extraOptionsBox
+        visible: false
+        spacing: 5
+        Layout.fillWidth: true
+        Layout.topMargin: 15
+
+        Label {
+            id: advancedOptionsForReportHeader
+            wrapMode: Label.WordWrap
+            width: parent.width
+        }
+
+        Switch {
+            id: useDefaultHtmlTemplateSwitch
+            leftPadding: 0
+            text: qsTr("Use default HTML report template")
+            onToggled: logic.enableDefaultTemplate(checked)
+        }
+
+        RowLayout {
+            visible: !useDefaultHtmlTemplateSwitch.checked
+            width: parent.width
+            TextField {
+                id: htmlTemplatePathField
+                Layout.fillWidth: true
+                Layout.leftMargin: 5
+                placeholderText: qsTr("Can not be empty")
+                onTextEdited: logic.setTemplatePath(text)
+            }
+            Button {
+                text: qsTr("...")
+                onClicked: logic.selectTemplatePathFile()
             }
         }
     }
@@ -136,8 +183,18 @@ PropertyView {
         fileMode: FileDialog.SaveFile
     }
 
+    FileDialog {
+        id: selectReportTemplateDialog
+        acceptLabel: qsTr("Select")
+        rejectLabel: qsTr("Cancel")
+        fileMode: FileDialog.OpenFile
+    }
+
     QtObject {
         id: logic
+        property int lastSelectedIndex: -1
+        property var lastSelectedModel
+
         function loadOutputFiles(model): void {
             const filters = root.node.getOutputFiles();
             for (var key in filters) {
@@ -145,6 +202,8 @@ PropertyView {
             }
         }
         function addNewOutputFile(model): void {
+            extraOptionsBox.visible = false;
+            lastSelectedModel = undefined;
             model.append(root.node.addNewOutputFile());
         }
         function setOutputFilePath(index, path): void {
@@ -172,6 +231,8 @@ PropertyView {
             pathField.text = path;
         }
         function deleteOutputFile(model, index): void {
+            extraOptionsBox.visible = false;
+            lastSelectedModel = undefined;
             model.remove(index);
             root.node.deleteOutputFile(index);
         }
@@ -204,9 +265,52 @@ PropertyView {
                 }
 
                 saveReportDialog.accepted.disconnect(slotConnection);
-            }
+            };
             saveReportDialog.accepted.connect(slotConnection);
             saveReportDialog.open();
+        }
+
+        function handleAdvancedOptions(model, index, filePathTextField): void {
+            lastSelectedIndex = index;
+            lastSelectedModel = model;
+            extraOptionsBox.visible = true;
+            useDefaultHtmlTemplateSwitch.checked = model.useDefaultReportTemplate;
+            htmlTemplatePathField.text = model.reportTemplate;
+            advancedOptionsForReportHeader.text = Qt.binding(
+                        function() { return qsTr("<b>Advanced options for: </b><i>%1</i>").arg(
+                                         filePathTextField.text); });
+        }
+
+        function enableDefaultTemplate(enable: bool): void {
+            root.node.enableDefaultTemplate(lastSelectedIndex, enable);
+            lastSelectedModel.useDefaultReportTemplate = enable;
+        }
+
+        function setTemplatePath(path): void {
+            root.node.setReportTemplatePath(lastSelectedIndex, path);
+            lastSelectedModel.reportTemplate = path;
+        }
+
+        function selectTemplatePathFile(): void {
+            selectReportTemplateDialog.nameFilters = [
+                        qsTr("Report template files (*.tpl)"),
+                        qsTr("All files (*.*)")
+                    ];
+
+            var slotConnection = () => {
+                const helper = new UrlHelper.UrlHelper(selectReportTemplateDialog.selectedFile);
+                if (helper.areLocalFiles()) {
+                    var localPaths = helper.getLocalFilePaths();
+                    if (localPaths.length === 1) {
+                        logic.setTemplatePath(localPaths[0]);
+                        htmlTemplatePathField.text = localPaths[0];
+                    }
+                }
+
+                selectReportTemplateDialog.accepted.disconnect(slotConnection);
+            };
+            selectReportTemplateDialog.accepted.connect(slotConnection);
+            selectReportTemplateDialog.open();
         }
     }
 }

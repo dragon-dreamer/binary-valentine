@@ -282,9 +282,26 @@ void writeReports(const std::vector<analysis::result_report_type>& reports, QXml
                                break;
                            }
 
-                           stream.writeTextElement(
-                               elementName,
-                               QtStdTypeConverter::toString(file.get_path()));
+                           if (file.get_extra_options().empty())
+                           {
+                               stream.writeTextElement(
+                                   elementName,
+                                   QtStdTypeConverter::toString(file.get_path()));
+                           }
+                           else
+                           {
+                               stream.writeStartElement(elementName);
+                               for (const auto& [k, v] : file.get_extra_options())
+                               {
+                                   stream.writeAttribute(
+                                       QtStdTypeConverter::toString(k),
+                                       QtStdTypeConverter::toString(v));
+
+                               }
+                               stream.writeCharacters(
+                                   QtStdTypeConverter::toString(file.get_path()));
+                               stream.writeEndElement(); //elementName
+                           }
                        },
                        [] (analysis::result_report_in_memory) {}
                    }, report);

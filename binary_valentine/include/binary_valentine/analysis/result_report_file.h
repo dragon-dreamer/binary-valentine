@@ -23,6 +23,7 @@ class [[nodiscard]] result_report_file
 public:
 	using options_map_type = std::unordered_map<std::string, std::string,
 		core::transparent_hash, std::equal_to<>>;
+	static constexpr std::string_view report_template_extra_argument_name = "template";
 
 public:
 	explicit result_report_file(std::string_view path, result_report_file_type type);

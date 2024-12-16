@@ -15,6 +15,7 @@
 #include "TargetsNode.h"
 
 #include "binary_valentine/analysis/analysis_plan_parse_helpers.h"
+#include "binary_valentine/analysis/result_report_file.h"
 #include "binary_valentine/core/user_error.h"
 
 namespace bv
@@ -192,6 +193,7 @@ void convertOutputReports(const ReportOutputsNode& outputs, analysis::analysis_p
     {
         const auto map = outputFile.toMap();
         analysis::result_report_file_type fileType{};
+        std::string customTemplatePath;
         switch (map[ReportOutputsNode::fileFormatKey].toInt())
         {
         case ReportOutputsNode::FileFormatText:
@@ -202,14 +204,27 @@ void convertOutputReports(const ReportOutputsNode& outputs, analysis::analysis_p
             break;
         case ReportOutputsNode::FileFormatHtml:
             fileType = analysis::result_report_file_type::html_report;
+            if (!map[ReportOutputsNode::useDefaultTemplateKey].toBool())
+            {
+                customTemplatePath = map[ReportOutputsNode::reportTemplateKey]
+                                         .toString().toStdString();
+            }
             break;
         }
 
-        result.emplace_output_report(analysis::result_report_file(
+        analysis::result_report_file file(
             QtStdTypeConverter::toPath(
                 map[ReportOutputsNode::filePathKey].toString(),
                 core::user_errc::invalid_report_path),
-            fileType));
+            fileType);
+        if (!customTemplatePath.empty())
+        {
+            file.add_extra_option(
+                std::string(analysis::result_report_file::report_template_extra_argument_name),
+                std::move(customTemplatePath));
+        }
+
+        result.emplace_output_report(std::move(file));
     }
 }
 

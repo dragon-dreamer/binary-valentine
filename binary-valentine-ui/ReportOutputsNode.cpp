@@ -26,6 +26,8 @@ QVariantMap ReportOutputsNode::addNewOutputFile()
     QVariantMap file;
     file[fileFormatKey] = static_cast<int>(FileFormatText);
     file[filePathKey] = QString{defaultPath};
+    file[useDefaultTemplateKey] = true;
+    file[reportTemplateKey] = QString{};
     outputFiles_.emplaceBack(file);
     emit changesMade();
     return file;
@@ -59,6 +61,27 @@ void ReportOutputsNode::setOutputFilePath(int index, QString path)
     emit changesMade();
 }
 
+void ReportOutputsNode::enableDefaultTemplate(int index, bool enable)
+{
+    assert(index >= 0 && index < outputFiles_.size());
+    auto map = outputFiles_.at(index).toMap();
+    map[useDefaultTemplateKey] = enable;
+    outputFiles_[index] = std::move(map);
+    emit changesMade();
+}
+
+void ReportOutputsNode::setReportTemplatePath(int index, QString path)
+{
+    if (path.isEmpty())
+        return;
+
+    assert(index >= 0 && index < outputFiles_.size());
+    auto map = outputFiles_.at(index).toMap();
+    map[reportTemplateKey] = path;
+    outputFiles_[index] = std::move(map);
+    emit changesMade();
+}
+
 void ReportOutputsNode::enableTerminalOutput(bool enable)
 {
     if (terminalOutput_ != enable)
@@ -69,11 +92,14 @@ void ReportOutputsNode::enableTerminalOutput(bool enable)
     }
 }
 
-void ReportOutputsNode::addOutputFile(FileFormat format, QString path)
+void ReportOutputsNode::addOutputFile(FileFormat format, QString path,
+                                      QString customTemplatePath)
 {
     QVariantMap file;
     file[fileFormatKey] = static_cast<int>(format);
     file[filePathKey] = std::move(path);
+    file[useDefaultTemplateKey] = customTemplatePath.isEmpty();
+    file[reportTemplateKey] = std::move(customTemplatePath);
     outputFiles_.append(std::move(file));
 }
 

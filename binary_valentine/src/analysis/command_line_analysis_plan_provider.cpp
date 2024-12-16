@@ -17,6 +17,7 @@
 
 #include "binary_valentine/analysis/analysis_plan.h"
 #include "binary_valentine/analysis/analysis_plan_parse_helpers.h"
+#include "binary_valentine/analysis/result_report_file.h"
 #include "binary_valentine/core/user_error.h"
 #include "binary_valentine/progress/terminal_progress_report.h"
 #include "binary_valentine/string/encoding.h"
@@ -193,7 +194,8 @@ private:
 
 			if (auto template_it = vm.find("html-template"); template_it != vm.end())
 			{
-				file.add_extra_option("template",
+				file.add_extra_option(
+					std::string(analysis::result_report_file::report_template_extra_argument_name),
 					string::to_utf8(template_it->second.as<std::basic_string<Char>>()));
 			}
 

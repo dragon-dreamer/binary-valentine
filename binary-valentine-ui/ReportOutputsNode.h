@@ -16,6 +16,8 @@ class ReportOutputsNode final : public ProjectTreeNode
 public:
     static constexpr QLatin1StringView fileFormatKey{"fileFormat"};
     static constexpr QLatin1StringView filePathKey{"path"};
+    static constexpr QLatin1StringView useDefaultTemplateKey{"useDefaultReportTemplate"};
+    static constexpr QLatin1StringView reportTemplateKey{"reportTemplate"};
 
     enum FileFormat
     {
@@ -41,6 +43,8 @@ public:
     Q_INVOKABLE void deleteOutputFile(int index);
     Q_INVOKABLE void setOutputFileFormat(int index, FileFormat fileFormat);
     Q_INVOKABLE void setOutputFilePath(int index, QString path);
+    Q_INVOKABLE void enableDefaultTemplate(int index, bool enable);
+    Q_INVOKABLE void setReportTemplatePath(int index, QString path);
 
     [[nodiscard]]
     bool useTerminalOutput() const noexcept
@@ -50,7 +54,8 @@ public:
 
 public:
     void enableTerminalOutput(bool enable);
-    void addOutputFile(FileFormat format, QString path);
+    void addOutputFile(FileFormat format, QString path,
+                       QString customTemplatePath);
 
 signals:
     void terminalOutputChanged();

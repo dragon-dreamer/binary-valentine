@@ -16,6 +16,7 @@
 #include "TargetsNode.h"
 #include "QtStdTypeConverter.h"
 
+#include "binary_valentine/analysis/result_report_file.h"
 #include "utilities/variant_helpers.h"
 
 namespace bv
@@ -146,23 +147,31 @@ void populateOutputReports(const analysis::analysis_plan& plan, ReportOutputsNod
                        [](const analysis::result_report_in_memory&) {},
                        [&toTerminal](const analysis::result_report_terminal&) { toTerminal = true; },
                        [&outputs](const analysis::result_report_file& file) {
-                           ReportOutputsNode::FileFormat report_format{};
+                           ReportOutputsNode::FileFormat reportFormat{};
+                           QString reportTemplatePath;
                            switch (file.get_type())
                            {
                            case analysis::result_report_file_type::sarif:
-                               report_format = ReportOutputsNode::FileFormatSarif;
+                               reportFormat = ReportOutputsNode::FileFormatSarif;
                                break;
                            case analysis::result_report_file_type::text:
-                               report_format = ReportOutputsNode::FileFormatText;
+                               reportFormat = ReportOutputsNode::FileFormatText;
                                break;
                            case analysis::result_report_file_type::html_report:
-                               report_format = ReportOutputsNode::FileFormatHtml;
+                               reportFormat = ReportOutputsNode::FileFormatHtml;
+                               if (auto it = file.get_extra_options().find(
+                                       analysis::result_report_file::report_template_extra_argument_name);
+                                   it != file.get_extra_options().cend()) {
+                                   reportTemplatePath = QtStdTypeConverter::toString(
+                                       it->second);
+                               }
                                break;
                            }
 
                            outputs.addOutputFile(
-                               report_format,
-                               QtStdTypeConverter::toString(file.get_path()));
+                               reportFormat,
+                               QtStdTypeConverter::toString(file.get_path()),
+                               std::move(reportTemplatePath));
                        }
                    }, report);
     }

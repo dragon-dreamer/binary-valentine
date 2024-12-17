@@ -3,7 +3,7 @@
 #include <memory>
 #include <vector>
 
-#include "binary_valentine/core/rule_class.h"
+#include "binary_valentine/core/rule_class_mask.h"
 #include "binary_valentine/core/rule_detector_interface.h"
 
 namespace bv::core
@@ -20,7 +20,7 @@ public:
 		const subject_entity_interface& entity,
 		entity_stream_provider_interface& stream_provider,
 		value_cache& values,
-		std::vector<core::rule_class_type>& rules) const override;
+		core::rule_class_mask& rules) const override;
 
 	void add_file_format_detector(std::unique_ptr<
 		const rule_detector_interface>&& detector);

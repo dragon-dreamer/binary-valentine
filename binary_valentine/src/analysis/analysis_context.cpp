@@ -68,7 +68,7 @@ bool analysis_context::do_combined_analysis() const noexcept
 boost::asio::awaitable<void> analysis_context::store_values_for_combined_analysis(
 	std::shared_ptr<core::async_value_provider>&& values,
 	const std::shared_ptr<output::entity_report_interface>& entity_report,
-	const std::vector<core::rule_class_type>& rule_types,
+	const core::rule_class_mask& rule_types,
 	std::reference_wrapper<const core::rule_selector> selector)
 {
 	if (!do_combined_analysis())
@@ -83,15 +83,15 @@ boost::asio::awaitable<void> analysis_context::store_values_for_combined_analysi
 	provider.set(core::make_value<std::reference_wrapper<const core::rule_selector>>(
 		selector));
 
-	for (auto rule_class : rule_types)
+	for (std::size_t rule_class_index : rule_types)
 	{
-		if (combined_rules_per_class_[rule_class].get_rules().empty())
+		if (combined_rules_per_class_[rule_class_index].get_rules().empty())
 			continue;
 
 		std::shared_ptr<core::value_provider_interface_base> values_copy = values;
 
 		std::lock_guard lock(combined_context_mutex_);
-		combined_context_.value_providers_per_class[rule_class]
+		combined_context_.value_providers_per_class[rule_class_index]
 			.emplace_back(std::move(values_copy));
 	}
 }

@@ -108,14 +108,14 @@ boost::asio::awaitable<void> concurrent_analysis_executor::load_target(
 	}
 
 	const auto create_report = [&](
-		const std::vector<bv::core::rule_class_type>& detected_rule_types) {
+		const core::rule_class_mask& detected_rule_types) {
 			return context_.get_report_factory().get_entity_report(
 				target_entity, result.selector,
 				context_.get_global_context().get_exception_formatter(),
 				detected_rule_types);
 		};
 
-	std::vector<bv::core::rule_class_type> rule_types;
+	core::rule_class_mask rule_types;
 
 	if (result.ec)
 	{
@@ -160,7 +160,8 @@ boost::asio::awaitable<void> concurrent_analysis_executor::load_target(
 		std::move(value_cache),
 		context_.get_global_context().get_async_generators(),
 		context_.get_global_context().get_generators(),
-		*report);
+		*report,
+		rule_types);
 
 	std::shared_ptr<const core::subject_entity_interface> entity_ptr_copy;
 	if (progress_report_)
@@ -230,10 +231,10 @@ boost::asio::awaitable<void> concurrent_analysis_executor::cpu_task_impl(
 
 	try
 	{
-		for (auto rule_class : result.rule_types)
+		for (std::size_t rule_class_index : result.rule_types)
 		{
 			auto enabled_rules = context_.get_global_context().get_rules()
-				.get_enabled_rules(rule_class, result.selector);
+				.get_enabled_rules(rule_class_index, result.selector);
 			co_await enabled_rules.run(*result.report, *result.report,
 				*result.value_provider, stop_token);
 		}

@@ -26,7 +26,7 @@ public:
 	explicit in_memory_report_output(
 		const std::shared_ptr<const core::subject_entity_interface>& entity,
 		const string::resource_provider_interface& resource_provider,
-		const std::vector<core::rule_class_type>& detected_rule_types,
+		const core::rule_class_mask& detected_rule_types,
 		const exception_formatter& formatter)
 		: entity_(entity)
 		, resource_provider_(resource_provider)
@@ -71,7 +71,7 @@ public:
 	}
 
 	[[nodiscard]]
-	virtual std::span<const core::rule_class_type>
+	virtual const core::rule_class_mask&
 		get_detected_rule_types() const noexcept override
 	{
 		return detected_rule_types_;
@@ -83,7 +83,7 @@ private:
 	const exception_formatter& formatter_;
 	saved_rule_reports_type rule_reports_;
 	saved_common_reports_type common_reports_;
-	std::vector<core::rule_class_type> detected_rule_types_;
+	core::rule_class_mask detected_rule_types_;
 };
 
 } //namespace bv::output

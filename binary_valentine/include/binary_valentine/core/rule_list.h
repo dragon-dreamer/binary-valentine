@@ -12,7 +12,6 @@
 #include <boost/asio/awaitable.hpp>
 
 #include "binary_valentine/core/combined_rule_interface.h"
-#include "binary_valentine/core/rule_class.h"
 #include "binary_valentine/core/rule_interface.h"
 #include "binary_valentine/core/value_helper.h"
 #include "binary_valentine/output/rule_report.h"
@@ -106,7 +105,7 @@ public:
 	template<typename Rule>
 	void register_rule(value_provider_interface& shared_values)
 	{
-		register_rule(static_cast<rule_class_type>(Rule::rule_class),
+		register_rule(static_cast<std::size_t>(Rule::rule_class),
 			make_rule_with_dependencies<Rule>(shared_values));
 	}
 
@@ -117,12 +116,12 @@ public:
 			const rule_selector& selector) const
 	{
 		return get_enabled_rules(
-			static_cast<rule_class_type>(rule_class), selector);
+			static_cast<std::size_t>(rule_class), selector);
 	}
 
 	[[nodiscard]]
 	enabled_rule_list_base<rule_interface_type>
-		get_enabled_rules(rule_class_type rule_class,
+		get_enabled_rules(std::size_t rule_class_index,
 			const rule_selector& selector) const;
 
 	[[nodiscard]]
@@ -135,7 +134,7 @@ public:
 	}
 
 private:
-	void register_rule(rule_class_type rule_class,
+	void register_rule(std::size_t rule_class_index,
 		std::unique_ptr<const rule_interface_type>&& rule);
 
 	template<typename Rule>

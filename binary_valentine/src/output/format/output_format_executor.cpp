@@ -37,10 +37,11 @@ public:
 	}
 
 	[[nodiscard]]
-	virtual std::span<const core::rule_class_type>
+	virtual const core::rule_class_mask&
 		get_detected_rule_types() const noexcept override
 	{
-		return {};
+		static constexpr core::rule_class_mask empty;
+		return empty;
 	}
 
 	[[nodiscard]]

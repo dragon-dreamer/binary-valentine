@@ -4,11 +4,10 @@
 #include <cstdint>
 #include <functional>
 #include <memory>
-#include <vector>
 
 #include "binary_valentine/analysis/analysis_context.h"
 #include "binary_valentine/core/async_value_provider.h"
-#include "binary_valentine/core/rule_class.h"
+#include "binary_valentine/core/rule_class_mask.h"
 #include "binary_valentine/core/rule_selector.h"
 #include "binary_valentine/file/async_target_enumerator.h"
 #include "binary_valentine/output/result_report_interface.h"
@@ -33,7 +32,7 @@ namespace impl
 struct loaded_target
 {
 	std::reference_wrapper<const core::rule_selector> selector;
-	std::vector<core::rule_class_type> rule_types;
+	core::rule_class_mask rule_types;
 	std::shared_ptr<core::async_value_provider> value_provider;
 	std::shared_ptr<output::entity_report_interface> report;
 	std::shared_ptr<const core::subject_entity_interface> entity;

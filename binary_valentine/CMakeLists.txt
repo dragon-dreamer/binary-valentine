@@ -99,7 +99,7 @@ target_sources(binary_valentine_lib
 		include/binary_valentine/core/overloaded.h
 		include/binary_valentine/core/reflection.h
 		include/binary_valentine/core/rule.h
-		include/binary_valentine/core/rule_class.h
+		include/binary_valentine/core/rule_class_mask.h
 		include/binary_valentine/core/rule_detector_container.h
 		include/binary_valentine/core/rule_detector_interface.h
 		include/binary_valentine/core/rule_interface.h

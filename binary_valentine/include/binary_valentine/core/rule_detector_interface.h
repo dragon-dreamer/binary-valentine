@@ -1,10 +1,8 @@
 #pragma once
 
-#include <vector>
-
 #include <boost/asio/awaitable.hpp>
 
-#include "binary_valentine/core/rule_class.h"
+#include "binary_valentine/core/rule_class_mask.h"
 
 namespace bv::core
 {
@@ -23,7 +21,7 @@ public:
 		const subject_entity_interface& entity,
 		entity_stream_provider_interface& stream_provider,
 		value_cache& values,
-		std::vector<core::rule_class_type>& rules) const = 0;
+		core::rule_class_mask& rules) const = 0;
 };
 
 } //namespace bv::core

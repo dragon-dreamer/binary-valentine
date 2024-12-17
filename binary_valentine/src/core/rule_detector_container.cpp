@@ -14,7 +14,7 @@ boost::asio::awaitable<bool> rule_detector_container::detect(
 	const subject_entity_interface& entity,
 	entity_stream_provider_interface& stream_provider,
 	value_cache& values,
-	std::vector<core::rule_class_type>& rules) const
+	core::rule_class_mask& rules) const
 {
 	bool file_format_detected = false;
 	for (const auto& detector : file_format_detectors_)

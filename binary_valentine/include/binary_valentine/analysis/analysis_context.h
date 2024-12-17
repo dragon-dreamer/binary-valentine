@@ -9,7 +9,7 @@
 
 #include <boost/asio/awaitable.hpp>
 
-#include "binary_valentine/core/rule_class.h"
+#include "binary_valentine/core/rule_class_mask.h"
 #include "binary_valentine/core/rule_list.h"
 #include "binary_valentine/core/rule_selector.h"
 #include "binary_valentine/core/value.h"
@@ -70,7 +70,7 @@ public:
 	boost::asio::awaitable<void> store_values_for_combined_analysis(
 		std::shared_ptr<core::async_value_provider>&& values,
 		const std::shared_ptr<output::entity_report_interface>& entity_report,
-		const std::vector<core::rule_class_type>& rule_types,
+		const core::rule_class_mask& rule_types,
 		std::reference_wrapper<const core::rule_selector> selector);
 
 	void run_combined_analysis(std::stop_token stop_token);

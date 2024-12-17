@@ -11,7 +11,7 @@
 
 #include "binary_valentine/analysis/immutable_context.h"
 #include "binary_valentine/analysis/concurrent_analysis_executor.h"
-#include "binary_valentine/core/rule_class.h"
+#include "binary_valentine/core/rule_class_mask.h"
 #include "binary_valentine/core/overloaded.h"
 #include "binary_valentine/output/configurable_result_report_factory.h"
 #include "binary_valentine/output/format/output_format_executor.h"
@@ -133,7 +133,7 @@ output::configurable_result_report_factory& init_result_report_factory(
 	creators.emplace_back([&issue_tracking_output](
 		const std::shared_ptr<const bv::core::subject_entity_interface>&,
 		const output::exception_formatter&,
-		const std::vector<core::rule_class_type>&,
+		const core::rule_class_mask&,
 		const string::resource_provider_interface&) {
 			return issue_tracking_output;
 		});

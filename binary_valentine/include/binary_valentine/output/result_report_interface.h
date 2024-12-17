@@ -14,7 +14,7 @@
 
 #include <boost/predef/os/windows.h>
 
-#include "binary_valentine/core/rule_class.h"
+#include "binary_valentine/core/rule_class_mask.h"
 #include "binary_valentine/output/internal_report_arg_names.h"
 #include "binary_valentine/output/rule_report.h"
 
@@ -232,7 +232,7 @@ public:
 		const std::shared_ptr<const core::subject_entity_interface>& entity,
 		const core::rule_selector& selector,
 		const exception_formatter& formatter,
-		const std::vector<bv::core::rule_class_type>& detected_rule_types) = 0;
+		const core::rule_class_mask& detected_rule_types) = 0;
 
 	[[nodiscard]]
 	virtual std::shared_ptr<common_report_interface> get_common_report(

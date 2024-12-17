@@ -28,7 +28,7 @@ std::shared_ptr<entity_report_interface>
 configurable_result_report_factory::create_in_memory_output(
 	const std::shared_ptr<const bv::core::subject_entity_interface>& entity,
 	const exception_formatter& formatter,
-	const std::vector<bv::core::rule_class_type>& detected_rule_types)
+	const core::rule_class_mask& detected_rule_types)
 {
 	auto result = in_memory_report_creator_(
 		entity, formatter, detected_rule_types, resources_);
@@ -42,7 +42,7 @@ std::shared_ptr<entity_report_interface>
 configurable_result_report_factory::create_output(
 	const std::shared_ptr<const bv::core::subject_entity_interface>& entity,
 	const exception_formatter& formatter,
-	const std::vector<bv::core::rule_class_type>& detected_rule_types)
+	const core::rule_class_mask& detected_rule_types)
 {
 	if (in_memory_report_creator_ && realtime_report_creators_.empty())
 		return create_in_memory_output(entity, formatter, detected_rule_types);
@@ -74,7 +74,7 @@ configurable_result_report_factory::get_entity_report(
 	const std::shared_ptr<const bv::core::subject_entity_interface>& entity,
 	const bv::core::rule_selector& selector,
 	const exception_formatter& formatter,
-	const std::vector<bv::core::rule_class_type>& detected_rule_types)
+	const core::rule_class_mask& detected_rule_types)
 {
 	return std::make_shared<filtering_report_output>(
 		create_output(entity, formatter, detected_rule_types),

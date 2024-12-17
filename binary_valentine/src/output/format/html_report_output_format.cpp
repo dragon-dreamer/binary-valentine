@@ -164,16 +164,14 @@ public:
 		}
 	}
 
-	static bool has_format(std::span<const core::rule_class_type> detected_rule_types,
+	static bool has_format(const core::rule_class_mask& detected_rule_types,
 		bv::rule_class_type format)
 	{
-		return std::find(detected_rule_types.begin(), detected_rule_types.end(),
-			static_cast<core::rule_class_type>(format))
-			!= detected_rule_types.end();
+		return detected_rule_types.is_set(format);
 	}
 
 	static std::string_view get_file_format(
-		std::span<const core::rule_class_type> detected_rule_types)
+		const core::rule_class_mask& detected_rule_types)
 	{
 		if (has_format(detected_rule_types, bv::rule_class_type::pe32))
 			return "PE32";

@@ -21,7 +21,7 @@ public:
 		const core::subject_entity_interface& entity,
 		core::entity_stream_provider_interface& /* stream_provider */,
 		core::value_cache& values,
-		std::vector<core::rule_class_type>& rules) const override;
+		core::rule_class_mask& rules) const override;
 };
 
 } //namespace bv::executable

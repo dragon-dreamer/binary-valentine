@@ -4,6 +4,7 @@
 #include <exception>
 #include <optional>
 #include <span>
+#include <stdexcept>
 #include <string>
 
 #include "binary_valentine/core/core_error.h"
@@ -26,6 +27,12 @@ boost::asio::awaitable<std::optional<std::array<
 	async_value_provider_interface& provider)
 {
 	std::optional<std::array<const value_interface*, max_dependencies>> rule_prerequisites;
+
+	if (deps.size() > max_dependencies) [[unlikely]]
+	{
+		throw std::runtime_error(
+			"Rule has too many dependencies, increase `max_dependencies`");
+	}
 
 	auto begin = rule_prerequisites.emplace().begin();
 	for (auto dep : deps)
@@ -109,14 +116,14 @@ void enabled_rule_list_base<combined_rule_interface>::run(
 }
 
 template<typename RuleInterface>
-void rule_list_base<RuleInterface>::register_rule(rule_class_type rule_class,
+void rule_list_base<RuleInterface>::register_rule(std::size_t rule_class_index,
 	std::unique_ptr<const rule_interface_type>&& rule)
 {
 	if (!rule)
 		return;
 
-	if (rules_by_type_.size() <= rule_class)
-		rules_by_type_.resize(rule_class + 1);
+	if (rules_by_type_.size() <= rule_class_index)
+		rules_by_type_.resize(rule_class_index + 1);
 
 	for (const auto& report : rule->get_reports())
 	{
@@ -127,7 +134,7 @@ void rule_list_base<RuleInterface>::register_rule(rule_class_type rule_class,
 		}
 	}
 
-	rules_by_type_[rule_class].emplace_back(std::move(rule));
+	rules_by_type_[rule_class_index].emplace_back(std::move(rule));
 }
 
 template<typename RuleInterface>
@@ -145,15 +152,15 @@ output::report_uid rule_list_base<RuleInterface>::get_report_uid(
 
 template<typename RuleInterface>
 enabled_rule_list_base<RuleInterface> rule_list_base<RuleInterface>
-	::get_enabled_rules(rule_class_type rule_class,
+	::get_enabled_rules(std::size_t rule_class_index,
 		const rule_selector& selector) const
 {
 	enabled_rule_list_base<RuleInterface> rules;
 
-	if (rules_by_type_.size() <= rule_class)
+	if (rules_by_type_.size() <= rule_class_index)
 		return rules;
 
-	for (const auto& rule : rules_by_type_[rule_class])
+	for (const auto& rule : rules_by_type_[rule_class_index])
 	{
 		for (const auto& report : rule->get_reports())
 		{

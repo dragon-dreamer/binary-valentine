@@ -15,7 +15,7 @@ boost::asio::awaitable<const value_interface*> async_value_provider::get_async(
 	if (result.initialized)
 		co_return result.value;
 
-	auto gen_ptr = async_generators_.get(tag);
+	auto gen_ptr = async_generators_.get(tag, sync_provider_.get_detected_rules());
 	if (gen_ptr)
 	{
 		try

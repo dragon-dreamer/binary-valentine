@@ -1,9 +1,11 @@
 #pragma once
 
+#include <limits>
 #include <utility>
 
 #include "binary_valentine/core/data_generator_helpers.h"
 #include "binary_valentine/core/data_generator_interface.h"
+#include "binary_valentine/core/rule_class_mask.h"
 #include "binary_valentine/core/value_interface.h"
 #include "binary_valentine/core/value_helper.h"
 
@@ -18,12 +20,30 @@ class [[nodiscard]] data_generator_base
 public:
 	using data_generator_interface::data_generator_interface;
 
+	static constexpr std::monostate rule_class;
+
 	constexpr data_generator_base() noexcept
-		: data_generator_interface(Derived::generator_name)
+		: data_generator_interface(Derived::generator_name,
+			get_supported_rule_class())
 	{
 	}
 
 private:
+	static constexpr rule_class_mask get_supported_rule_class() noexcept
+	{
+		if constexpr (std::is_same_v<
+			std::remove_cvref_t<decltype(Derived::rule_class)>, std::monostate>)
+		{
+			return rule_class_mask(rule_class_mask::max);
+		}
+		else
+		{
+			constexpr auto supported_rule_class
+				= static_cast<std::uint64_t>(Derived::rule_class);
+			return rule_class_mask(1ull << supported_rule_class);
+		}
+	}
+
 	virtual void generate_data(value_provider_interface& provider) const final
 	{
 		using generate_type = func_types<&Derived::generate>;

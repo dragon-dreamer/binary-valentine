@@ -2,10 +2,11 @@
 
 #include <utility>
 
+#include "binary_valentine/core/data_generator_list.h"
+#include "binary_valentine/core/rule_class_mask.h"
 #include "binary_valentine/core/value.h"
 #include "binary_valentine/core/value_cache.h"
 #include "binary_valentine/core/value_provider_interface.h"
-#include "binary_valentine/core/data_generator_list.h"
 
 namespace bv::output { class common_report_interface; }
 
@@ -19,15 +20,18 @@ public:
 		output::common_report_interface& report)
 		: generators_(generators)
 		, report_(report)
+		, detected_rules_(rule_class_mask::max)
 	{
 	}
 
 	explicit value_provider(value_cache&& cache,
 		const data_generator_list& generators,
-		output::common_report_interface& report)
+		output::common_report_interface& report,
+		rule_class_mask detected_rules)
 		: cache_(std::move(cache))
 		, generators_(generators)
 		, report_(report)
+		, detected_rules_(detected_rules)
 	{
 	}
 
@@ -58,10 +62,17 @@ public:
 		return report_;
 	}
 
+	[[nodiscard]]
+	const rule_class_mask& get_detected_rules() const noexcept
+	{
+		return detected_rules_;
+	}
+
 private:
 	value_cache cache_;
 	const data_generator_list& generators_;
 	output::common_report_interface& report_;
+	rule_class_mask detected_rules_;
 };
 
 } //namespace bv::core

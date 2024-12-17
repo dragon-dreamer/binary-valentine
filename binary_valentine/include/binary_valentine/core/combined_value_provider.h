@@ -15,7 +15,6 @@ namespace bv::output { class common_report_interface; }
 namespace bv::core
 {
 
-
 class [[nodiscard]] combined_value_provider final : public value_provider_interface
 {
 public:

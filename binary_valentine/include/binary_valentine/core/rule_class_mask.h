@@ -3,6 +3,7 @@
 #include <bit>
 #include <cstddef>
 #include <cstdint>
+#include <limits>
 
 namespace bv::core
 {
@@ -47,10 +48,18 @@ public:
         std::uint64_t current_{};
     };
 
+    static constexpr std::uint64_t max = (std::numeric_limits<std::uint64_t>::max)();
+
     constexpr auto begin() const { return iterator(bitmask_); }
     constexpr auto end() const { return iterator(); }
 
 public:
+    constexpr rule_class_mask() = default;
+    constexpr explicit rule_class_mask(std::uint64_t value) noexcept
+        : bitmask_(value)
+    {
+    }
+
     template<typename T>
     constexpr bool is_set(T index) const noexcept
     {
@@ -66,6 +75,11 @@ public:
     constexpr bool empty() const noexcept
     {
         return bitmask_ == 0ull;
+    }
+
+    constexpr std::uint64_t value() const noexcept
+    {
+        return bitmask_;
     }
 
 private:

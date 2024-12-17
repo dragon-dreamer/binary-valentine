@@ -18,12 +18,30 @@ class [[nodiscard]] async_data_generator_base
 public:
 	using async_data_generator_interface::async_data_generator_interface;
 
+	static constexpr std::monostate rule_class;
+
 	constexpr async_data_generator_base() noexcept
-		: async_data_generator_interface(Derived::generator_name)
+		: async_data_generator_interface(Derived::generator_name,
+			get_supported_rule_class())
 	{
 	}
 
 private:
+	static constexpr rule_class_mask get_supported_rule_class() noexcept
+	{
+		if constexpr (std::is_same_v<
+			std::remove_cvref_t<decltype(Derived::rule_class)>, std::monostate>)
+		{
+			return rule_class_mask(rule_class_mask::max);
+		}
+		else
+		{
+			constexpr auto supported_rule_class
+				= static_cast<std::uint64_t>(Derived::rule_class);
+			return rule_class_mask(1ull << supported_rule_class);
+		}
+	}
+
 	virtual boost::asio::awaitable<void> generate_data(
 		async_value_provider_interface& provider) const final
 	{

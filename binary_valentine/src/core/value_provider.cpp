@@ -27,7 +27,7 @@ const value_interface* value_provider::get(value_tag tag)
 	auto result = cache_.get(tag);
 	if (!result.initialized)
 	{
-		auto gen_ptr = generators_.get(tag);
+		auto gen_ptr = generators_.get(tag, detected_rules_);
 		if (!gen_ptr)
 		{
 			report_.log(output::report_level::critical,

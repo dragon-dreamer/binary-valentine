@@ -1,10 +1,13 @@
 #pragma once
 
+#include <array>
 #include <cstddef>
 #include <memory>
 #include <functional>
 #include <ranges>
+#include <span>
 #include <stop_token>
+#include <type_traits>
 #include <unordered_map>
 #include <utility>
 #include <vector>
@@ -105,8 +108,23 @@ public:
 	template<typename Rule>
 	void register_rule(value_provider_interface& shared_values)
 	{
-		register_rule(static_cast<std::size_t>(Rule::rule_class),
-			make_rule_with_dependencies<Rule>(shared_values));
+		using rule_class_type = std::remove_cvref_t<decltype(Rule::rule_class)>;
+		if constexpr (std::is_integral_v<rule_class_type>
+			|| std::is_enum_v<rule_class_type>)
+		{
+			constexpr std::array<std::size_t, 1> arr{
+				static_cast<std::size_t>(Rule::rule_class) };
+			register_rule(arr, make_rule_with_dependencies<Rule>(shared_values));
+		}
+		else
+		{
+			std::array<std::size_t, std::tuple_size_v<rule_class_type>> arr{};
+			auto begin = arr.begin();
+			for (const auto rule_class : Rule::rule_class)
+				*begin++ = static_cast<std::size_t>(rule_class);
+
+			register_rule(arr, make_rule_with_dependencies<Rule>(shared_values));
+		}
 	}
 
 	template<typename RuleClass>
@@ -134,8 +152,8 @@ public:
 	}
 
 private:
-	void register_rule(std::size_t rule_class_index,
-		std::unique_ptr<const rule_interface_type>&& rule);
+	void register_rule(std::span<const std::size_t> rule_class_indexes,
+		std::shared_ptr<const rule_interface_type>&& rule);
 
 	template<typename Rule>
 	static auto make_rule_with_dependencies(value_provider_interface& shared_values)
@@ -143,13 +161,13 @@ private:
 		return value_helper<typename Rule::constructor_dependencies_type>
 			::call_with_values(shared_values, [](auto&&... values)
 		{
-			return std::make_unique<Rule>(std::forward<decltype(values)>(values)...);
+			return std::make_shared<Rule>(std::forward<decltype(values)>(values)...);
 		});
 	}
 
 private:
 	std::vector<std::vector<
-		std::unique_ptr<const rule_interface_type>>> rules_by_type_;
+		std::shared_ptr<const rule_interface_type>>> rules_by_type_;
 	std::unordered_map<std::string_view, output::rule_report_base> registered_reports_;
 };
 

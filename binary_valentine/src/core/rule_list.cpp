@@ -116,14 +116,18 @@ void enabled_rule_list_base<combined_rule_interface>::run(
 }
 
 template<typename RuleInterface>
-void rule_list_base<RuleInterface>::register_rule(std::size_t rule_class_index,
-	std::unique_ptr<const rule_interface_type>&& rule)
+void rule_list_base<RuleInterface>::register_rule(
+	std::span<const std::size_t> rule_class_indexes,
+	std::shared_ptr<const rule_interface_type>&& rule)
 {
 	if (!rule)
 		return;
 
-	if (rules_by_type_.size() <= rule_class_index)
-		rules_by_type_.resize(rule_class_index + 1);
+	for (auto rule_class_index : rule_class_indexes)
+	{
+		if (rules_by_type_.size() <= rule_class_index)
+			rules_by_type_.resize(rule_class_index + 1);
+	}
 
 	for (const auto& report : rule->get_reports())
 	{
@@ -134,7 +138,8 @@ void rule_list_base<RuleInterface>::register_rule(std::size_t rule_class_index,
 		}
 	}
 
-	rules_by_type_[rule_class_index].emplace_back(std::move(rule));
+	for (auto rule_class_index : rule_class_indexes)
+		rules_by_type_[rule_class_index].emplace_back(rule);
 }
 
 template<typename RuleInterface>

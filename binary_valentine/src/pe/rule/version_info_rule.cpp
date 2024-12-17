@@ -611,7 +611,7 @@ public:
 	}
 
 private:
-	static const inline std::regex version_regex_{ "(\\d+).(\\d+)(?:.(\\d+)(?:.(\\d+))?)?(.*?)",
+	static const inline std::regex version_regex_{ "(\\d+)\\.(\\d+)(?:\\.(\\d+)(?:\\.(\\d+))?)?(.*?)",
 		std::regex_constants::ECMAScript | std::regex_constants::optimize };
 	static constexpr std::string_view empty_{ "-" };
 };

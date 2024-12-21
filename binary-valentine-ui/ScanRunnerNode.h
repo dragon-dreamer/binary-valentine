@@ -73,6 +73,8 @@ private:
     void runAnalysis();
 
 private:
+    struct Impl;
+    std::shared_ptr<Impl> impl_;
     bool analysisInProgress_{};
     bool analysisStopRequested_{};
     ProjectTreeNodes nodes_;

@@ -24,7 +24,8 @@ constexpr std::size_t max_dependencies = 10;
 boost::asio::awaitable<std::optional<std::array<
 	const value_interface*, max_dependencies>>> get_dependencies(
 	std::span<const optional_dependency> deps,
-	async_value_provider_interface& provider)
+	async_value_provider_interface& provider,
+	const value_provider_interface& shared_provider)
 {
 	std::optional<std::array<const value_interface*, max_dependencies>> rule_prerequisites;
 
@@ -37,6 +38,12 @@ boost::asio::awaitable<std::optional<std::array<
 	auto begin = rule_prerequisites.emplace().begin();
 	for (auto dep : deps)
 	{
+		if (auto shared_val = shared_provider.try_get(dep.tag))
+		{
+			*begin++ = *shared_val;
+			continue;
+		}
+
 		auto val = co_await provider.get_async(dep.tag);
 		if (dep.required && !val)
 		{
@@ -51,13 +58,16 @@ boost::asio::awaitable<std::optional<std::array<
 
 boost::asio::awaitable<void> run_rule(const rule_interface& rule,
 	output::entity_report_interface& entity_report,
-	async_value_provider_interface& provider)
+	async_value_provider_interface& provider,
+	const value_provider_interface& shared_provider)
 {
-	auto deps = co_await get_dependencies(rule.get_prerequisite_dependencies(), provider);
+	auto deps = co_await get_dependencies(
+		rule.get_prerequisite_dependencies(), provider, shared_provider);
 	if (!deps || !rule.is_rule_applicable(*deps))
 		co_return;
 
-	deps = co_await get_dependencies(rule.get_run_dependencies(), provider);
+	deps = co_await get_dependencies(
+		rule.get_run_dependencies(), provider, shared_provider);
 	if (deps)
 		rule.run_rule(entity_report, *deps);
 
@@ -69,13 +79,14 @@ boost::asio::awaitable<void> enabled_rule_list_base<rule_interface>::run(
 	output::entity_report_interface& entity_report,
 	output::common_report_interface& common_report,
 	async_value_provider_interface& provider,
+	const value_provider_interface& shared_provider,
 	const std::stop_token& stop_token) const
 {
 	for (const auto rule_ref : rules_)
 	{
 		try
 		{
-			co_await run_rule(rule_ref, entity_report, provider);
+			co_await run_rule(rule_ref, entity_report, provider, shared_provider);
 		}
 		catch (const std::exception&)
 		{
@@ -94,13 +105,14 @@ void enabled_rule_list_base<combined_rule_interface>::run(
 	output::common_report_interface& common_report,
 	individual_values_span_type individual_values,
 	value_provider_interface& combined_values,
+	const value_provider_interface& shared_provider,
 	const std::stop_token& stop_token) const
 {
 	for (const auto rule_ref : rules_)
 	{
 		try
 		{
-			rule_ref.get().run_rule(individual_values, combined_values);
+			rule_ref.get().run_rule(individual_values, combined_values, shared_provider);
 		}
 		catch (const std::exception&)
 		{
@@ -178,6 +190,26 @@ enabled_rule_list_base<RuleInterface> rule_list_base<RuleInterface>
 	}
 
 	return rules;
+}
+
+template<typename RuleInterface>
+enabled_rule_list_base<RuleInterface> rule_list_base<RuleInterface>
+	::get_all_rules() const
+{
+	enabled_rule_list_base<RuleInterface> result;
+
+	std::size_t total_rule_count = 0;
+	for (const auto& rules : rules_by_type_)
+		total_rule_count += rules.size();
+
+	result.get_rules().reserve(total_rule_count);
+	for (const auto& rules : rules_by_type_)
+	{
+		for (const auto& rule : rules)
+			result.get_rules().emplace_back(*rule);
+	}
+
+	return result;
 }
 
 template class rule_list_base<rule_interface>;

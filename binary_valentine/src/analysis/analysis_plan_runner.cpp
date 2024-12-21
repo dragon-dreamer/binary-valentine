@@ -11,6 +11,7 @@
 
 #include "binary_valentine/analysis/immutable_context.h"
 #include "binary_valentine/analysis/concurrent_analysis_executor.h"
+#include "binary_valentine/analysis/shared_context.h"
 #include "binary_valentine/core/rule_class_mask.h"
 #include "binary_valentine/core/overloaded.h"
 #include "binary_valentine/output/configurable_result_report_factory.h"
@@ -85,14 +86,46 @@ private:
 
 struct analysis_plan_runner::impl
 {
-	explicit impl(analysis_plan&& plan, const immutable_context& global_context,
+	explicit impl(analysis_plan&& plan,
+		const immutable_context& global_context,
+		shared_context& shared_global_context,
 		const string::resource_provider_interface& resources)
 		: plan(std::move(plan))
 		, resources(resources)
 		, issue_tracking_output(
 			std::make_shared<output::issue_tracking_output>(issue_tracking_status))
 		, global_context(global_context)
+		, shared_global_context(shared_global_context)
 	{
+	}
+
+	boost::asio::awaitable<void> prepare_shared_dependencies(
+		std::shared_ptr<progress::progress_report_interface> progress_report)
+	{
+		if (progress_report)
+		{
+			progress_report->report_progress(nullptr,
+				progress::progress_state::shared_data_load_started);
+		}
+
+		//TODO: filter out rules which will never be executed accodring with
+		//the execution plan
+		co_await shared_global_context.load_shared_dependencies(
+			global_context.get_rules().get_all_rules(),
+			global_context.get_combined_rules().get_all_rules());
+
+		const auto& global_report = shared_global_context.get_global_report();
+		if (!global_report.empty())
+		{
+			global_report.reyield(*report_factory->get_common_report(
+				{}, global_context.get_exception_formatter()));
+		}
+
+		if (progress_report)
+		{
+			progress_report->report_progress(nullptr,
+				progress::progress_state::shared_data_load_completed);
+		}
 	}
 
 	analysis_plan plan;
@@ -101,6 +134,7 @@ struct analysis_plan_runner::impl
 	std::shared_ptr<output::issue_tracking_output> issue_tracking_output;
 	std::optional<output::configurable_result_report_factory> report_factory;
 	const immutable_context& global_context;
+	shared_context& shared_global_context;
 	std::optional<bv::analysis::concurrent_analysis_executor> executor;
 	std::shared_ptr<extended_stats_progress_report> extended_report;
 };
@@ -161,7 +195,7 @@ void save_report_to_file(const result_report_file& file,
 	const std::filesystem::path& root_path,
 	output::format::output_format_executor& saver,
 	output::common_report_interface* error_log,
-	const immutable_context& global_context,
+	const core::embedded_resource_loader_interface& resource_loader,
 	const std::optional<output::format::extended_analysis_state>& extra_state)
 {
 	try
@@ -187,7 +221,7 @@ void save_report_to_file(const result_report_file& file,
 				output::format::html_report_output_format>(resources,
 					std::move(path_copy),
 					file.get_extra_options(),
-					global_context);
+					resource_loader);
 			break;
 		default:
 			assert(false);
@@ -213,8 +247,10 @@ void save_report_to_file(const result_report_file& file,
 
 analysis_plan_runner::analysis_plan_runner(analysis_plan&& plan,
 	const immutable_context& global_context,
+	shared_context& shared_global_context,
 	const string::resource_provider_interface& resources)
-	: impl_(std::make_shared<impl>(std::move(plan), global_context, resources))
+	: impl_(std::make_shared<impl>(std::move(plan),
+		global_context, shared_global_context, resources))
 {
 }
 
@@ -244,13 +280,6 @@ void analysis_plan_runner::start()
 		impl_->plan.get_custom_in_memory_report_creator(),
 		impl_->issue_tracking_output, impl_->report_factory);
 
-	const auto& global_report = impl_->global_context.get_global_report();
-	if (!global_report.empty())
-	{
-		global_report.reyield(*report_factory.get_common_report(
-			{}, impl_->global_context.get_exception_formatter()));
-	}
-
 	auto progress_report = impl_->plan.get_progress_report();
 	if (needs_extended_stats())
 	{
@@ -260,7 +289,11 @@ void analysis_plan_runner::start()
 	}
 
 	impl_->executor.emplace(impl_->plan, report_factory,
-		progress_report, impl_->global_context);
+		progress_report, impl_->global_context,
+		impl_->shared_global_context.get_shared_values());
+	
+	impl_->executor->start_after_preparation(
+		impl_->prepare_shared_dependencies(progress_report));
 }
 
 void analysis_plan_runner::join()
@@ -291,7 +324,7 @@ output::format::analysis_state analysis_plan_runner::write_reports(
 			[&saver, &state, error_log, &extra_state, this](const result_report_file& file) {
 				save_report_to_file(file, state, impl_->resources,
 					impl_->plan.get_root_path(), saver, error_log,
-					impl_->global_context, extra_state);
+					impl_->shared_global_context.get_embedded_resource_loader(), extra_state);
 			}
 		}, output_report);
 	}

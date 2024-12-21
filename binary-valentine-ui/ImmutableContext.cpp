@@ -6,6 +6,7 @@
 
 #include <QFile>
 
+#include "binary_valentine/analysis/shared_context.h"
 #include "binary_valentine/core/embedded_resource_loader_interface.h"
 #include "binary_valentine/string/embedded_resource_loader.h"
 
@@ -32,11 +33,14 @@ public:
 };
 } //namespace
 
+analysis::shared_context ImmutableContext::createSharedContext()
+{
+    return analysis::shared_context(std::make_shared<QtResourceLoader>());
+}
+
 const analysis::immutable_context& ImmutableContext::getImmutableContext()
 {
-    static const analysis::immutable_context context{
-        std::make_shared<QtResourceLoader>()
-    };
+    static const analysis::immutable_context context;
     return context;
 }
 

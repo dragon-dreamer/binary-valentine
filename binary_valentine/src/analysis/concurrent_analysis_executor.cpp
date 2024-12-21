@@ -57,16 +57,18 @@ concurrent_analysis_executor::concurrent_analysis_executor(
 	const analysis_plan& plan,
 	output::result_report_factory_interface& report_factory,
 	const std::shared_ptr<progress::progress_report_interface>& progress_report,
-	const immutable_context& global_context)
+	const immutable_context& global_context,
+	const core::value_provider_interface& shared_values)
 	: thread::multi_executor_concurrent_io_processing_service<
 		concurrent_analysis_executor, impl::loaded_target, std::uint64_t>(
 			get_cpu_thread_count(plan), get_preload_limit(plan))
 	, plan_(plan)
-	, context_(plan, report_factory, global_context)
+	, context_(plan, report_factory, global_context, shared_values)
 	, common_report_(context_.get_report_factory().get_common_report(
 		context_.get_plan().get_global_rule_selector(),
 		context_.get_global_context().get_exception_formatter()))
 	, progress_report_(progress_report)
+	, shared_values_(shared_values)
 {
 	if (progress_report_)
 	{
@@ -79,7 +81,22 @@ concurrent_analysis_executor::concurrent_analysis_executor(
 
 	if (plan_.enable_signal_cancellation())
 		enable_signal_cancellation();
+}
+
+boost::asio::awaitable<void> concurrent_analysis_executor::start_after_preparation_impl(
+	boost::asio::awaitable<void> preparation)
+{
+	co_await std::move(preparation);
 	start();
+}
+
+void concurrent_analysis_executor::start_after_preparation(
+	boost::asio::awaitable<void> preparation)
+{
+	start_time_tracker();
+	boost::asio::co_spawn(get_io_pool(),
+		start_after_preparation_impl(std::move(preparation)),
+		boost::asio::detached);
 }
 
 std::uint64_t concurrent_analysis_executor::get_task_weight(
@@ -236,7 +253,7 @@ boost::asio::awaitable<void> concurrent_analysis_executor::cpu_task_impl(
 			auto enabled_rules = context_.get_global_context().get_rules()
 				.get_enabled_rules(rule_class_index, result.selector);
 			co_await enabled_rules.run(*result.report, *result.report,
-				*result.value_provider, stop_token);
+				*result.value_provider, shared_values_, stop_token);
 		}
 
 		co_await context_.store_values_for_combined_analysis(

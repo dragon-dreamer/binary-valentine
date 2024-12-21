@@ -311,10 +311,9 @@ private:
 	}
 };
 
-void combined_version_info_rule_factory::add_rule(core::combined_rule_list& rules,
-	core::value_provider_interface& shared_values)
+void combined_version_info_rule_factory::add_rule(core::combined_rule_list& rules)
 {
-	rules.register_rule<combined_version_info_rule>(shared_values);
+	rules.register_rule<combined_version_info_rule>();
 }
 
 } //namespace bv::pe

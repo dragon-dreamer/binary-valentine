@@ -27,6 +27,10 @@ std::string_view progress_state_to_string(progress_state state) noexcept
 		return output::reports::progress_target_skipped_unsupported;
 	case progress_state::target_skipped_filtered:
 		return output::reports::progress_target_skipped_filtered;
+	case progress_state::shared_data_load_started:
+		return output::reports::progress_shared_data_load_started;
+	case progress_state::shared_data_load_completed:
+		return output::reports::progress_shared_data_load_completed;
 	default:
 		assert(false);
 		return {};

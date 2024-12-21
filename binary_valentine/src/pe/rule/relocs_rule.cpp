@@ -81,10 +81,9 @@ public:
 	}
 };
 
-void relocs_rule_factory::add_rule(core::rule_list& rules,
-	core::value_provider_interface& shared_values)
+void relocs_rule_factory::add_rule(core::rule_list& rules)
 {
-	rules.register_rule<relocs_rule>(shared_values);
+	rules.register_rule<relocs_rule>();
 }
 
 } //namespace bv::pe

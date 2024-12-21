@@ -9,15 +9,27 @@
 #include "ModelToAnalysisPlanConverter.h"
 #include "ProgressReport.h"
 
-#include "binary_valentine/core/rule_class.h"
+#include "binary_valentine/analysis/shared_context.h"
+#include "binary_valentine/core/rule_class_mask.h"
 #include "binary_valentine/output/format/output_format_interface.h"
 #include "binary_valentine/output/internal_report_messages.h"
 
 namespace bv
 {
 
+struct ScanRunnerNode::Impl
+{
+    Impl()
+        : shared_context(ImmutableContext::createSharedContext())
+    {
+    }
+
+    bv::analysis::shared_context shared_context;
+};
+
 ScanRunnerNode::ScanRunnerNode(ProjectTreeNode* parent, const ProjectTreeNodes& nodes)
     : ProjectTreeNode(parent, ProjectNodeTypeName::ScanRunner)
+    , impl_(std::make_shared<Impl>())
     , nodes_(nodes)
     , progressReport_(std::make_shared<ProgressReport>())
     , fileTracker_(std::make_shared<AnalyzedFileTracker>())
@@ -58,7 +70,8 @@ AnalysisProgress* ScanRunnerNode::getAnalysisProgress() const
     auto progress = std::make_unique<AnalysisProgress>(
         progressReport_->getTotalRead(),
         progressReport_->getTotalAnalyzed(),
-        QString::fromStdString(progressReport_->getCurrentAnalyzedTargetPath()));
+        QString::fromStdString(progressReport_->getCurrentAnalyzedTargetPath()),
+        progressReport_->getCurrentState());
     progress->setNewFiles(fileTracker_->getNewlyAddedFiles());
     return progress.release();
 }
@@ -75,7 +88,7 @@ void ScanRunnerNode::runAnalysis()
     auto commonReport = std::make_shared<InMemoryReportOutput>(
         nullptr,
         ImmutableContext::getLocalizedResources(),
-        std::vector<bv::core::rule_class_type>{},
+        bv::core::rule_class_mask(bv::core::rule_class_mask::max),
         ImmutableContext::getImmutableContext().get_exception_formatter());
     fileTracker_->registerFile(commonReport);
 
@@ -110,7 +123,8 @@ void ScanRunnerNode::runAnalysis()
             return report;
         });
 
-    analysisRunner_ = std::make_shared<AnalysisRunner>(std::move(plan), std::move(commonReport));
+    analysisRunner_ = std::make_shared<AnalysisRunner>(
+        impl_->shared_context, std::move(plan), std::move(commonReport));
     analysisRunner_->moveToThread(&analysisThread_);
     connect(this, &ScanRunnerNode::kickOffAnalysis,
             analysisRunner_.get(), &AnalysisRunner::runAnalysisAndWait);

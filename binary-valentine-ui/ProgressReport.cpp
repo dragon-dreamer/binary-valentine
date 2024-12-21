@@ -9,6 +9,27 @@ void ProgressReport::report_progress(
     const std::shared_ptr<const core::subject_entity_interface>& entity,
     progress::progress_state state) noexcept
 {
+    if (state == progress::progress_state::shared_data_load_completed)
+    {
+        currentState_.store(static_cast<int>(AnalysisProgress::TargetAnalysis),
+                            std::memory_order_relaxed);
+        return;
+    }
+
+    if (state == progress::progress_state::combined_analysis_started)
+    {
+        currentState_.store(static_cast<int>(AnalysisProgress::CombinedAnalysis),
+                            std::memory_order_relaxed);
+        return;
+    }
+
+    if (state == progress::progress_state::combined_analysis_completed)
+    {
+        currentState_.store(static_cast<int>(AnalysisProgress::WritingReports),
+                            std::memory_order_relaxed);
+        return;
+    }
+
     if (state == progress::progress_state::load_started)
     {
         totalRead_.fetch_add(1u, std::memory_order_relaxed);
@@ -38,6 +59,12 @@ std::string ProgressReport::getCurrentAnalyzedTargetPath() const
 {
     std::shared_lock lock(mutex_);
     return currentAnalyzedTargetPath_;
+}
+
+AnalysisProgress::ProgressState ProgressReport::getCurrentState() const
+{
+    return static_cast<AnalysisProgress::ProgressState>(
+        currentState_.load(std::memory_order_relaxed));
 }
 
 } // namespace bv

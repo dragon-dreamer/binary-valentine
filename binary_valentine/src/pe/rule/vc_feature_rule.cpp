@@ -59,10 +59,9 @@ private:
 	static constexpr std::uint32_t sdl_threshold = 150u;
 };
 
-void vc_feature_rule_factory::add_rule(core::rule_list& rules,
-	core::value_provider_interface& shared_values)
+void vc_feature_rule_factory::add_rule(core::rule_list& rules)
 {
-	rules.register_rule<vc_feature_rule>(shared_values);
+	rules.register_rule<vc_feature_rule>();
 }
 
 } //namespace bv::pe

@@ -251,10 +251,9 @@ private:
 	}
 };
 
-void application_manifest_rule_factory::add_rule(core::rule_list& rules,
-	core::value_provider_interface& shared_values)
+void application_manifest_rule_factory::add_rule(core::rule_list& rules)
 {
-	rules.register_rule<application_manifest_rule>(shared_values);
+	rules.register_rule<application_manifest_rule>();
 }
 
 } //namespace bv::pe

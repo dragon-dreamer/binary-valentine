@@ -9,7 +9,7 @@ class pe_shared_generators_factory final
 {
 public:
 	pe_shared_generators_factory() = delete;
-	static void add_pe_generators(core::data_generator_list& generators);
+	static void add_pe_generators(core::async_data_generator_list& generators);
 };
 
 } //namespace bv::pe

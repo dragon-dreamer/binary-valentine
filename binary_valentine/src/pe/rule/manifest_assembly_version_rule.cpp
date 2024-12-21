@@ -57,10 +57,9 @@ public:
 	}
 };
 
-void manifest_assembly_version_rule_factory::add_rule(core::rule_list& rules,
-	core::value_provider_interface& shared_values)
+void manifest_assembly_version_rule_factory::add_rule(core::rule_list& rules)
 {
-	rules.register_rule<manifest_assembly_version_rule>(shared_values);
+	rules.register_rule<manifest_assembly_version_rule>();
 }
 
 } //namespace bv::pe

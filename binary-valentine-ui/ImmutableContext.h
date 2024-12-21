@@ -6,6 +6,8 @@
 namespace bv
 {
 
+namespace analysis { class shared_context; }
+
 class ImmutableContext final
 {
 public:
@@ -16,6 +18,9 @@ public:
 
     [[nodiscard]]
     static const bv::string::resource_provider_interface& getLocalizedResources();
+
+    [[nodiscard]]
+    static analysis::shared_context createSharedContext();
 };
 
 } // namespace bv

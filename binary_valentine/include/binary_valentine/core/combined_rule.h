@@ -24,7 +24,6 @@ public:
 	using combined_rule_interface::combined_rule_interface;
 
 	using dependencies_type = combined_dependencies<>;
-	using constructor_dependencies_type = dependencies<>;
 
 	constexpr combined_rule_base() noexcept
 		: combined_rule_interface(Derived::rule_name)
@@ -48,15 +47,17 @@ public:
 private:
 	virtual void run_rule(
 		individual_values_span_type individual_values,
-		value_provider_interface& combined_values) const final
+		value_provider_interface& combined_values,
+		const value_provider_interface& shared_values) const final
 	{
 		combined_value_helper<typename Derived::dependencies_type>
-			::template call_with_values<Derived>(individual_values, combined_values,
-				[this](auto&&... values)
-		{
-			return static_cast<const Derived&>(*this)
-				.run(std::forward<decltype(values)>(values)...);
-		});
+			::template call_with_values<Derived>(
+				individual_values, combined_values, shared_values,
+					[this](auto&&... values)
+				{
+					return static_cast<const Derived&>(*this)
+						.run(std::forward<decltype(values)>(values)...);
+				});
 	}
 
 	[[nodiscard]]

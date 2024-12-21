@@ -6,6 +6,7 @@
 
 #include "binary_valentine/analysis/analysis_plan.h"
 #include "binary_valentine/analysis/immutable_context.h"
+#include "binary_valentine/analysis/shared_context.h"
 #include "binary_valentine/core/async_value_provider.h"
 #include "binary_valentine/core/combined_dependency_helper.h"
 #include "binary_valentine/core/combined_value_provider.h"
@@ -24,10 +25,12 @@ constexpr auto max_rule_class = static_cast<std::size_t>(rule_class_type::max);
 analysis_context::analysis_context(
 	const analysis_plan& plan,
 	output::result_report_factory_interface& report_factory,
-	const immutable_context& global_context)
+	const immutable_context& global_context,
+	const core::value_provider_interface& shared_values)
 	: plan_(plan)
 	, report_factory_(report_factory)
 	, global_context_(global_context)
+	, shared_values_(shared_values)
 {
 	if (!plan_.do_combined_analysis())
 		return;
@@ -115,7 +118,8 @@ void analysis_context::run_combined_analysis(std::size_t rule_class_index,
 		*common_report_);
 
 	combined_rules.run(*common_report_,
-		combined_provider.get_individual_providers(), combined_provider, stop_token);
+		combined_provider.get_individual_providers(), combined_provider,
+		shared_values_, stop_token);
 }
 
 void analysis_context::run_combined_analysis(std::stop_token stop_token)

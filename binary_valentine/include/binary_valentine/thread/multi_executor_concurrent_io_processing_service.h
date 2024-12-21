@@ -67,6 +67,12 @@ public:
 		return time_tracker_;
 	}
 
+	[[nodiscard]]
+	execution_context_type& get_io_pool() noexcept
+	{
+		return io_pool_;
+	}
+
 	~multi_executor_concurrent_io_processing_service()
 	{
 		stop();
@@ -110,13 +116,17 @@ protected:
 		return io_task_error_;
 	}
 
-	void start()
+	void start_time_tracker()
 	{
 		time_tracker_.start();
+	}
+
+	void start()
+	{
 		boost::asio::co_spawn(io_pool_, io_task(),
 			[this](std::exception_ptr err) {
-			io_task_error_ = std::move(err);
-		});
+				io_task_error_ = std::move(err);
+			});
 	}
 
 	void enable_signal_cancellation()
@@ -181,7 +191,6 @@ private:
 		}
 
 		co_await static_cast<TaskImpl&>(*this).on_all_tasks_complete();
-
 	}
 
 private:

@@ -48,6 +48,7 @@ public:
 		output::entity_report_interface& entity_report,
 		output::common_report_interface& common_report,
 		async_value_provider_interface& provider,
+		const value_provider_interface& shared_provider,
 		const std::stop_token& stop_token) const;
 
 	[[nodiscard]]
@@ -77,6 +78,7 @@ public:
 	void run(output::common_report_interface& common_report,
 		individual_values_span_type individual_values,
 		value_provider_interface& combined_values,
+		const value_provider_interface& shared_provider,
 		const std::stop_token& stop_token) const;
 
 	[[nodiscard]]
@@ -106,7 +108,7 @@ public:
 
 public:
 	template<typename Rule>
-	void register_rule(value_provider_interface& shared_values)
+	void register_rule()
 	{
 		using rule_class_type = std::remove_cvref_t<decltype(Rule::rule_class)>;
 		if constexpr (std::is_integral_v<rule_class_type>
@@ -114,7 +116,7 @@ public:
 		{
 			constexpr std::array<std::size_t, 1> arr{
 				static_cast<std::size_t>(Rule::rule_class) };
-			register_rule(arr, make_rule_with_dependencies<Rule>(shared_values));
+			register_rule(arr, std::make_shared<Rule>());
 		}
 		else
 		{
@@ -123,7 +125,7 @@ public:
 			for (const auto rule_class : Rule::rule_class)
 				*begin++ = static_cast<std::size_t>(rule_class);
 
-			register_rule(arr, make_rule_with_dependencies<Rule>(shared_values));
+			register_rule(arr, std::make_shared<Rule>());
 		}
 	}
 
@@ -151,19 +153,12 @@ public:
 		return registered_reports_ | std::views::values;
 	}
 
+	[[nodiscard]]
+	enabled_rule_list_base<rule_interface_type> get_all_rules() const;
+
 private:
 	void register_rule(std::span<const std::size_t> rule_class_indexes,
 		std::shared_ptr<const rule_interface_type>&& rule);
-
-	template<typename Rule>
-	static auto make_rule_with_dependencies(value_provider_interface& shared_values)
-	{
-		return value_helper<typename Rule::constructor_dependencies_type>
-			::call_with_values(shared_values, [](auto&&... values)
-		{
-			return std::make_shared<Rule>(std::forward<decltype(values)>(values)...);
-		});
-	}
 
 private:
 	std::vector<std::vector<

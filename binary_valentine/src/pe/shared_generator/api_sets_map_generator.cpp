@@ -5,7 +5,7 @@
 #include <utility>
 
 #include "binary_valentine/common/xml_loader.h"
-#include "binary_valentine/core/data_generator.h"
+#include "binary_valentine/core/async_data_generator.h"
 #include "binary_valentine/core/data_generator_list.h"
 #include "binary_valentine/core/embedded_resource_loader_interface.h"
 #include "binary_valentine/core/transparent_hash.h"
@@ -15,14 +15,14 @@ namespace bv::pe
 {
 
 class api_sets_map_generator final
-	: public core::data_generator_base<api_sets_map_generator>
+	: public core::async_data_generator_base<api_sets_map_generator>
 {
 public:
 	static constexpr std::string_view generator_name = "pe_api_sets_map_generator";
 	static constexpr std::string_view all_sets_file_name = "apisets.xml";
 
 	[[nodiscard]]
-	core::typed_value_ptr<api_sets> generate(
+	boost::asio::awaitable<core::typed_value_ptr<api_sets>> generate(
 		const std::shared_ptr<core::embedded_resource_loader_interface>& embedded_resource_loader) const
 	{
 		const auto xml = common::xml_loader::load_xml(
@@ -34,7 +34,7 @@ public:
 			add_api_set(child, sets);
 
 		sets.build_dll_to_api_set_map();
-		return result;
+		co_return result;
 	}
 
 private:
@@ -46,7 +46,7 @@ private:
 	}
 };
 
-void api_sets_map_generator_factory::add_generator(core::data_generator_list& generators)
+void api_sets_map_generator_factory::add_generator(core::async_data_generator_list& generators)
 {
 	generators.add<api_sets_map_generator>();
 }

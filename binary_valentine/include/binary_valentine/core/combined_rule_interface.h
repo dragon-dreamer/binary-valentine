@@ -30,7 +30,8 @@ public:
 
 	virtual void run_rule(
 		individual_values_span_type individual_values,
-		value_provider_interface& combined_values) const = 0;
+		value_provider_interface& combined_values,
+		const value_provider_interface& shared_values) const = 0;
 
 	[[nodiscard]]
 	virtual std::span<const output::rule_report_base> get_reports() const noexcept = 0;

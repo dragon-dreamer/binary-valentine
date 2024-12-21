@@ -6,6 +6,8 @@
 
 #include "binary_valentine/progress/progress_report_interface.h"
 
+#include "AnalysisProgress.h"
+
 namespace bv
 {
 
@@ -18,6 +20,8 @@ public:
     int getTotalAnalyzed() const noexcept;
     [[nodiscard]]
     std::string getCurrentAnalyzedTargetPath() const;
+    [[nodiscard]]
+    AnalysisProgress::ProgressState getCurrentState() const;
 
 private:
     virtual void report_progress(
@@ -29,6 +33,9 @@ private:
     std::string currentAnalyzedTargetPath_;
     std::atomic<int> totalRead_{};
     std::atomic<int> totalAnalyzed_{};
+    std::atomic<int> currentState_{ static_cast<int>(
+        AnalysisProgress::LoadingSharedDependencies)
+    };
 };
 
 } // namespace bv

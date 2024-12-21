@@ -373,10 +373,9 @@ public:
 	}
 };
 
-void flow_guards_rule_factory::add_rule(core::rule_list& rules,
-	core::value_provider_interface& shared_values)
+void flow_guards_rule_factory::add_rule(core::rule_list& rules)
 {
-	rules.register_rule<flow_guards_rule>(shared_values);
+	rules.register_rule<flow_guards_rule>();
 }
 
 } //namespace bv::pe

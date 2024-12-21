@@ -7,7 +7,7 @@
 namespace bv::pe
 {
 
-void pe_shared_generators_factory::add_pe_generators(core::data_generator_list& generators)
+void pe_shared_generators_factory::add_pe_generators(core::async_data_generator_list& generators)
 {
 	api_sets_map_generator_factory::add_generator(generators);
 	full_winapi_map_generator_factory::add_generator(generators);

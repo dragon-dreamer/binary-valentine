@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "binary_valentine/core/async_value_provider_interface.h"
+#include "binary_valentine/core/data_generator_interface.h"
 #include "binary_valentine/core/data_generator_list.h"
 #include "binary_valentine/core/rule_class_mask.h"
 #include "binary_valentine/core/value_provider.h"
@@ -14,6 +15,15 @@ namespace bv::core
 class [[nodiscard]] async_value_provider final : public async_value_provider_interface
 {
 public:
+	explicit async_value_provider(
+		const async_data_generator_list& async_generators,
+		const data_generator_list& generators,
+		output::common_report_interface& report)
+		: sync_provider_(generators, report)
+		, async_generators_(async_generators)
+	{
+	}
+
 	explicit async_value_provider(value_cache&& cache,
 		const async_data_generator_list& async_generators,
 		const data_generator_list& generators,
@@ -26,6 +36,12 @@ public:
 
 	[[nodiscard]]
 	virtual value_provider_interface& get_sync_provider() noexcept override
+	{
+		return sync_provider_;
+	}
+
+	[[nodiscard]]
+	virtual const value_provider_interface& get_sync_provider() const noexcept override
 	{
 		return sync_provider_;
 	}

@@ -15,9 +15,6 @@ template<typename Derived>
 class [[nodiscard]] rule_base : public rule_interface
 {
 public:
-	using constructor_dependencies_type = dependencies<>;
-
-public:
 	constexpr rule_base() noexcept
 		: rule_interface(Derived::rule_name)
 	{

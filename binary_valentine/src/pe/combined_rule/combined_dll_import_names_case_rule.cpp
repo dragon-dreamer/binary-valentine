@@ -88,10 +88,9 @@ private:
 	}
 };
 
-void combined_dll_import_names_case_rule_factory::add_rule(core::combined_rule_list& rules,
-	core::value_provider_interface& shared_values)
+void combined_dll_import_names_case_rule_factory::add_rule(core::combined_rule_list& rules)
 {
-	rules.register_rule<combined_dll_import_names_case_rule>(shared_values);
+	rules.register_rule<combined_dll_import_names_case_rule>();
 }
 
 } //namespace bv::pe

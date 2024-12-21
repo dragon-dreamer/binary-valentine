@@ -56,10 +56,9 @@ public:
 	}
 };
 
-void pe_file_format_rule_factory::add_rule(core::rule_list& rules,
-	core::value_provider_interface& shared_values)
+void pe_file_format_rule_factory::add_rule(core::rule_list& rules)
 {
-	rules.register_rule<pe_file_format_rule>(shared_values);
+	rules.register_rule<pe_file_format_rule>();
 }
 
 } //namespace bv::pe

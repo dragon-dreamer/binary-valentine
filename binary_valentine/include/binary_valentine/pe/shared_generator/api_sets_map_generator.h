@@ -9,7 +9,7 @@ class api_sets_map_generator_factory final
 {
 public:
 	api_sets_map_generator_factory() = delete;
-	static void add_generator(core::data_generator_list& generators);
+	static void add_generator(core::async_data_generator_list& generators);
 };
 
 } //namespace bv::pe

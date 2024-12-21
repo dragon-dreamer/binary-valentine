@@ -133,10 +133,9 @@ private:
 	}
 };
 
-void directory_sections_rule_factory::add_rule(core::rule_list& rules,
-	core::value_provider_interface& shared_values)
+void directory_sections_rule_factory::add_rule(core::rule_list& rules)
 {
-	rules.register_rule<directory_sections_rule>(shared_values);
+	rules.register_rule<directory_sections_rule>();
 }
 
 } //namespace bv::pe

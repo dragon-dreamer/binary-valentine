@@ -25,6 +25,7 @@ namespace bv::core
 {
 class async_value_provider;
 class async_value_provider_interface;
+class value_provider_interface;
 } //namespace bv::core
 
 namespace bv::analysis
@@ -43,7 +44,8 @@ public:
 	explicit analysis_context(
 		const analysis_plan& plan,
 		output::result_report_factory_interface& report_factory,
-		const immutable_context& global_context);
+		const immutable_context& global_context,
+		const core::value_provider_interface& shared_values);
 
 	[[nodiscard]]
 	const analysis_plan& get_plan() const noexcept
@@ -90,6 +92,7 @@ private:
 	const analysis_plan& plan_;
 	output::result_report_factory_interface& report_factory_;
 	const immutable_context& global_context_;
+	const core::value_provider_interface& shared_values_;
 	std::mutex combined_context_mutex_;
 	combined_context combined_context_;
 	std::vector<core::enabled_combined_rule_list> combined_rules_per_class_;

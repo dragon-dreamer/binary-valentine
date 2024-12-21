@@ -11,10 +11,13 @@
 namespace bv
 {
 
-AnalysisRunner::AnalysisRunner(analysis::analysis_plan&& plan,
+AnalysisRunner::AnalysisRunner(analysis::shared_context& shared_context,
+                               analysis::analysis_plan&& plan,
                                std::shared_ptr<output::common_report_interface> report)
-    : runner_(std::move(plan),
+    : shared_context_(shared_context)
+    , runner_(std::move(plan),
               ImmutableContext::getImmutableContext(),
+              shared_context_,
               ImmutableContext::getLocalizedResources())
     , report_(std::move(report))
 {

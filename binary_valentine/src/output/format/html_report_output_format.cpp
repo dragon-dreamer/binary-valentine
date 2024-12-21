@@ -5,8 +5,8 @@
 #include <string_view>
 #include <stdexcept>
 
-#include "binary_valentine/analysis/immutable_context.h"
 #include "binary_valentine/analysis/result_report_file.h"
+#include "binary_valentine/core/embedded_resource_loader_interface.h"
 #include "binary_valentine/core/subject_entity_interface.h"
 #include "binary_valentine/core/user_error.h"
 #include "binary_valentine/file/file_loader.h"
@@ -33,7 +33,7 @@ public:
 	static constexpr std::string_view default_html_template_file_name = "html_report.tpl";
 
 	impl(const analysis::result_report_file::options_map_type& extra_options,
-		const analysis::immutable_context& global_context,
+		const core::embedded_resource_loader_interface& resource_loader,
 		const string::resource_provider_interface& resource_provider)
 		: resource_provider_(resource_provider)
 	{
@@ -49,7 +49,7 @@ public:
 			}
 			else
 			{
-				template_ = global_context.get_embedded_resource_loader()
+				template_ = resource_loader
 					.load_file(resource_provider_.get_string(default_html_template_file_name));
 			}
 		}
@@ -324,9 +324,9 @@ html_report_output_format::html_report_output_format(
 	const string::resource_provider_interface& resource_provider,
 	std::filesystem::path&& path,
 	const analysis::result_report_file::options_map_type& extra_options,
-	const analysis::immutable_context& global_context)
+	const core::embedded_resource_loader_interface& resource_loader)
 	: path_(std::move(path))
-	, impl_(std::make_unique<impl>(extra_options, global_context, resource_provider))
+	, impl_(std::make_unique<impl>(extra_options, resource_loader, resource_provider))
 {
 }
 

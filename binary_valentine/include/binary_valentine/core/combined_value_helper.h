@@ -187,13 +187,15 @@ public:
 	static auto call_with_values(
 		individual_values_span_type individual_values,
 		value_provider_interface& combined_values,
+		const value_provider_interface& shared_values,
 		Func&& func)
 	{
 		bool success = true;
 		return call_impl(std::forward<Func>(func),
 			&success,
 			std::index_sequence_for<T...>{},
-			fetch_value<Rule, T>(individual_values, combined_values, success)...);
+			fetch_value<Rule, T>(individual_values, combined_values,
+				shared_values, success)...);
 	}
 
 private:
@@ -318,6 +320,7 @@ private:
 	static decltype(auto) fetch_value(
 		individual_values_span_type individual_values,
 		value_provider_interface& combined_values,
+		const value_provider_interface& shared_values,
 		bool& success)
 	{
 		if constexpr (!impl::is_combined_value<Type>::value)
@@ -329,24 +332,24 @@ private:
 			{
 				return individual_values
 					| std::views::filter([](const auto& provider) {
-						return has_value(typename value_type_traits::raw_types{}, provider);
-					})
+							return has_value(typename value_type_traits::raw_types{}, provider);
+						})
 					| std::views::transform([](const auto& provider) -> decltype(auto) {
-						return get_value_with_reporter_if_needed<Rule, value_type_traits>(
-							typename value_type_traits::raw_types{}, provider);
-					});
+							return get_value_with_reporter_if_needed<Rule, value_type_traits>(
+								typename value_type_traits::raw_types{}, provider);
+						});
 			}
 			else
 			{
 				return individual_values
 					| std::views::filter([](const auto& provider) {
-						return Rule::applies_to(provider)
-							&& has_value(typename value_type_traits::raw_types{}, provider);
-					})
+							return Rule::applies_to(provider)
+								&& has_value(typename value_type_traits::raw_types{}, provider);
+						})
 					| std::views::transform([](const auto& provider) -> decltype(auto) {
-						return get_value_with_reporter_if_needed<Rule, value_type_traits>(
-							typename value_type_traits::raw_types{}, provider);
-					});
+							return get_value_with_reporter_if_needed<Rule, value_type_traits>(
+								typename value_type_traits::raw_types{}, provider);
+						});
 			}
 		}
 		else
@@ -356,7 +359,10 @@ private:
 			if (!success)
 				return static_cast<decltype(combined_values.get<nested_type>())>(nullptr);
 
-			const auto* value = combined_values.get<nested_type>();
+			const auto* value = shared_values.try_get<nested_type>();
+			if (!value)
+				value = combined_values.get<nested_type>();
+
 			if constexpr (std::is_pointer_v<typename Type::type>)
 				success = true;
 			else

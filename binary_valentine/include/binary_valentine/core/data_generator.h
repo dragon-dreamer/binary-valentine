@@ -77,6 +77,33 @@ private:
 		impl::set_values_helper<typename generate_type::return_type>::set(
 			provider, std::move(result));
 	}
+
+	[[nodiscard]]
+	virtual std::span<const optional_dependency>
+		get_prerequisite_dependencies() const noexcept final
+	{
+		if constexpr (requires { &Derived::can_generate; })
+		{
+			using can_generate_type = func_types<&Derived::can_generate>;
+			static constexpr auto result = value_helper<
+				typename can_generate_type::dependencies_type>::get_dependency_array();
+			return result;
+		}
+		else
+		{
+			return {};
+		}
+	}
+
+	[[nodiscard]]
+	virtual std::span<const optional_dependency>
+		get_run_dependencies() const noexcept final
+	{
+		using generate_type = func_types<&Derived::generate>;
+		static constexpr auto result = value_helper<
+			typename generate_type::dependencies_type>::get_dependency_array();
+		return result;
+	}
 };
 
 } //namespace bv::core

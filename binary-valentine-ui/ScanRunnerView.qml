@@ -51,7 +51,19 @@ PropertyView {
         Label {
             Layout.fillWidth: true
             elide: Text.ElideLeft
-            text: logic.currentProgress.currentAnalyzedTargetPath
+            text: {
+                var state = logic.currentProgress.progressState;
+                if (state === AnalysisProgress.CombinedAnalysis) {
+                    return qsTr("Combined analysis...");
+                }
+                if (state === AnalysisProgress.LoadingSharedDependencies) {
+                    return qsTr("Loading shared data...");
+                }
+                if (state === AnalysisProgress.WritingReports) {
+                    return qsTr("Writing reports...");
+                }
+                return logic.currentProgress.currentAnalyzedTargetPath
+            }
         }
     }
 

@@ -11,8 +11,7 @@ class version_info_rule_factory final
 {
 public:
 	version_info_rule_factory() = delete;
-	static void add_rule(core::rule_list& rules,
-		core::value_provider_interface& shared_values);
+	static void add_rule(core::rule_list& rules);
 };
 
 } //namespace bv::pe

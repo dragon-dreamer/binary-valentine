@@ -128,10 +128,9 @@ private:
 	}
 };
 
-void security_cookie_rule_factory::add_rule(core::rule_list& rules,
-	core::value_provider_interface& shared_values)
+void security_cookie_rule_factory::add_rule(core::rule_list& rules)
 {
-	rules.register_rule<security_cookie_rule>(shared_values);
+	rules.register_rule<security_cookie_rule>();
 }
 
 } //namespace bv::pe

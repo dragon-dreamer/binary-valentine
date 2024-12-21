@@ -32,10 +32,10 @@ target_link_libraries(binary_valentine_lib
 		pugixml
 		utf8cpp
 		Boost::filesystem
-                Boost::locale
+		Boost::locale
 		Boost::program_options
-        PUBLIC
-                Boost::system
+	PUBLIC
+		Boost::system
 )
 
 if (UNIX AND NOT APPLE)
@@ -67,6 +67,7 @@ target_sources(binary_valentine_lib
 		include/binary_valentine/analysis/concurrent_analysis_executor.h
 		include/binary_valentine/analysis/immutable_context.h
 		include/binary_valentine/analysis/result_report_file.h
+		include/binary_valentine/analysis/shared_context.h
 		include/binary_valentine/analysis/xml_analysis_plan_provider.h
 		include/binary_valentine/common/xml_loader.h
 		include/binary_valentine/common/shared_data/program_path.h
@@ -93,6 +94,7 @@ target_sources(binary_valentine_lib
 		include/binary_valentine/core/embedded_resource_loader_interface.h
 		include/binary_valentine/core/entity_stream_provider_interface.h
 		include/binary_valentine/core/file_embedded_resource_loader.h
+		include/binary_valentine/core/generic_data_generator_interface.h
 		include/binary_valentine/core/hash_combine.h
 		include/binary_valentine/core/inaccessible_subject_entity.h
 		include/binary_valentine/core/localizable_error.h
@@ -245,6 +247,7 @@ target_sources(binary_valentine_lib
 		src/analysis/concurrent_analysis_executor.cpp
 		src/analysis/immutable_context.cpp
 		src/analysis/result_report_file.cpp
+		src/analysis/shared_context.cpp
 		src/analysis/xml_analysis_plan_provider.cpp
 		src/common/xml_loader.cpp
 		src/common/shared_generator/common_generators.cpp

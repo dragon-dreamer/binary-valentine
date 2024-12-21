@@ -30,14 +30,7 @@ public:
 		pe_report::ansi_import,
 		pe_report::ansi_delay_import>();
 
-	using constructor_dependencies_type = core::dependencies<const full_winapi_library_map_type&>;
-
 public:
-	explicit ansi_import_rule(const full_winapi_library_map_type& imports) noexcept
-		: all_winapi_(imports)
-	{
-	}
-
 	bool is_applicable(const basic_pe_info& info) const
 	{
 		return !info.is_boot;
@@ -45,30 +38,34 @@ public:
 
 	template<typename Reporter>
 	void run(Reporter& reporter,
+		const full_winapi_library_map_type& all_winapi,
 		const pe_bliss::imports::import_directory_details* imports,
 		const pe_bliss::delay_import::delay_import_directory_details* delay_imports) const
 	{
 		if (imports)
-			check_imports(reporter, *imports, false);
+			check_imports(reporter, all_winapi, *imports, false);
 		if (delay_imports)
-			check_imports(reporter, *delay_imports, true);
+			check_imports(reporter, all_winapi, *delay_imports, true);
 	}
 
 private:
 	template<typename Reporter, typename Directory>
-	void check_imports(Reporter& reporter, const Directory& dir, bool is_delayload) const
+	void check_imports(Reporter& reporter,
+		const full_winapi_library_map_type& all_winapi,
+		const Directory& dir, bool is_delayload) const
 	{
-		std::visit([&reporter, is_delayload, this](const auto& libraries) {
+		std::visit([&reporter, &all_winapi, is_delayload, this](const auto& libraries) {
 			for (const auto& library : libraries)
-				this->check_library(reporter, library, is_delayload);
+				this->check_library(reporter, all_winapi, library, is_delayload);
 		}, dir.get_list());
 	}
 
 	template<typename Reporter, typename Library>
-	void check_library(Reporter& reporter, const Library& library,
-		bool is_delayload) const
+	void check_library(Reporter& reporter,
+		const full_winapi_library_map_type& all_winapi,
+		const Library& library, bool is_delayload) const
 	{
-		if (!all_winapi_.get_library(library.get_library_name().value()))
+		if (!all_winapi.get_library(library.get_library_name().value()))
 			return;
 
 		for (const auto& import : library.get_imports())
@@ -113,15 +110,11 @@ private:
 				output::named_arg("unicode_api", std::move(unicode_api_name)));
 		}
 	}
-
-private:
-	const full_winapi_library_map_type& all_winapi_;
 };
 
-void ansi_import_rule_factory::add_rule(core::rule_list& rules,
-	core::value_provider_interface& shared_values)
+void ansi_import_rule_factory::add_rule(core::rule_list& rules)
 {
-	rules.register_rule<ansi_import_rule>(shared_values);
+	rules.register_rule<ansi_import_rule>();
 }
 
 } //namespace bv::pe

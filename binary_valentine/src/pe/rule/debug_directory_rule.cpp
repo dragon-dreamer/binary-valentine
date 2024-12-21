@@ -81,10 +81,9 @@ private:
 	}
 };
 
-void debug_directory_rule_factory::add_rule(core::rule_list& rules,
-	core::value_provider_interface& shared_values)
+void debug_directory_rule_factory::add_rule(core::rule_list& rules)
 {
-	rules.register_rule<debug_directory_rule>(shared_values);
+	rules.register_rule<debug_directory_rule>();
 }
 
 } //namespace bv::pe

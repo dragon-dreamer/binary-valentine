@@ -49,7 +49,10 @@ public:
 		const analysis_plan& plan,
 		output::result_report_factory_interface& report_factory,
 		const std::shared_ptr<progress::progress_report_interface>& progress_report,
-		const immutable_context& global_context);
+		const immutable_context& global_context,
+		const core::value_provider_interface& shared_values);
+
+	void start_after_preparation(boost::asio::awaitable<void> preparation);
 
 protected:
 	friend thread::multi_executor_concurrent_io_processing_service<
@@ -77,12 +80,17 @@ private:
 	void report_progress(const std::shared_ptr<const core::subject_entity_interface>& entity,
 		progress::progress_state state) noexcept;
 
+	[[nodiscard]]
+	boost::asio::awaitable<void> start_after_preparation_impl(
+		boost::asio::awaitable<void> preparation);
+
 private:
 	const analysis_plan& plan_;
 	analysis_context context_;
 	std::shared_ptr<output::common_report_interface> common_report_;
 	std::shared_ptr<progress::progress_report_interface> progress_report_;
 	file::async_target_enumerator::target_filtered_callback_type target_filtered_callback_;
+	const core::value_provider_interface& shared_values_;
 };
 
 } //namespace bv::analysis

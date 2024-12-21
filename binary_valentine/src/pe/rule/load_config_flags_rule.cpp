@@ -68,10 +68,9 @@ private:
 	}
 };
 
-void load_config_flags_rule_factory::add_rule(core::rule_list& rules,
-	core::value_provider_interface& shared_values)
+void load_config_flags_rule_factory::add_rule(core::rule_list& rules)
 {
-	rules.register_rule<load_config_flags_rule>(shared_values);
+	rules.register_rule<load_config_flags_rule>();
 }
 
 } //namespace bv::pe

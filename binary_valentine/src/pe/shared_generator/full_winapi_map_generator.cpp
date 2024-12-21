@@ -5,7 +5,7 @@
 #include <utility>
 
 #include "binary_valentine/common/xml_loader.h"
-#include "binary_valentine/core/data_generator.h"
+#include "binary_valentine/core/async_data_generator.h"
 #include "binary_valentine/core/data_generator_list.h"
 #include "binary_valentine/core/embedded_resource_loader_interface.h"
 #include "binary_valentine/core/transparent_hash.h"
@@ -15,14 +15,14 @@ namespace bv::pe
 {
 
 class full_winapi_map_generator final
-	: public core::data_generator_base<full_winapi_map_generator>
+	: public core::async_data_generator_base<full_winapi_map_generator>
 {
 public:
 	static constexpr std::string_view generator_name = "pe_full_winapi_map_generator";
 	static constexpr std::string_view all_winapi_file_name = "all_winapi.xml";
 
 	[[nodiscard]]
-	core::typed_value_ptr<full_winapi_library_map_type> generate(
+	boost::asio::awaitable<core::typed_value_ptr<full_winapi_library_map_type>> generate(
 		const std::shared_ptr<core::embedded_resource_loader_interface>& embedded_resource_loader) const
 	{
 		const auto xml = common::xml_loader::load_xml(
@@ -33,7 +33,7 @@ public:
 		for (const auto& child : xml.child("root").children("api"))
 			add_api(child, imports);
 
-		return result;
+		co_return result;
 	}
 
 private:
@@ -46,7 +46,7 @@ private:
 	}
 };
 
-void full_winapi_map_generator_factory::add_generator(core::data_generator_list& generators)
+void full_winapi_map_generator_factory::add_generator(core::async_data_generator_list& generators)
 {
 	generators.add<full_winapi_map_generator>();
 }

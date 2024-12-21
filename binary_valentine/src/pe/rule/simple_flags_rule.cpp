@@ -116,10 +116,9 @@ private:
 	}
 };
 
-void simple_flags_rule_factory::add_rule(core::rule_list& rules,
-	core::value_provider_interface& shared_values)
+void simple_flags_rule_factory::add_rule(core::rule_list& rules)
 {
-	rules.register_rule<simple_flags_rule>(shared_values);
+	rules.register_rule<simple_flags_rule>();
 }
 
 } //namespace bv::pe

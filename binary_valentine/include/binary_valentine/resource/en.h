@@ -74,6 +74,10 @@ constexpr auto strings = std::to_array<std::pair<std::string_view, std::string_v
 		"(PROGRESS) Target analysis skipped (format not supported)"},
 	{ output::reports::progress_target_skipped_filtered,
 		"(PROGRESS) Target skipped (filtered)"},
+	{ output::reports::progress_shared_data_load_started,
+		"(PROGRESS) Shared data load started"},
+	{ output::reports::progress_shared_data_load_completed,
+		"(PROGRESS) Shared data load completed"},
 	
 	//user_error error codes
 	{ "user_error_unable_to_read_file", "Unable to read file" },

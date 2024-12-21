@@ -19,12 +19,14 @@ namespace bv::analysis
 {
 
 class immutable_context;
+class shared_context;
 
 class [[nodiscard]] analysis_plan_runner
 {
 public:
 	explicit analysis_plan_runner(analysis_plan&& plan,
 		const immutable_context& global_context,
+		shared_context& shared_global_context,
 		const string::resource_provider_interface& resources);
 	analysis_plan_runner(const analysis_plan_runner&) = delete;
 	analysis_plan_runner& operator=(const analysis_plan_runner&) = delete;

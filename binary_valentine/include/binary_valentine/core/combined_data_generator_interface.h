@@ -1,7 +1,6 @@
 #pragma once
 
 #include <span>
-#include <string_view>
 
 #include "binary_valentine/core/value_providers_span.h"
 

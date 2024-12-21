@@ -78,10 +78,9 @@ private:
 	}
 };
 
-void cet_rule_factory::add_rule(core::rule_list& rules,
-	core::value_provider_interface& shared_values)
+void cet_rule_factory::add_rule(core::rule_list& rules)
 {
-	rules.register_rule<cet_rule>(shared_values);
+	rules.register_rule<cet_rule>();
 }
 
 } //namespace bv::pe

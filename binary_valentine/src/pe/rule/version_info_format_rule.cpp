@@ -140,10 +140,9 @@ private:
 	}
 };
 
-void version_info_format_rule_factory::add_rule(core::rule_list& rules,
-	core::value_provider_interface& shared_values)
+void version_info_format_rule_factory::add_rule(core::rule_list& rules)
 {
-	rules.register_rule<version_info_format_rule>(shared_values);
+	rules.register_rule<version_info_format_rule>();
 }
 
 } //namespace bv::pe

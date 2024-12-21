@@ -7,7 +7,7 @@
 #include <utility>
 
 #include "binary_valentine/common/xml_loader.h"
-#include "binary_valentine/core/data_generator.h"
+#include "binary_valentine/core/async_data_generator.h"
 #include "binary_valentine/core/data_generator_list.h"
 #include "binary_valentine/core/embedded_resource_loader_interface.h"
 #include "binary_valentine/core/transparent_hash.h"
@@ -18,7 +18,7 @@ namespace bv::pe
 {
 
 class not_recommended_imports_generator final
-	: public core::data_generator_base<not_recommended_imports_generator>
+	: public core::async_data_generator_base<not_recommended_imports_generator>
 {
 public:
 	static constexpr std::string_view generator_name = "pe_not_recommended_imports_generator";
@@ -29,11 +29,11 @@ public:
 		core::transparent_hash, std::equal_to<>>;
 
 	[[nodiscard]]
-	core::typed_value_ptr<not_recommended_imports> generate(
+	boost::asio::awaitable<core::typed_value_ptr<not_recommended_imports>> generate(
 		const std::shared_ptr<core::embedded_resource_loader_interface>& embedded_resource_loader,
 		const api_sets& sets) const
 	{
-		return load_not_recommended_imports(embedded_resource_loader, sets);
+		co_return load_not_recommended_imports(embedded_resource_loader, sets);
 	}
 
 private:
@@ -116,7 +116,7 @@ private:
 	}
 };
 
-void not_recommended_imports_generator_factory::add_generator(core::data_generator_list& generators)
+void not_recommended_imports_generator_factory::add_generator(core::async_data_generator_list& generators)
 {
 	generators.add<not_recommended_imports_generator>();
 }

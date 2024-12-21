@@ -52,11 +52,11 @@ private:
 			using can_generate_type = func_types<&Derived::can_generate>;
 			const bool can_generate_values =
 				co_await value_helper<typename can_generate_type::dependencies_type>
-				::call_with_values(provider, [this](auto&&... values)
-			{
-				return static_cast<const Derived&>(*this)
-					.can_generate(values...);
-			});
+					::call_with_values(provider, [this](auto&&... values)
+				{
+					return static_cast<const Derived&>(*this)
+						.can_generate(values...);
+				});
 
 			if (!can_generate_values)
 			{
@@ -68,14 +68,41 @@ private:
 		}
 
 		auto result = co_await value_helper<typename generate_type::dependencies_type>
-			::call_with_values(provider, [this](auto&&... values)
-		{
-			return static_cast<const Derived&>(*this).generate(values...);
-		});
+				::call_with_values(provider, [this](auto&&... values)
+			{
+				return static_cast<const Derived&>(*this).generate(values...);
+			});
 
 		impl::set_values_helper<typename generate_type::return_type>::set(
 			provider, std::move(result));
 		co_return;
+	}
+
+	[[nodiscard]]
+	virtual std::span<const optional_dependency>
+		get_prerequisite_dependencies() const noexcept final
+	{
+		if constexpr (requires { &Derived::can_generate; })
+		{
+			using can_generate_type = func_types<&Derived::can_generate>;
+			static constexpr auto result = value_helper<
+				typename can_generate_type::dependencies_type>::get_dependency_array();
+			return result;
+		}
+		else
+		{
+			return {};
+		}
+	}
+
+	[[nodiscard]]
+	virtual std::span<const optional_dependency>
+		get_run_dependencies() const noexcept final
+	{
+		using generate_type = func_types<&Derived::generate>;
+		static constexpr auto result = value_helper<
+			typename generate_type::dependencies_type>::get_dependency_array();
+		return result;
 	}
 };
 

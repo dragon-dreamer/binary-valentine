@@ -57,10 +57,9 @@ private:
 		std::error_code, std::string_view> error_code_to_message_id_ = get_ec_to_id_map();
 };
 
-void security_directory_format_rule_factory::add_rule(core::rule_list& rules,
-	core::value_provider_interface& shared_values)
+void security_directory_format_rule_factory::add_rule(core::rule_list& rules)
 {
-	rules.register_rule<security_directory_format_rule>(shared_values);
+	rules.register_rule<security_directory_format_rule>();
 }
 
 } //namespace bv::pe

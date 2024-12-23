@@ -6,7 +6,6 @@
 #include <functional>
 #include <ranges>
 #include <span>
-#include <stop_token>
 #include <type_traits>
 #include <unordered_map>
 #include <utility>
@@ -48,8 +47,7 @@ public:
 		output::entity_report_interface& entity_report,
 		output::common_report_interface& common_report,
 		async_value_provider_interface& provider,
-		const value_provider_interface& shared_provider,
-		const std::stop_token& stop_token) const;
+		const value_provider_interface& shared_provider) const;
 
 	[[nodiscard]]
 	enabled_rule_list_type& get_rules() noexcept
@@ -75,11 +73,11 @@ public:
 		= std::vector<std::reference_wrapper<const combined_rule_interface>>;
 
 public:
-	void run(output::common_report_interface& common_report,
+	boost::asio::awaitable<void> run(
+		output::common_report_interface& common_report,
 		individual_values_span_type individual_values,
 		value_provider_interface& combined_values,
-		const value_provider_interface& shared_provider,
-		const std::stop_token& stop_token) const;
+		const value_provider_interface& shared_provider) const;
 
 	[[nodiscard]]
 	enabled_rule_list_type& get_rules() noexcept

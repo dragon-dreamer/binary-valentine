@@ -79,11 +79,16 @@ boost::asio::awaitable<void> enabled_rule_list_base<rule_interface>::run(
 	output::entity_report_interface& entity_report,
 	output::common_report_interface& common_report,
 	async_value_provider_interface& provider,
-	const value_provider_interface& shared_provider,
-	const std::stop_token& stop_token) const
+	const value_provider_interface& shared_provider) const
 {
 	for (const auto rule_ref : rules_)
 	{
+		if ((co_await boost::asio::this_coro::cancellation_state).cancelled()
+			!= boost::asio::cancellation_type::none)
+		{
+			break;
+		}
+
 		try
 		{
 			co_await run_rule(rule_ref, entity_report, provider, shared_provider);
@@ -95,21 +100,20 @@ boost::asio::awaitable<void> enabled_rule_list_base<rule_interface>::run(
 				output::current_exception_arg(),
 				output::named_arg(output::arg::rule_name, rule_ref.get().get_name()));
 		}
-
-		if (stop_token.stop_requested())
-			break;
 	}
 }
 
-void enabled_rule_list_base<combined_rule_interface>::run(
+boost::asio::awaitable<void> enabled_rule_list_base<combined_rule_interface>::run(
 	output::common_report_interface& common_report,
 	individual_values_span_type individual_values,
 	value_provider_interface& combined_values,
-	const value_provider_interface& shared_provider,
-	const std::stop_token& stop_token) const
+	const value_provider_interface& shared_provider) const
 {
 	for (const auto rule_ref : rules_)
 	{
+		if (!!(co_await boost::asio::this_coro::cancellation_state).cancelled())
+			co_return;
+
 		try
 		{
 			rule_ref.get().run_rule(individual_values, combined_values, shared_provider);
@@ -121,9 +125,6 @@ void enabled_rule_list_base<combined_rule_interface>::run(
 				output::current_exception_arg(),
 				output::named_arg(output::arg::rule_name, rule_ref.get().get_name()));
 		}
-
-		if (stop_token.stop_requested())
-			return;
 	}
 }
 

@@ -4,6 +4,8 @@
 #include <functional>
 #include <utility>
 
+#include <boost/asio/this_coro.hpp>
+
 #include "binary_valentine/core/subject_entity_interface.h"
 #include "binary_valentine/core/value_cache.h"
 
@@ -19,6 +21,9 @@ boost::asio::awaitable<bool> rule_detector_container::detect(
 	bool file_format_detected = false;
 	for (const auto& detector : file_format_detectors_)
 	{
+		if (!!(co_await boost::asio::this_coro::cancellation_state).cancelled())
+			co_return false;
+
 		if (co_await detector->detect(entity, stream_provider, values, rules))
 		{
 			file_format_detected = true;
@@ -30,7 +35,12 @@ boost::asio::awaitable<bool> rule_detector_container::detect(
 		co_return false;
 
 	for (const auto& detector : extra_detectors_)
+	{
+		if (!!(co_await boost::asio::this_coro::cancellation_state).cancelled())
+			co_return false;
+
 		co_await detector->detect(entity, stream_provider, values, rules);
+	}
 
 	co_return true;
 }

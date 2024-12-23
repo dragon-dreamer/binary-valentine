@@ -10,9 +10,6 @@
 #include <variant>
 #include <vector>
 
-#include <boost/asio/co_spawn.hpp>
-#include <boost/asio/detached.hpp>
-
 #include "binary_valentine/analysis/analysis_plan.h"
 #include "binary_valentine/analysis/immutable_context.h"
 #include "binary_valentine/core/async_value_provider.h"
@@ -74,29 +71,13 @@ concurrent_analysis_executor::concurrent_analysis_executor(
 	{
 		target_filtered_callback_ = [progress_report = progress_report_.get()]
 			(const std::filesystem::path& path) {
-			progress_report->report_progress(std::make_shared<core::inaccessible_subject_entity>(path),
-				progress::progress_state::target_skipped_filtered);
-		};
+				progress_report->report_progress(std::make_shared<core::inaccessible_subject_entity>(path),
+					progress::progress_state::target_skipped_filtered);
+			};
 	}
 
 	if (plan_.enable_signal_cancellation())
 		enable_signal_cancellation();
-}
-
-boost::asio::awaitable<void> concurrent_analysis_executor::start_after_preparation_impl(
-	boost::asio::awaitable<void> preparation)
-{
-	co_await std::move(preparation);
-	start();
-}
-
-void concurrent_analysis_executor::start_after_preparation(
-	boost::asio::awaitable<void> preparation)
-{
-	start_time_tracker();
-	boost::asio::co_spawn(get_io_pool(),
-		start_after_preparation_impl(std::move(preparation)),
-		boost::asio::detached);
 }
 
 std::uint64_t concurrent_analysis_executor::get_task_weight(
@@ -168,7 +149,8 @@ boost::asio::awaitable<void> concurrent_analysis_executor::load_target(
 
 	if (rule_types.empty())
 	{
-		report_progress(target_entity, progress::progress_state::target_skipped_unsupported);
+		report_progress(target_entity,
+			progress::progress_state::target_skipped_unsupported);
 		co_return;
 	}
 
@@ -191,6 +173,10 @@ boost::asio::awaitable<void> concurrent_analysis_executor::load_target(
 				std::move(target_entity)));
 
 	report_progress(entity_ptr_copy, progress::progress_state::loaded);
+
+	if (!!(co_await boost::asio::this_coro::cancellation_state).cancelled())
+		co_return;
+
 	co_await post_io_result_to_cpu(impl::loaded_target{
 		.selector = result.selector,
 		.rule_types = std::move(rule_types),
@@ -203,10 +189,13 @@ boost::asio::awaitable<void> concurrent_analysis_executor::load_target(
 
 boost::asio::awaitable<void> concurrent_analysis_executor::on_all_tasks_complete()
 {
+	if (!!(co_await boost::asio::this_coro::cancellation_state).cancelled())
+		co_return;
+
 	try
 	{
 		report_progress(nullptr, progress::progress_state::combined_analysis_started);
-		context_.run_combined_analysis(get_stop_token());
+		co_await context_.run_combined_analysis();
 	}
 	catch (...)
 	{
@@ -216,7 +205,6 @@ boost::asio::awaitable<void> concurrent_analysis_executor::on_all_tasks_complete
 			output::current_exception_arg());
 	}
 	report_progress(nullptr, progress::progress_state::combined_analysis_completed);
-	co_return;
 }
 
 boost::asio::awaitable<void> concurrent_analysis_executor::io_task_impl()
@@ -225,8 +213,8 @@ boost::asio::awaitable<void> concurrent_analysis_executor::io_task_impl()
 	{
 		co_await file::async_target_enumerator::enumerate(plan_,
 			[this](file::target_entry&& entry) -> boost::asio::awaitable<void> {
-			co_await load_target(std::move(entry));
-		}, target_filtered_callback_, get_stop_token());
+				co_await load_target(std::move(entry));
+			}, target_filtered_callback_);
 	}
 	catch (...)
 	{
@@ -235,26 +223,28 @@ boost::asio::awaitable<void> concurrent_analysis_executor::io_task_impl()
 			output::reports::target_enumeration_error,
 			output::current_exception_arg());
 	}
-	co_return;
 }
 
 boost::asio::awaitable<void> concurrent_analysis_executor::cpu_task_impl(
-	io_result_type result, std::stop_token stop_token)
+	io_result_type result)
 {
-	if (stop_token.stop_requested())
-		co_return;
-
 	report_progress(result.entity, progress::progress_state::analysis_started);
 
 	try
 	{
 		for (std::size_t rule_class_index : result.rule_types)
 		{
+			if (!!(co_await boost::asio::this_coro::cancellation_state).cancelled())
+				co_return;
+
 			auto enabled_rules = context_.get_global_context().get_rules()
 				.get_enabled_rules(rule_class_index, result.selector);
 			co_await enabled_rules.run(*result.report, *result.report,
-				*result.value_provider, shared_values_, stop_token);
+				*result.value_provider, shared_values_);
 		}
+
+		if (!!(co_await boost::asio::this_coro::cancellation_state).cancelled())
+			co_return;
 
 		co_await context_.store_values_for_combined_analysis(
 			std::move(result.value_provider),

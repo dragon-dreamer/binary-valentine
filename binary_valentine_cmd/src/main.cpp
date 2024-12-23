@@ -11,6 +11,7 @@
 #include "binary_valentine/analysis/analysis_plan_runner.h"
 #include "binary_valentine/analysis/immutable_context.h"
 #include "binary_valentine/analysis/command_line_analysis_plan_provider.h"
+#include "binary_valentine/analysis/shared_context.h"
 #include "binary_valentine/analysis/xml_analysis_plan_provider.h"
 #include "binary_valentine/core/localizable_error.h"
 #include "binary_valentine/core/user_error.h"
@@ -49,6 +50,7 @@ int main(int argc, char* argv[]) try
 #endif //BOOST_OS_WINDOWS
 {
 	const bv::analysis::immutable_context context;
+	bv::analysis::shared_context shared_context;
 	static constexpr std::string_view language("en");
 	const auto resources = bv::string::embedded_resource_loader{}.load(language);
 
@@ -58,9 +60,9 @@ int main(int argc, char* argv[]) try
 	const bv::analysis::command_line_analysis_plan_provider plan_provider(argc, argv,
 		context.get_rules(), context.get_combined_rules(), *resources,
 		[&context](std::filesystem::path&& p) {
-		return std::make_unique<bv::analysis::xml_analysis_plan_provider>(
-			std::move(p), context);
-	});
+			return std::make_unique<bv::analysis::xml_analysis_plan_provider>(
+				std::move(p), context);
+		});
 
 	plan_provider.print_header(std::cout);
 
@@ -93,7 +95,7 @@ int main(int argc, char* argv[]) try
 	}
 
 	bv::analysis::analysis_plan_runner runner(
-		std::move(*plan), context, *resources);
+		std::move(*plan), context, shared_context, *resources);
 	runner.start();
 	runner.join();
 	const auto state = runner.write_reports(&terminal);

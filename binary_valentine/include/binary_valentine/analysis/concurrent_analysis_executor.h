@@ -52,7 +52,8 @@ public:
 		const immutable_context& global_context,
 		const core::value_provider_interface& shared_values);
 
-	void start_after_preparation(boost::asio::awaitable<void> preparation);
+	using thread::multi_executor_concurrent_io_processing_service<
+		concurrent_analysis_executor, impl::loaded_target, std::uint64_t>::start_after_preparation;
 
 protected:
 	friend thread::multi_executor_concurrent_io_processing_service<
@@ -65,8 +66,7 @@ protected:
 	boost::asio::awaitable<void> on_all_tasks_complete();
 	
 	[[nodiscard]]
-	boost::asio::awaitable<void> cpu_task_impl(
-		io_result_type result, std::stop_token stop_token);
+	boost::asio::awaitable<void> cpu_task_impl(io_result_type result);
 
 	[[nodiscard]]
 	std::uint64_t get_task_weight(const io_result_type& result) const noexcept;
@@ -79,10 +79,6 @@ private:
 
 	void report_progress(const std::shared_ptr<const core::subject_entity_interface>& entity,
 		progress::progress_state state) noexcept;
-
-	[[nodiscard]]
-	boost::asio::awaitable<void> start_after_preparation_impl(
-		boost::asio::awaitable<void> preparation);
 
 private:
 	const analysis_plan& plan_;

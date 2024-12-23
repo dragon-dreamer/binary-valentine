@@ -99,15 +99,15 @@ boost::asio::awaitable<void> analysis_context::store_values_for_combined_analysi
 	}
 }
 
-void analysis_context::run_combined_analysis(std::size_t rule_class_index,
-	const std::stop_token& stop_token)
+boost::asio::awaitable<void> analysis_context::run_combined_analysis(
+	std::size_t rule_class_index)
 {
 	if (!do_combined_analysis())
-		return;
+		co_return;
 
 	const auto& combined_rules = combined_rules_per_class_[rule_class_index];
 	if (combined_rules.get_rules().empty())
-		return;
+		co_return;
 
 	auto individual_providers = std::move(
 		combined_context_.value_providers_per_class[rule_class_index]);
@@ -117,18 +117,23 @@ void analysis_context::run_combined_analysis(std::size_t rule_class_index,
 		std::move(individual_providers),
 		*common_report_);
 
-	combined_rules.run(*common_report_,
+	co_await combined_rules.run(*common_report_,
 		combined_provider.get_individual_providers(), combined_provider,
-		shared_values_, stop_token);
+		shared_values_);
 }
 
-void analysis_context::run_combined_analysis(std::stop_token stop_token)
+boost::asio::awaitable<void> analysis_context::run_combined_analysis()
 {
-	if (!do_combined_analysis() || stop_token.stop_requested())
-		return;
+	if (!do_combined_analysis())
+		co_return;
 
 	for (std::size_t i = 0; i != max_rule_class; ++i)
-		run_combined_analysis(i, stop_token);
+	{
+		if (!!(co_await boost::asio::this_coro::cancellation_state).cancelled())
+			co_return;
+
+		co_await run_combined_analysis(i);
+	}
 }
 
 } //namespace bv::analysis

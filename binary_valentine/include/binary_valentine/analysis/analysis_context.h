@@ -2,7 +2,6 @@
 
 #include <memory>
 #include <mutex>
-#include <stop_token>
 #include <unordered_set>
 #include <utility>
 #include <vector>
@@ -75,7 +74,7 @@ public:
 		const core::rule_class_mask& rule_types,
 		std::reference_wrapper<const core::rule_selector> selector);
 
-	void run_combined_analysis(std::stop_token stop_token);
+	boost::asio::awaitable<void> run_combined_analysis();
 
 private:
 	struct combined_context
@@ -85,8 +84,8 @@ private:
 		std::vector<value_provider_list_type> value_providers_per_class;
 	};
 
-	void run_combined_analysis(std::size_t rule_class_index,
-		const std::stop_token& stop_token);
+	boost::asio::awaitable<void> run_combined_analysis(
+		std::size_t rule_class_index);
 
 private:
 	const analysis_plan& plan_;

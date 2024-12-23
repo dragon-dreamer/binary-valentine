@@ -2,7 +2,6 @@
 
 #include <filesystem>
 #include <functional>
-#include <stop_token>
 #include <variant>
 
 #include <boost/asio/awaitable.hpp>
@@ -36,8 +35,7 @@ public:
 	static boost::asio::awaitable<bool> enumerate(
 		const analysis::analysis_plan& plan,
 		const callback_type& callback,
-		const target_filtered_callback_type& target_filtered_callback,
-		std::stop_token stop_token);
+		const target_filtered_callback_type& target_filtered_callback);
 };
 
 } //namespace bv::file

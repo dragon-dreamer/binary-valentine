@@ -14,7 +14,7 @@ namespace bv::file
 namespace
 {
 boost::asio::awaitable<bool> enumerate_dir_iterator(
-	std::stop_token stop_token, const auto& process_file,
+	const auto& process_file,
 	const auto& path, const auto& root_path,
 	const core::rule_selector& selector, const auto& entry_callback,
 	auto iterator)
@@ -33,7 +33,7 @@ boost::asio::awaitable<bool> enumerate_dir_iterator(
 			enumeration_errc = e.code();
 		}
 
-		if (stop_token.stop_requested())
+		if (!!(co_await boost::asio::this_coro::cancellation_state).cancelled())
 			co_return false;
 
 		if (!child)
@@ -77,8 +77,7 @@ boost::asio::awaitable<bool> enumerate_impl(
 	const std::filesystem::path& root_path,
 	const async_target_enumerator::callback_type& callback,
 	const async_target_enumerator::target_filtered_callback_type& target_filtered_callback,
-	bool recursive,
-	const std::stop_token& stop_token)
+	bool recursive)
 {
 	std::error_code ec;
 	auto canonical_path = std::filesystem::canonical(path, ec);
@@ -127,7 +126,7 @@ boost::asio::awaitable<bool> enumerate_impl(
 	{
 		if (recursive)
 		{
-			co_await enumerate_dir_iterator(stop_token, process_file,
+			co_await enumerate_dir_iterator(process_file,
 				entry, root_path, selector, callback,
 				std::filesystem::recursive_directory_iterator(entry,
 				std::filesystem::directory_options::follow_directory_symlink
@@ -135,7 +134,7 @@ boost::asio::awaitable<bool> enumerate_impl(
 		}
 		else
 		{
-			co_await enumerate_dir_iterator(stop_token, process_file,
+			co_await enumerate_dir_iterator(process_file,
 				entry, root_path, selector, callback,
 				std::filesystem::directory_iterator(entry,
 				std::filesystem::directory_options::follow_directory_symlink
@@ -165,10 +164,9 @@ boost::asio::awaitable<bool> enumerate_impl(
 	const std::filesystem::path& root_path,
 	const analysis::analysis_plan& plan,
 	const async_target_enumerator::callback_type& callback,
-	const async_target_enumerator::target_filtered_callback_type& target_filtered_callback,
-	const std::stop_token& stop_token)
+	const async_target_enumerator::target_filtered_callback_type& target_filtered_callback)
 {
-	if (stop_token.stop_requested())
+	if (!!(co_await boost::asio::this_coro::cancellation_state).cancelled())
 		co_return false;
 
 	const auto& selector = target.get_rule_selector()
@@ -177,14 +175,14 @@ boost::asio::awaitable<bool> enumerate_impl(
 	{
 		co_return co_await enumerate_impl(target.get_path(), target.get_target_filter(),
 			selector, target.get_path(), callback, target_filtered_callback,
-			target.is_recursive(), stop_token);
+			target.is_recursive());
 	}
 	else
 	{
 		auto path = root_path / target.get_path();
 		co_return co_await enumerate_impl(path, target.get_target_filter(),
 			selector, root_path, callback, target_filtered_callback,
-			target.is_recursive(), stop_token);
+			target.is_recursive());
 	}
 }
 } //namespace
@@ -192,8 +190,7 @@ boost::asio::awaitable<bool> enumerate_impl(
 boost::asio::awaitable<bool> async_target_enumerator::enumerate(
 	const analysis::analysis_plan& plan,
 	const callback_type& callback,
-	const target_filtered_callback_type& target_filtered_callback,
-	std::stop_token stop_token)
+	const target_filtered_callback_type& target_filtered_callback)
 {
 	assert(!!callback);
 
@@ -222,7 +219,7 @@ boost::asio::awaitable<bool> async_target_enumerator::enumerate(
 	for (const auto& target : plan.get_targets())
 	{
 		if (!co_await enumerate_impl(target, root_path, plan,
-			callback, target_filtered_callback, stop_token))
+			callback, target_filtered_callback))
 		{
 			co_return false;
 		}

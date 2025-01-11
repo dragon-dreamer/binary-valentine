@@ -15,7 +15,6 @@ include(../external/pe_bliss2/cmake/library_options.cmake)
 
 add_library(binary_valentine_lib ${BINARY_VALENTINE_LIB_BUILD_TYPE})
 
-target_include_directories(binary_valentine_lib PRIVATE ../external/html)
 target_include_directories(binary_valentine_lib
 	PRIVATE
 		../external/avast

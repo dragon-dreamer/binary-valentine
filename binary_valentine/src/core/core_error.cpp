@@ -25,6 +25,8 @@ struct core_error_category : std::error_category
 			return "Duplicate rule report";
 		case unsupported_language:
 			return "Unsupported language";
+		case unable_to_make_https_request:
+			return "Unable to make HTTPS request";
 		default:
 			return {};
 		}

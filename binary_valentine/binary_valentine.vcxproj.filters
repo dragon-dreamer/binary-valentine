@@ -133,6 +133,12 @@
     <Filter Include="Source Files\progress">
       <UniqueIdentifier>{11c323a1-8639-4c35-9ab9-86dd34fb5264}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\https">
+      <UniqueIdentifier>{a19bd40b-e26b-4ef8-bf7d-de7650473705}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\https">
+      <UniqueIdentifier>{c7a40209-f1bb-4129-8efd-4bc3ecc356b9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\analysis\analysis_context.cpp">
@@ -488,6 +494,9 @@
     </ClCompile>
     <ClCompile Include="src\file\file_loader.cpp">
       <Filter>Source Files\file</Filter>
+    </ClCompile>
+    <ClCompile Include="src\https\https_request_helper.cpp">
+      <Filter>Source Files\https</Filter>
     </ClCompile>
     <ClCompile Include="src\analysis\shared_context.cpp">
       <Filter>Source Files\analysis</Filter>
@@ -1036,6 +1045,9 @@
     </ClInclude>
     <ClInclude Include="include\binary_valentine\file\file_loader.h">
       <Filter>Header Files\file</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\https\https_request_helper.h">
+      <Filter>Header Files\https</Filter>
     </ClInclude>
     <ClInclude Include="include\binary_valentine\analysis\shared_context.h">
       <Filter>Header Files\analysis</Filter>

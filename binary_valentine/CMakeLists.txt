@@ -10,6 +10,7 @@ endif()
 
 find_package(Boost 1.78 REQUIRED
 	COMPONENTS filesystem locale system program_options)
+	COMPONENTS filesystem locale system program_options url container)
 
 include(../external/pe_bliss2/cmake/library_options.cmake)
 
@@ -34,9 +35,11 @@ target_link_libraries(binary_valentine_lib
 		fmt-header-only
 		pugixml
 		utf8cpp
+		Boost::container
 		Boost::filesystem
 		Boost::locale
 		Boost::program_options
+		Boost::url
 	PUBLIC
 		Boost::system
 )
@@ -130,6 +133,7 @@ target_sources(binary_valentine_lib
 		include/binary_valentine/file/file_entity_stream_provider.h
 		include/binary_valentine/file/file_loader.h
 		include/binary_valentine/json/json_printer.h
+		include/binary_valentine/https/https_request_helper.h
 		include/binary_valentine/output/configurable_result_report_factory.h
 		include/binary_valentine/output/entity_in_memory_report_interface.h
 		include/binary_valentine/output/exception_formatter.h
@@ -277,6 +281,7 @@ target_sources(binary_valentine_lib
 		src/file/async_target_enumerator.cpp
 		src/file/file_entity_stream_provider.cpp
 		src/file/file_loader.cpp
+		src/https/https_request_helper.cpp
 		src/output/configurable_result_report_factory.cpp
 		src/output/exception_formatter.cpp
 		src/output/filtering_report_output.cpp

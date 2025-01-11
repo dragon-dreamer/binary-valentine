@@ -17,7 +17,8 @@ enum class core_errc
 	duplicate_generator = 1,
 	duplicate_localization_ids,
 	duplicate_report,
-	unsupported_language
+	unsupported_language,
+	unable_to_make_https_request
 };
 
 std::error_code make_error_code(core_errc) noexcept;

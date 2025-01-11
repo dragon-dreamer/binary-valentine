@@ -161,6 +161,7 @@
     <ClCompile Include="src\analysis\result_report_file.cpp" />
     <ClCompile Include="src\analysis\shared_context.cpp" />
     <ClCompile Include="src\analysis\xml_analysis_plan_provider.cpp" />
+    <ClCompile Include="src\boost_deps.cpp" />
     <ClCompile Include="src\common\shared_generator\common_generators.cpp" />
     <ClCompile Include="src\common\shared_generator\program_path_generator.cpp" />
     <ClCompile Include="src\common\xml_loader.cpp" />
@@ -181,6 +182,10 @@
     <ClCompile Include="src\core\value_cache.cpp" />
     <ClCompile Include="src\core\value_provider.cpp" />
     <ClCompile Include="src\executable\executable_extra_rule_detector.cpp" />
+    <ClCompile Include="src\executable\rule\electron_version_rule.cpp" />
+    <ClCompile Include="src\executable\rule\executable_rules.cpp" />
+    <ClCompile Include="src\executable\shared_generator\electron_version_info_generator.cpp" />
+    <ClCompile Include="src\executable\shared_generator\executable_shared_generators.cpp" />
     <ClCompile Include="src\file\async_file.cpp" />
     <ClCompile Include="src\file\async_target_enumerator.cpp" />
     <ClCompile Include="src\file\file_entity_stream_provider.cpp" />
@@ -209,6 +214,7 @@
     <ClCompile Include="src\pe\generator\basic_pe_info_generator.cpp" />
     <ClCompile Include="src\pe\generator\debug_directory_generator.cpp" />
     <ClCompile Include="src\pe\generator\delay_import_directory_generator.cpp" />
+    <ClCompile Include="src\pe\generator\electron_app_info_generator.cpp" />
     <ClCompile Include="src\pe\generator\export_directory_generator.cpp" />
     <ClCompile Include="src\pe\generator\icon_info_generator.cpp" />
     <ClCompile Include="src\pe\generator\import_based_info_generator.cpp" />
@@ -336,7 +342,14 @@
     <ClInclude Include="include\binary_valentine\core\value_provider.h" />
     <ClInclude Include="include\binary_valentine\core\value_providers_span.h" />
     <ClInclude Include="include\binary_valentine\core\value_provider_interface.h" />
+    <ClInclude Include="include\binary_valentine\executable\data\electron_app_info.h" />
     <ClInclude Include="include\binary_valentine\executable\executable_extra_rule_detector.h" />
+    <ClInclude Include="include\binary_valentine\executable\executable_rule_reports.h" />
+    <ClInclude Include="include\binary_valentine\executable\rule\electron_version_rule.h" />
+    <ClInclude Include="include\binary_valentine\executable\rule\executable_rules.h" />
+    <ClInclude Include="include\binary_valentine\executable\shared_data\recent_electron_version_info.h" />
+    <ClInclude Include="include\binary_valentine\executable\shared_generator\electron_version_info_generator.h" />
+    <ClInclude Include="include\binary_valentine\executable\shared_generator\executable_shared_generators.h" />
     <ClInclude Include="include\binary_valentine\file\async_file.h" />
     <ClInclude Include="include\binary_valentine\file\async_target_enumerator.h" />
     <ClInclude Include="include\binary_valentine\file\file_entity.h" />
@@ -382,6 +395,7 @@
     <ClInclude Include="include\binary_valentine\pe\generator\basic_pe_info_generator.h" />
     <ClInclude Include="include\binary_valentine\pe\generator\debug_directory_generator.h" />
     <ClInclude Include="include\binary_valentine\pe\generator\delay_import_directory_generator.h" />
+    <ClInclude Include="include\binary_valentine\pe\generator\electron_app_info_generator.h" />
     <ClInclude Include="include\binary_valentine\pe\generator\export_directory_generator.h" />
     <ClInclude Include="include\binary_valentine\pe\generator\icon_info_generator.h" />
     <ClInclude Include="include\binary_valentine\pe\generator\import_based_info_generator.h" />

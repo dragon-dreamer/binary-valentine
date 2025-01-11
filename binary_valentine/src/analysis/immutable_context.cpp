@@ -7,11 +7,13 @@
 #include "binary_valentine/core/rule_selector.h"
 #include "binary_valentine/core/value_provider.h"
 #include "binary_valentine/executable/executable_extra_rule_detector.h"
+#include "binary_valentine/executable/rule/executable_rules.h"
 #include "binary_valentine/output/result_report_interface.h"
 #include "binary_valentine/pe/generator/pe_generators.h"
 #include "binary_valentine/pe/pe_format_detector.h"
 #include "binary_valentine/pe/rule/pe_rules.h"
 #include "binary_valentine/pe/shared_generator/pe_shared_generators.h"
+#include "binary_valentine/executable/shared_generator/executable_shared_generators.h"
 
 namespace bv::analysis
 {
@@ -29,6 +31,7 @@ immutable_context::immutable_context()
 {
 	bv::pe::pe_generators_factory::add_pe_generators(generators_, async_generators_);
 	bv::pe::pe_rules_factory::add_pe_rules(rules_, combined_rules_);
+	bv::executable::executable_rules_factory::add_executable_rules(rules_, combined_rules_);
 	detector_.add_file_format_detector(std::make_unique<bv::pe::pe_format_detector>());
 	detector_.add_extra_detector(
 		std::make_unique<bv::executable::executable_extra_rule_detector>());

@@ -133,11 +133,29 @@
     <Filter Include="Source Files\progress">
       <UniqueIdentifier>{11c323a1-8639-4c35-9ab9-86dd34fb5264}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\executable\data">
+      <UniqueIdentifier>{22f11f41-6133-4156-b7d5-0636d1402291}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\executable\rule">
+      <UniqueIdentifier>{53347218-3edc-4a24-9efe-26792305d222}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\executable\rule">
+      <UniqueIdentifier>{6801c1c3-dd7d-407a-a389-59855235e2ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\executable\shared_generator">
+      <UniqueIdentifier>{412b84c1-9aac-4731-9d41-3ad82bb81286}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\executable\shared_generator">
+      <UniqueIdentifier>{05dba404-a16a-453b-bd32-dcc01d5c4c3a}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Header Files\https">
       <UniqueIdentifier>{a19bd40b-e26b-4ef8-bf7d-de7650473705}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\https">
       <UniqueIdentifier>{c7a40209-f1bb-4129-8efd-4bc3ecc356b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\executable\shared_data">
+      <UniqueIdentifier>{695af00e-0c98-488f-96c6-c99bbe982bf3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -495,11 +513,29 @@
     <ClCompile Include="src\file\file_loader.cpp">
       <Filter>Source Files\file</Filter>
     </ClCompile>
+    <ClCompile Include="src\pe\generator\electron_app_info_generator.cpp">
+      <Filter>Source Files\pe\generator</Filter>
+    </ClCompile>
+    <ClCompile Include="src\executable\rule\electron_version_rule.cpp">
+      <Filter>Source Files\executable\rule</Filter>
+    </ClCompile>
+    <ClCompile Include="src\executable\rule\executable_rules.cpp">
+      <Filter>Source Files\executable\rule</Filter>
+    </ClCompile>
+    <ClCompile Include="src\executable\shared_generator\executable_shared_generators.cpp">
+      <Filter>Source Files\executable\shared_generator</Filter>
+    </ClCompile>
     <ClCompile Include="src\https\https_request_helper.cpp">
       <Filter>Source Files\https</Filter>
     </ClCompile>
+    <ClCompile Include="src\executable\shared_generator\electron_version_info_generator.cpp">
+      <Filter>Source Files\executable\shared_generator</Filter>
+    </ClCompile>
     <ClCompile Include="src\analysis\shared_context.cpp">
       <Filter>Source Files\analysis</Filter>
+    </ClCompile>
+    <ClCompile Include="src\boost_deps.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\core\shared_value_provider.cpp">
       <Filter>Source Files\core</Filter>
@@ -1046,8 +1082,32 @@
     <ClInclude Include="include\binary_valentine\file\file_loader.h">
       <Filter>Header Files\file</Filter>
     </ClInclude>
+    <ClInclude Include="include\binary_valentine\pe\generator\electron_app_info_generator.h">
+      <Filter>Header Files\pe\generator</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\executable\data\electron_app_info.h">
+      <Filter>Header Files\executable\data</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\executable\rule\electron_version_rule.h">
+      <Filter>Header Files\executable\rule</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\executable\rule\executable_rules.h">
+      <Filter>Header Files\executable\rule</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\executable\executable_rule_reports.h">
+      <Filter>Header Files\executable</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\executable\shared_generator\executable_shared_generators.h">
+      <Filter>Header Files\executable\shared_generator</Filter>
+    </ClInclude>
     <ClInclude Include="include\binary_valentine\https\https_request_helper.h">
       <Filter>Header Files\https</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\executable\shared_generator\electron_version_info_generator.h">
+      <Filter>Header Files\executable\shared_generator</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\executable\shared_data\recent_electron_version_info.h">
+      <Filter>Header Files\executable\shared_data</Filter>
     </ClInclude>
     <ClInclude Include="include\binary_valentine\analysis\shared_context.h">
       <Filter>Header Files\analysis</Filter>

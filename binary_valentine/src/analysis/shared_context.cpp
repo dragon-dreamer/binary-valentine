@@ -3,6 +3,7 @@
 #include "binary_valentine/common/shared_generator/common_generators.h"
 #include "binary_valentine/core/embedded_resource_loader_generator.h"
 #include "binary_valentine/core/value_interface.h"
+#include "binary_valentine/executable/shared_generator/executable_shared_generators.h"
 #include "binary_valentine/pe/shared_generator/pe_shared_generators.h"
 
 namespace bv::analysis
@@ -36,6 +37,7 @@ core::async_data_generator_list shared_context::create_shared_generators()
 {
 	core::async_data_generator_list shared_generators;
 	pe::pe_shared_generators_factory::add_pe_generators(shared_generators);
+	executable::executable_shared_generators_factory::add_executable_generators(shared_generators);
 	return shared_generators;
 }
 

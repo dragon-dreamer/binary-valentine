@@ -26,7 +26,8 @@ constexpr auto strings = std::to_array<std::pair<std::string_view, std::string_v
 	{ "pe_import_based_info_generator", "PE import based info generator" },
 	{ "pe_authenticode_generator", "PE Authenticode signature generator" },
 	{ "pe_security_directory_generator", "PE security directory generator" },
-
+	{ "pe_electron_app_info_generator", "PE Electron app info generator" },
+	
 	{ "pe_full_winapi_map_generator", "PE full WinAPI map loader" },
 	{ "pe_not_recommended_imports_generator", "PE not recommended WinAPI loader" },
 	
@@ -1029,6 +1030,14 @@ constexpr auto strings = std::to_array<std::pair<std::string_view, std::string_v
 	{ "PE190_description", "The digitally signed executable delay-imports the unsigned '{imported_library}' library. "
 		"This is a security risk which significantly diminishes the value of the executable digital signature." },
 
+	{ "electron_version_rule", "PE Electron version rule" },
+	{ "EXE001", "Non-stable Electron version" },
+	{ "EXE001_description", "The executable is built with Electron and uses non-stable version '{version}'. "
+		"Use the latest stable version for the best performance and security." },
+	{ "EXE002", "Outdated Electron version" },
+	{ "EXE002_description", "The executable is built with Electron and uses outdated version '{version}'. "
+		"This is a security risk, and the developer recommends to use the latest stable version '{recent_version}'." },
+		
 	{ "pe_authenticode_signature_info_root", "root signature" },
 	{ "pe_authenticode_signature_info_nested", "nested signature (index {index})" },
 	{ "pe_authenticode_timestamp_signature_info_root", "timestamp root signature" },

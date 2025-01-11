@@ -5,6 +5,7 @@
 #include "binary_valentine/pe/generator/basic_pe_info_generator.h"
 #include "binary_valentine/pe/generator/debug_directory_generator.h"
 #include "binary_valentine/pe/generator/delay_import_directory_generator.h"
+#include "binary_valentine/pe/generator/electron_app_info_generator.h"
 #include "binary_valentine/pe/generator/export_directory_generator.h"
 #include "binary_valentine/pe/generator/icon_info_generator.h"
 #include "binary_valentine/pe/generator/import_based_info_generator.h"
@@ -41,6 +42,7 @@ void pe_generators_factory::add_pe_generators(core::data_generator_list& generat
 	manifest_generator_factory::add_generator(async_generators);
 	security_directory_generator_factory::add_generator(generators);
 	authenticode_generator_factory::add_generator(generators);
+	electron_app_info_generator_factory::add_generator(generators);
 }
 
 } //namespace bv::pe

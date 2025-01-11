@@ -9,7 +9,6 @@ if (UNIX AND NOT APPLE)
 endif()
 
 find_package(Boost 1.78 REQUIRED
-	COMPONENTS filesystem locale system program_options)
 	COMPONENTS filesystem locale system program_options url container)
 
 include(../external/pe_bliss2/cmake/library_options.cmake)
@@ -126,7 +125,14 @@ target_sources(binary_valentine_lib
 		include/binary_valentine/core/value_provider.h
 		include/binary_valentine/core/value_providers_span.h
 		include/binary_valentine/core/value_provider_interface.h
+		include/binary_valentine/executable/data/electron_app_info.h
 		include/binary_valentine/executable/executable_extra_rule_detector.h
+		include/binary_valentine/executable/executable_rule_reports.h
+		include/binary_valentine/executable/rule/electron_version_rule.h
+		include/binary_valentine/executable/rule/executable_rules.h
+		include/binary_valentine/executable/shared_data/recent_electron_version_info.h
+		include/binary_valentine/executable/shared_generator/electron_version_info_generator.h
+		include/binary_valentine/executable/shared_generator/executable_shared_generators.h
 		include/binary_valentine/file/async_file.h
 		include/binary_valentine/file/async_target_enumerator.h
 		include/binary_valentine/file/file_entity.h
@@ -174,6 +180,7 @@ target_sources(binary_valentine_lib
 		include/binary_valentine/pe/generator/basic_pe_info_generator.h
 		include/binary_valentine/pe/generator/debug_directory_generator.h
 		include/binary_valentine/pe/generator/delay_import_directory_generator.h
+		include/binary_valentine/pe/generator/electron_app_info_generator.h
 		include/binary_valentine/pe/generator/export_directory_generator.h
 		include/binary_valentine/pe/generator/icon_info_generator.h
 		include/binary_valentine/pe/generator/import_based_info_generator.h
@@ -277,6 +284,10 @@ target_sources(binary_valentine_lib
 		src/core/value_cache.cpp
 		src/core/value_provider.cpp
 		src/executable/executable_extra_rule_detector.cpp
+		src/executable/rule/electron_version_rule.cpp
+		src/executable/rule/executable_rules.cpp
+		src/executable/shared_generator/electron_version_info_generator.cpp
+		src/executable/shared_generator/executable_shared_generators.cpp
 		src/file/async_file.cpp
 		src/file/async_target_enumerator.cpp
 		src/file/file_entity_stream_provider.cpp
@@ -306,6 +317,7 @@ target_sources(binary_valentine_lib
 		src/pe/generator/basic_pe_info_generator.cpp
 		src/pe/generator/debug_directory_generator.cpp
 		src/pe/generator/delay_import_directory_generator.cpp
+		src/pe/generator/electron_app_info_generator.cpp
 		src/pe/generator/export_directory_generator.cpp
 		src/pe/generator/icon_info_generator.cpp
 		src/pe/generator/import_based_info_generator.cpp
@@ -368,6 +380,7 @@ target_sources(binary_valentine_lib
 		src/string/encoding.cpp
 		src/string/resource_helper.cpp
 		src/string/rule_report_resource_helper.cpp
+		src/boost_deps.cpp
 )
 
 if(MSVC)

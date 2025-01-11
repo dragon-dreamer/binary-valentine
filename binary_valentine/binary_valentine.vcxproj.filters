@@ -492,6 +492,9 @@
     <ClCompile Include="src\analysis\shared_context.cpp">
       <Filter>Source Files\analysis</Filter>
     </ClCompile>
+    <ClCompile Include="src\core\shared_value_provider.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\binary_valentine\analysis\analysis_context.h">
@@ -1038,6 +1041,9 @@
       <Filter>Header Files\analysis</Filter>
     </ClInclude>
     <ClInclude Include="include\binary_valentine\core\generic_data_generator_interface.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\binary_valentine\core\shared_value_provider.h">
       <Filter>Header Files\core</Filter>
     </ClInclude>
   </ItemGroup>

@@ -16,6 +16,10 @@ include(../external/pe_bliss2/cmake/library_options.cmake)
 add_library(binary_valentine_lib ${BINARY_VALENTINE_LIB_BUILD_TYPE})
 
 target_include_directories(binary_valentine_lib PRIVATE ../external/html)
+target_include_directories(binary_valentine_lib
+	PRIVATE
+		../external/avast
+		../external/html)
 
 include(../external/pe_bliss2/cmake/output_options.cmake)
 set_output_dirs(binary_valentine_lib)
@@ -108,6 +112,7 @@ target_sources(binary_valentine_lib
 		include/binary_valentine/core/rule_list.h
 		include/binary_valentine/core/rule_selector.h
 		include/binary_valentine/core/scoped_guard.h
+		include/binary_valentine/core/shared_value_provider.h
 		include/binary_valentine/core/subject_entity_interface.h
 		include/binary_valentine/core/time_tracker.h
 		include/binary_valentine/core/transparent_hash.h
@@ -263,6 +268,7 @@ target_sources(binary_valentine_lib
 		src/core/rule_list.cpp
 		src/core/rule_selector.cpp
 		src/core/subject_entity_interface.cpp
+		src/core/shared_value_provider.cpp
 		src/core/time_tracker.cpp
 		src/core/user_error.cpp
 		src/core/value_cache.cpp

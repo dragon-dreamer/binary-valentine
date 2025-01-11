@@ -34,8 +34,6 @@ public:
 	virtual const value_interface* get(value_tag tag) override;
 	virtual void set(value_tag tag, value_ptr value) override;
 	virtual bool remove(value_tag tag) override;
-	[[nodiscard]]
-	virtual bool empty() const noexcept override;
 
 	[[nodiscard]]
 	const std::vector<std::shared_ptr<value_provider_interface_base>>&

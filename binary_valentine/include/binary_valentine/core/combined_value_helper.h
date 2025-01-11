@@ -17,6 +17,8 @@
 namespace bv::core
 {
 
+class shared_value_provider;
+
 //Value from combined provider
 template<ValueDependency T>
 struct combined_value
@@ -187,7 +189,7 @@ public:
 	static auto call_with_values(
 		individual_values_span_type individual_values,
 		value_provider_interface& combined_values,
-		const value_provider_interface& shared_values,
+		shared_value_provider& shared_values,
 		Func&& func)
 	{
 		bool success = true;
@@ -320,7 +322,7 @@ private:
 	static decltype(auto) fetch_value(
 		individual_values_span_type individual_values,
 		value_provider_interface& combined_values,
-		const value_provider_interface& shared_values,
+		shared_value_provider& /* shared_values */,
 		bool& success)
 	{
 		if constexpr (!impl::is_combined_value<Type>::value)
@@ -359,10 +361,9 @@ private:
 			if (!success)
 				return static_cast<decltype(combined_values.get<nested_type>())>(nullptr);
 
-			const auto* value = shared_values.try_get<nested_type>();
-			if (!value)
-				value = combined_values.get<nested_type>();
+			// TODO: `shared_values` are not supported in combined rules
 
+			const auto* value = combined_values.get<nested_type>();
 			if constexpr (std::is_pointer_v<typename Type::type>)
 				success = true;
 			else

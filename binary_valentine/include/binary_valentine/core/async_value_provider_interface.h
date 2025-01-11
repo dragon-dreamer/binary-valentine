@@ -17,12 +17,6 @@ public:
 	[[nodiscard]]
 	virtual boost::asio::awaitable<const value_interface*> get_async(value_tag tag) = 0;
 
-	[[nodiscard]]
-	virtual value_provider_interface& get_sync_provider() noexcept = 0;
-
-	[[nodiscard]]
-	virtual const value_provider_interface& get_sync_provider() const noexcept = 0;
-
 	template<typename T>
 	[[nodiscard]]
 	boost::asio::awaitable<const T*> get_async()

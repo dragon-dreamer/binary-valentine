@@ -44,6 +44,13 @@ private:
 		}
 	}
 
+	virtual std::span<const value_tag>
+		get_generated_tags() const noexcept override
+	{
+		static constexpr auto tags = data_generator_output_tags<Derived>::tags();
+		return tags;
+	}
+
 	virtual void generate_data(value_provider_interface& provider) const final
 	{
 		using generate_type = func_types<&Derived::generate>;

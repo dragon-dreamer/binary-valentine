@@ -10,6 +10,7 @@
 #include "binary_valentine/core/core_error.h"
 #include "binary_valentine/core/rule_interface.h"
 #include "binary_valentine/core/rule_selector.h"
+#include "binary_valentine/core/shared_value_provider.h"
 #include "binary_valentine/output/internal_report_arg_names.h"
 #include "binary_valentine/output/internal_report_messages.h"
 #include "binary_valentine/output/result_report_interface.h"
@@ -25,7 +26,7 @@ boost::asio::awaitable<std::optional<std::array<
 	const value_interface*, max_dependencies>>> get_dependencies(
 	std::span<const optional_dependency> deps,
 	async_value_provider_interface& provider,
-	const value_provider_interface& shared_provider)
+	shared_value_provider& shared_provider)
 {
 	std::optional<std::array<const value_interface*, max_dependencies>> rule_prerequisites;
 
@@ -38,13 +39,12 @@ boost::asio::awaitable<std::optional<std::array<
 	auto begin = rule_prerequisites.emplace().begin();
 	for (auto dep : deps)
 	{
-		if (auto shared_val = shared_provider.try_get(dep.tag))
-		{
-			*begin++ = *shared_val;
-			continue;
-		}
+		const value_interface* val{};
+		if (shared_provider.can_provide(dep.tag))
+			val = co_await shared_provider.get_async(dep.tag);
+		else
+			val = co_await provider.get_async(dep.tag);
 
-		auto val = co_await provider.get_async(dep.tag);
 		if (dep.required && !val)
 		{
 			rule_prerequisites.reset();
@@ -59,7 +59,7 @@ boost::asio::awaitable<std::optional<std::array<
 boost::asio::awaitable<void> run_rule(const rule_interface& rule,
 	output::entity_report_interface& entity_report,
 	async_value_provider_interface& provider,
-	const value_provider_interface& shared_provider)
+	shared_value_provider& shared_provider)
 {
 	auto deps = co_await get_dependencies(
 		rule.get_prerequisite_dependencies(), provider, shared_provider);
@@ -79,7 +79,7 @@ boost::asio::awaitable<void> enabled_rule_list_base<rule_interface>::run(
 	output::entity_report_interface& entity_report,
 	output::common_report_interface& common_report,
 	async_value_provider_interface& provider,
-	const value_provider_interface& shared_provider) const
+	shared_value_provider& shared_provider) const
 {
 	for (const auto rule_ref : rules_)
 	{
@@ -107,7 +107,7 @@ boost::asio::awaitable<void> enabled_rule_list_base<combined_rule_interface>::ru
 	output::common_report_interface& common_report,
 	individual_values_span_type individual_values,
 	value_provider_interface& combined_values,
-	const value_provider_interface& shared_provider) const
+	shared_value_provider& shared_provider) const
 {
 	for (const auto rule_ref : rules_)
 	{

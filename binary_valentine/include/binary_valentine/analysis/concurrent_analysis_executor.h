@@ -9,6 +9,7 @@
 #include "binary_valentine/core/async_value_provider.h"
 #include "binary_valentine/core/rule_class_mask.h"
 #include "binary_valentine/core/rule_selector.h"
+#include "binary_valentine/core/shared_value_provider.h"
 #include "binary_valentine/file/async_target_enumerator.h"
 #include "binary_valentine/output/result_report_interface.h"
 #include "binary_valentine/progress/progress_report_interface.h"
@@ -50,10 +51,10 @@ public:
 		output::result_report_factory_interface& report_factory,
 		const std::shared_ptr<progress::progress_report_interface>& progress_report,
 		const immutable_context& global_context,
-		const core::value_provider_interface& shared_values);
+		core::shared_value_provider& shared_values);
 
 	using thread::multi_executor_concurrent_io_processing_service<
-		concurrent_analysis_executor, impl::loaded_target, std::uint64_t>::start_after_preparation;
+		concurrent_analysis_executor, impl::loaded_target, std::uint64_t>::start;
 
 protected:
 	friend thread::multi_executor_concurrent_io_processing_service<
@@ -86,7 +87,7 @@ private:
 	std::shared_ptr<output::common_report_interface> common_report_;
 	std::shared_ptr<progress::progress_report_interface> progress_report_;
 	file::async_target_enumerator::target_filtered_callback_type target_filtered_callback_;
-	const core::value_provider_interface& shared_values_;
+	core::shared_value_provider& shared_values_;
 };
 
 } //namespace bv::analysis

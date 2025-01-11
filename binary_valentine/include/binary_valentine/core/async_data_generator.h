@@ -42,6 +42,13 @@ private:
 		}
 	}
 
+	virtual std::span<const value_tag>
+		get_generated_tags() const noexcept override
+	{
+		static constexpr auto tags = data_generator_output_tags<Derived>::tags();
+		return tags;
+	}
+
 	virtual boost::asio::awaitable<void> generate_data(
 		async_value_provider_interface& provider) const final
 	{

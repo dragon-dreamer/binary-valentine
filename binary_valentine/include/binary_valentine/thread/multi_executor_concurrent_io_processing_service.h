@@ -128,29 +128,18 @@ protected:
 		io_signal_set_.emplace(io_pool_, SIGINT, SIGTERM);
 	}
 
-	void start_after_preparation(
-		boost::asio::awaitable<void> preparation)
+	void start()
 	{
 		time_tracker_.start();
-		boost::asio::co_spawn(get_io_pool(),
-			start_after_preparation_impl(std::move(preparation)),
-			boost::asio::detached);
-	}
 
-private:
-	boost::asio::awaitable<void> start_after_preparation_impl(
-		boost::asio::awaitable<void> preparation)
-	{
 		if (io_signal_set_)
 			boost::asio::co_spawn(io_pool_, io_signal_monitor(), boost::asio::detached);
 
 		using namespace boost::asio::experimental::awaitable_operators;
-		const auto res = co_await(std::move(preparation) || io_cancelled());
-		if (res.index() == 0)
-		{
-			boost::asio::co_spawn(io_pool_, (io_task() || io_cancelled()), boost::asio::detached);
-		}
+		boost::asio::co_spawn(io_pool_, (io_task() || io_cancelled()), boost::asio::detached);
 	}
+
+private:
 
 	boost::asio::awaitable<void> io_cancelled()
 	{

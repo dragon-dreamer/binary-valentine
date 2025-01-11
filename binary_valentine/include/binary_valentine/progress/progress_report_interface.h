@@ -20,9 +20,7 @@ enum class progress_state
 	combined_analysis_started,
 	combined_analysis_completed,
 	target_skipped_unsupported,
-	target_skipped_filtered,
-	shared_data_load_started,
-	shared_data_load_completed
+	target_skipped_filtered
 };
 
 [[nodiscard]]

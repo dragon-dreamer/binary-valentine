@@ -48,7 +48,7 @@ private:
 	virtual void run_rule(
 		individual_values_span_type individual_values,
 		value_provider_interface& combined_values,
-		const value_provider_interface& shared_values) const final
+		shared_value_provider& shared_values) const final
 	{
 		combined_value_helper<typename Derived::dependencies_type>
 			::template call_with_values<Derived>(

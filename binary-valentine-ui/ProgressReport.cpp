@@ -9,13 +9,6 @@ void ProgressReport::report_progress(
     const std::shared_ptr<const core::subject_entity_interface>& entity,
     progress::progress_state state) noexcept
 {
-    if (state == progress::progress_state::shared_data_load_completed)
-    {
-        currentState_.store(static_cast<int>(AnalysisProgress::TargetAnalysis),
-                            std::memory_order_relaxed);
-        return;
-    }
-
     if (state == progress::progress_state::combined_analysis_started)
     {
         currentState_.store(static_cast<int>(AnalysisProgress::CombinedAnalysis),

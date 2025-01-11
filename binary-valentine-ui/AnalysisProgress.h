@@ -17,7 +17,6 @@ class AnalysisProgress : public QObject
 public:
     enum ProgressState
     {
-        LoadingSharedDependencies,
         TargetAnalysis,
         CombinedAnalysis,
         WritingReports
@@ -46,7 +45,7 @@ private:
     int totalAnalyzed_{};
     QString currentAnalyzedTargetPath_{};
     QVariantList newFiles_;
-    ProgressState progressState_{ LoadingSharedDependencies };
+    ProgressState progressState_{ TargetAnalysis };
 };
 
 } //namespace bv

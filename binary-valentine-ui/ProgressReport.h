@@ -34,7 +34,7 @@ private:
     std::atomic<int> totalRead_{};
     std::atomic<int> totalAnalyzed_{};
     std::atomic<int> currentState_{ static_cast<int>(
-        AnalysisProgress::LoadingSharedDependencies)
+        AnalysisProgress::TargetAnalysis)
     };
 };
 

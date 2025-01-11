@@ -30,6 +30,7 @@ namespace bv::core
 class async_value_provider_interface;
 class rule_selector;
 class value_provider_interface;
+class shared_value_provider;
 
 template<typename T>
 class enabled_rule_list_base;
@@ -47,7 +48,7 @@ public:
 		output::entity_report_interface& entity_report,
 		output::common_report_interface& common_report,
 		async_value_provider_interface& provider,
-		const value_provider_interface& shared_provider) const;
+		shared_value_provider& shared_provider) const;
 
 	[[nodiscard]]
 	enabled_rule_list_type& get_rules() noexcept
@@ -77,7 +78,7 @@ public:
 		output::common_report_interface& common_report,
 		individual_values_span_type individual_values,
 		value_provider_interface& combined_values,
-		const value_provider_interface& shared_provider) const;
+		shared_value_provider& shared_provider) const;
 
 	[[nodiscard]]
 	enabled_rule_list_type& get_rules() noexcept

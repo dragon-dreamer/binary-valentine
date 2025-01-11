@@ -46,10 +46,10 @@ public:
 
 	template<typename Reporter>
 	void run(Reporter& reporter,
+		const basic_pe_info& info,
 		const not_recommended_imports& not_recommended_imports_info,
 		const pe_bliss::imports::import_directory_details* imports,
-		const pe_bliss::delay_import::delay_import_directory_details* delay_imports,
-		const basic_pe_info& info) const
+		const pe_bliss::delay_import::delay_import_directory_details* delay_imports) const
 	{
 		if (imports)
 		{

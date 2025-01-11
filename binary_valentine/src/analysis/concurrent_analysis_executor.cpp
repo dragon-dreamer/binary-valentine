@@ -55,7 +55,7 @@ concurrent_analysis_executor::concurrent_analysis_executor(
 	output::result_report_factory_interface& report_factory,
 	const std::shared_ptr<progress::progress_report_interface>& progress_report,
 	const immutable_context& global_context,
-	const core::value_provider_interface& shared_values)
+	core::shared_value_provider& shared_values)
 	: thread::multi_executor_concurrent_io_processing_service<
 		concurrent_analysis_executor, impl::loaded_target, std::uint64_t>(
 			get_cpu_thread_count(plan), get_preload_limit(plan))

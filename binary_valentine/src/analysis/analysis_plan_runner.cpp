@@ -99,32 +99,13 @@ struct analysis_plan_runner::impl
 	{
 	}
 
-	boost::asio::awaitable<void> prepare_shared_dependencies(
-		std::shared_ptr<progress::progress_report_interface> progress_report)
+	void reyield_shared_dependency_errors()
 	{
-		if (progress_report)
-		{
-			progress_report->report_progress(nullptr,
-				progress::progress_state::shared_data_load_started);
-		}
-
-		//TODO: filter out rules which will never be executed accodring with
-		//the execution plan
-		co_await shared_global_context.load_shared_dependencies(
-			global_context.get_rules().get_all_rules(),
-			global_context.get_combined_rules().get_all_rules());
-
 		const auto& global_report = shared_global_context.get_global_report();
 		if (!global_report.empty())
 		{
 			global_report.reyield(*report_factory->get_common_report(
 				{}, global_context.get_exception_formatter()));
-		}
-
-		if (progress_report)
-		{
-			progress_report->report_progress(nullptr,
-				progress::progress_state::shared_data_load_completed);
 		}
 	}
 
@@ -291,9 +272,10 @@ void analysis_plan_runner::start()
 	impl_->executor.emplace(impl_->plan, report_factory,
 		progress_report, impl_->global_context,
 		impl_->shared_global_context.get_shared_values());
+
+	impl_->reyield_shared_dependency_errors();
 	
-	impl_->executor->start_after_preparation(
-		impl_->prepare_shared_dependencies(progress_report));
+	impl_->executor->start();
 }
 
 void analysis_plan_runner::join()

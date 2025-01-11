@@ -56,6 +56,18 @@ public:
 			std::make_unique<Generator>(std::forward<Args>(args)...));
 	}
 
+	[[nodiscard]]
+	bool can_provide(value_tag tag) const noexcept
+	{
+		return tag_to_generator_.contains(tag);
+	}
+
+	[[nodiscard]]
+	const std::vector<std::unique_ptr<const generator_interface_type>>& get_generators() const noexcept
+	{
+		return generators_;
+	}
+
 private:
 	void add(std::span<const value_tag> tags,
 		std::unique_ptr<const generator_interface_type>&& generator);

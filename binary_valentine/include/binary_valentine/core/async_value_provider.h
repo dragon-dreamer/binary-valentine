@@ -35,18 +35,6 @@ public:
 	}
 
 	[[nodiscard]]
-	virtual value_provider_interface& get_sync_provider() noexcept override
-	{
-		return sync_provider_;
-	}
-
-	[[nodiscard]]
-	virtual const value_provider_interface& get_sync_provider() const noexcept override
-	{
-		return sync_provider_;
-	}
-
-	[[nodiscard]]
 	virtual std::optional<const value_interface*> try_get(value_tag tag) const override
 	{
 		return sync_provider_.try_get(tag);
@@ -60,12 +48,6 @@ public:
 	virtual bool remove(value_tag tag) override
 	{
 		return sync_provider_.remove(tag);
-	}
-
-	[[nodiscard]]
-	virtual bool empty() const noexcept override
-	{
-		return sync_provider_.empty();
 	}
 
 	template<typename Func>

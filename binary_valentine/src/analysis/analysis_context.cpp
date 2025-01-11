@@ -26,7 +26,7 @@ analysis_context::analysis_context(
 	const analysis_plan& plan,
 	output::result_report_factory_interface& report_factory,
 	const immutable_context& global_context,
-	const core::value_provider_interface& shared_values)
+	core::shared_value_provider& shared_values)
 	: plan_(plan)
 	, report_factory_(report_factory)
 	, global_context_(global_context)

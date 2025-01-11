@@ -17,8 +17,6 @@ public:
 	[[nodiscard]]
 	virtual std::optional<const value_interface*> try_get(value_tag tag) const = 0;
 	virtual bool remove(value_tag tag) = 0;
-	[[nodiscard]]
-	virtual bool empty() const noexcept = 0;
 
 	template<typename T>
 	void set(std::unique_ptr<T> value)

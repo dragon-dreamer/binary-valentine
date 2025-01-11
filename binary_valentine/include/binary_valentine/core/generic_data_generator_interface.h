@@ -29,6 +29,9 @@ public:
 	[[nodiscard]]
 	virtual std::span<const optional_dependency>
 		get_run_dependencies() const noexcept = 0;
+	[[nodiscard]]
+	virtual std::span<const value_tag>
+		get_generated_tags() const noexcept = 0;
 
 	[[nodiscard]]
 	std::string_view get_name() const noexcept

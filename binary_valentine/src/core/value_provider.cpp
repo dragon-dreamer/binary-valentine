@@ -67,9 +67,4 @@ bool value_provider::remove(value_tag tag)
 	return cache_.remove(tag);
 }
 
-bool value_provider::empty() const noexcept
-{
-	return cache_.empty();
-}
-
 } //namespace bv::core

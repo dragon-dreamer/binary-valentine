@@ -4,6 +4,7 @@
 #include <memory>
 #include <utility>
 
+#include <boost/asio/as_tuple.hpp>
 #include <boost/asio/this_coro.hpp>
 #include <boost/asio/buffer.hpp>
 #include <boost/asio/use_awaitable.hpp>
@@ -50,13 +51,14 @@ boost::asio::awaitable<bool> pe_format_detector::detect(
         co_return false;
 
     auto file_size = buf->physical_size();
-    if (file_size <= max_in_memory_size)
+    if (file_size <= max_in_memory_size
+        && !(co_await boost::asio::this_coro::cancellation_state).cancelled())
     {
         auto container_buf = std::make_shared<buffers::input_container_buffer>();
         auto& container = container_buf->get_container();
         container.resize(file_size);
 
-        auto read_bytes = co_await file->async_read_some_at(0u,
+        const auto read_bytes = co_await file->async_read_some_at(0u,
             boost::asio::mutable_buffer(container.data(), container.size()),
             boost::asio::use_awaitable);
 
@@ -65,6 +67,9 @@ boost::asio::awaitable<bool> pe_format_detector::detect(
 
         buf = std::move(container_buf);
     }
+
+    if (!!(co_await boost::asio::this_coro::cancellation_state).cancelled())
+        co_return false;
 
     values.set(core::make_value<
         std::shared_ptr<buffers::input_buffer_interface>>(std::move(buf)));

@@ -119,6 +119,9 @@ private:
 		{
 			try
 			{
+				if (!!(co_await boost::asio::this_coro::cancellation_state).cancelled())
+					break;
+
 				read_result = co_await file::async_file::read_async(
 					file_name, buf->get_container(), max_manifest_file_size);
 				if (read_result != file::async_file_read_result::does_not_exist)

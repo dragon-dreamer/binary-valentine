@@ -481,7 +481,7 @@ private:
 
 	template<typename Reporter, typename RangeType>
 	static void validate_subject_dn(Reporter& reporter,
-		const pe_bliss::security::x500::flat_distinguished_name<RangeType> subject_dn,
+		const pe_bliss::security::x500::flat_distinguished_name<RangeType>& subject_dn,
 		const output::owning_localizable_arg& signature_info_arg)
 	{
 		if (subject_dn.empty())

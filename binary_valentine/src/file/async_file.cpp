@@ -77,7 +77,7 @@ boost::asio::awaitable<async_file_read_result> async_file::read_async(
     }
 
     const auto file_size = file.size();
-    if (file.size() > max_size)
+    if (file_size > max_size)
         co_return async_file_read_result::too_big;
 
     result.resize(static_cast<std::size_t>(file_size));

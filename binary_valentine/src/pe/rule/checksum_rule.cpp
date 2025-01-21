@@ -1,9 +1,11 @@
 #include "binary_valentine/pe/rule/checksum_rule.h"
 
 #include <string_view>
+#include <system_error>
 
 #include "binary_valentine/core/rule.h"
 #include "binary_valentine/core/rule_list.h"
+#include "binary_valentine/output/internal_report_arg_names.h"
 #include "binary_valentine/output/rule_report.h"
 #include "binary_valentine/pe/data/basic_pe_info.h"
 #include "binary_valentine/pe/pe_rule_reports.h"
@@ -24,7 +26,8 @@ public:
 	static constexpr auto reports = output::get_rule_reports<
 		checksum_rule,
 		pe_report::absent_checksum,
-		pe_report::incorrect_checksum>();
+		pe_report::incorrect_checksum,
+		pe_report::unable_to_compute_checksum>();
 
 	template<typename Reporter>
 	void run(Reporter& reporter, const pe_bliss::image::image& image,
@@ -39,7 +42,19 @@ public:
 			return;
 		}
 
-		const auto expected_checksum = pe_bliss::image::calculate_checksum(image);
+		pe_bliss::image::image_checksum_type expected_checksum{};
+		try
+		{
+			expected_checksum = pe_bliss::image::calculate_checksum(image);
+		}
+		catch (const std::system_error&)
+		{
+			reporter.template log<pe_report::unable_to_compute_checksum>(
+				output::named_arg("checksum", checksum),
+				output::named_arg(output::arg::exception, std::current_exception()));
+			return;
+		}
+
 		if (checksum != expected_checksum)
 		{
 			reporter.template log<pe_report::incorrect_checksum>(

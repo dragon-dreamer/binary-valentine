@@ -702,6 +702,9 @@ constexpr auto strings = std::to_array<std::pair<std::string_view, std::string_v
 	{ "PE116", "Incorrect checksum" },
 	{ "PE116_description", "The executable checksum does not match its expected checksum value. "
 		"Image checksum set in its headers: '{checksum:#08x}'. Expected checksum: '{expected_checksum:#08x}'." },
+	{ "PE191", "Unable to compute checksum" },
+	{ "PE191_description", "It was not possible to compute the image checksum. "
+		"Image checksum set in its headers: '{checksum:#08x}'. Error when computing the checksum: '{exception}'." },
 
 	{ "pe_rich_data_rule", "PE Rich data rule" },
 	{ "PE119", "Potentially preview toolchain version used" },

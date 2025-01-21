@@ -276,6 +276,8 @@ using absent_checksum = output::rule_report_info<
 	"PE115", output::report_category::security, output::report_level::warning>;
 using incorrect_checksum = output::rule_report_info<
 	"PE116", output::report_category::security, output::report_level::critical>;
+using unable_to_compute_checksum = output::rule_report_info<
+	"PE191", output::report_category::format, output::report_level::error>;
 
 //rich_data_rule
 using tool_potential_preview_version = output::rule_report_info<
@@ -457,5 +459,5 @@ using signed_executable_imported_dll_is_unsigned = output::rule_report_info<
 using signed_executable_delay_imported_dll_is_unsigned = output::rule_report_info<
 	"PE190", output::report_category::security, output::report_level::error>;
 
-//NEXT: PE191
+//NEXT: PE192
 } //namespace bv::pe_report
